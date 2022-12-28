@@ -2,6 +2,8 @@ package gorm
 
 import (
 	"fmt"
+	"github.com/go-saas/commerce/pkg/multilingual"
+	kitgorm "github.com/go-saas/kit/pkg/gorm"
 	"github.com/go-saas/kit/pkg/localize"
 	"github.com/samber/lo"
 	"golang.org/x/text/language"
@@ -10,6 +12,9 @@ import (
 
 func PreloadCurrentLanguage() func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
+		if _, ok := kitgorm.IsModel[multilingual.Multilingual](db); !ok {
+			return db
+		}
 		if l := localize.LanguageTags(db.Statement.Context); l != nil {
 			if len(l) > 0 {
 				rootQuery := make(map[string]bool)

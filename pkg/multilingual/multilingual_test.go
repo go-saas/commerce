@@ -58,24 +58,24 @@ func TestGetTranslation(t *testing.T) {
 		},
 	}
 
-	trans, ok := GetTranslation[*LanguageTranslation](lan, []language.Tag{language.Chinese, language.SimplifiedChinese, language.English}...)
+	trans, ok := GetTranslation(lan, []language.Tag{language.Chinese, language.SimplifiedChinese, language.English}...)
 	assert.Equal(t, true, ok)
-	assert.Equal(t, "中文", trans.Name)
+	assert.Equal(t, "中文", trans.(*LanguageTranslation).Name)
 
-	trans, ok = GetTranslation[*LanguageTranslation](lan, []language.Tag{language.Japanese, language.Chinese, language.SimplifiedChinese, language.English}...)
+	trans, ok = GetTranslation(lan, []language.Tag{language.Japanese, language.Chinese, language.SimplifiedChinese, language.English}...)
 	assert.Equal(t, true, ok)
-	assert.Equal(t, "中国語", trans.Name)
+	assert.Equal(t, "中国語", trans.(*LanguageTranslation).Name)
 
-	trans, ok = GetTranslation[*LanguageTranslation](lan, []language.Tag{language.English}...)
+	trans, ok = GetTranslation(lan, []language.Tag{language.English}...)
 	assert.Equal(t, true, ok)
-	assert.Equal(t, "Chinese", trans.Name)
+	assert.Equal(t, "Chinese", trans.(*LanguageTranslation).Name)
 
-	trans, ok = GetTranslation[*LanguageTranslation](lan, []language.Tag{language.AmericanEnglish}...)
+	trans, ok = GetTranslation(lan, []language.Tag{language.AmericanEnglish}...)
 	assert.Equal(t, true, ok)
-	assert.Equal(t, "Chinese", trans.Name)
+	assert.Equal(t, "Chinese", trans.(*LanguageTranslation).Name)
 
-	trans, ok = GetTranslation[*LanguageTranslation](lan, []language.Tag{language.Bengali}...)
+	trans, ok = GetTranslation(lan, []language.Tag{language.Bengali}...)
 	assert.Equal(t, true, ok)
-	assert.Equal(t, "Chinese", trans.Name)
+	assert.Equal(t, "Chinese", trans.(*LanguageTranslation).Name)
 
 }

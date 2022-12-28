@@ -25,7 +25,7 @@ require (
 	google.golang.org/genproto v0.0.0-20221207170731-23e4bf6bdc37
 	google.golang.org/grpc v1.51.0
 	google.golang.org/protobuf v1.28.1
-	gorm.io/driver/mysql v1.4.4
+	gorm.io/driver/sqlite v1.4.3
 	gorm.io/gorm v1.24.2
 )
 
@@ -159,8 +159,8 @@ require (
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/tomb.v2 v2.0.0-20161208151619-d5d1b5820637 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	gorm.io/driver/sqlite v1.4.3 // indirect
+	gorm.io/driver/mysql v1.4.4 // indirect
 	k8s.io/apimachinery v0.25.2 // indirect
 )
 
-replace github.com/go-saas/kit => github.com/go-saas/kit v0.0.5-0.20221227090338-e7d04321f71c
+replace github.com/go-saas/kit => github.com/go-saas/kit v0.0.5-0.20221228061955-38c78efbad65

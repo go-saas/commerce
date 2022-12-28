@@ -18,22 +18,22 @@ func (e *Embed) GetLanguageCode() string {
 	return e.LanguageCode
 }
 
-// Multilingual empty interface
-type Multilingual[T HasLanguageCode] interface {
-	GetTranslations() []T
+// Multilingual Multilingual
+type Multilingual interface {
+	GetTranslations() []interface{}
 }
 
-func GetTranslation[T HasLanguageCode](w Multilingual[T], tags ...language.Tag) (T, bool) {
+func GetTranslation(w Multilingual, tags ...language.Tag) (interface{}, bool) {
 	var keys []language.Tag
-	m := lo.SliceToMap(w.GetTranslations(), func(item T) (string, T) {
-		l := language.Make(item.GetLanguageCode())
+	m := lo.SliceToMap(w.GetTranslations(), func(item interface{}) (string, interface{}) {
+		l := language.Make(item.(HasLanguageCode).GetLanguageCode())
 		keys = append(keys, l)
 		return l.String(), item
 	})
 
 	matcher := language.NewMatcher(keys)
 	t, index, _ := matcher.Match(tags...)
-	var defaultT T
+	var defaultT interface{}
 	if t == language.Und {
 		return defaultT, false
 	}
@@ -52,8 +52,10 @@ type Language struct {
 	Translations []*LanguageTranslation
 }
 
-func (l *Language) GetTranslations() []*LanguageTranslation {
-	return l.Translations
+func (l *Language) GetTranslations() []interface{} {
+	return lo.Map(l.Translations, func(item *LanguageTranslation, _ int) interface{} {
+		return item
+	})
 }
 
 type LanguageTranslation struct {

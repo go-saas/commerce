@@ -4,10 +4,12 @@ import (
 	"context"
 	"github.com/go-saas/commerce/pkg/multilingual"
 	"github.com/go-saas/kit/pkg/localize"
+	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/text/language"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 	"os"
 	"testing"
 )
@@ -32,8 +34,10 @@ type testEntity struct {
 	Translations []*testEntityTranslation `gorm:"foreignKey:TestEntityCode;references:Code"`
 }
 
-func (t *testEntity) GetTranslations() []*testEntityTranslation {
-	return t.Translations
+func (t *testEntity) GetTranslations() []interface{} {
+	return lo.Map(t.Translations, func(item *testEntityTranslation, _ int) interface{} {
+		return item
+	})
 }
 
 type testEntityTranslation struct {
@@ -58,7 +62,6 @@ func TestDB(t *testing.T) {
 		Code: "zh-CN",
 		Name: "中文",
 		Translations: []*testEntityTranslation{
-
 			{
 				Embed: multilingual.Embed{LanguageCode: language.SimplifiedChinese.String()},
 				Name:  "中文",
@@ -81,9 +84,17 @@ func TestDB(t *testing.T) {
 	err = db.Session(&gorm.Session{FullSaveAssociations: true}).Create(lan).Error
 	assert.NoError(t, err)
 	var dbLan testEntity
+
+	err = db.Session(&gorm.Session{NewDB: true}).Model(&testEntity{}).Preload(clause.Associations).Find(&dbLan, "code = ?", "zh-CN").Error
+	assert.NoError(t, err)
+	assert.Equal(t, 4, len(dbLan.Translations))
+
 	err = db.Session(&gorm.Session{NewDB: true}).Model(&testEntity{}).Scopes(PreloadCurrentLanguage()).Find(&dbLan, "code = ?", "zh-CN").Error
 	assert.NoError(t, err)
-	trans, ok := multilingual.GetTranslation[*testEntityTranslation](&dbLan, language.Chinese)
+	assert.Equal(t, 3, len(dbLan.Translations))
+
+	trans, ok := multilingual.GetTranslation(&dbLan, language.Chinese)
 	assert.True(t, ok)
 	assert.NotNil(t, trans)
+
 }
