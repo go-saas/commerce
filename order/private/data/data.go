@@ -16,7 +16,7 @@ import (
 var ProviderSet = kitdi.NewSet(
 	NewData,
 	NewMigrate,
-	NewPostRepo,
+	NewOrderRepo,
 )
 
 const ConnName = "order"

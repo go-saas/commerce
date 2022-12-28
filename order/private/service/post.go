@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"github.com/go-kratos/kratos/v2/errors"
-	pb "order/api/post/v1"
-	"order/private/biz"
+	pb "github.com/go-saas/commerce/order/api/post/v1"
+	"github.com/go-saas/commerce/order/private/biz"
 	"github.com/go-saas/kit/pkg/authz/authz"
 	"github.com/samber/lo"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -12,11 +12,11 @@ import (
 
 type PostService struct {
 	pb.UnimplementedPostServiceServer
-	repo biz.PostRepo
+	repo biz.OrderRepo
 	auth authz.Service
 }
 
-func NewPostService(repo biz.PostRepo, auth authz.Service) *PostService {
+func NewPostService(repo biz.OrderRepo, auth authz.Service) *PostService {
 	return &PostService{repo: repo, auth: auth}
 }
 
@@ -34,7 +34,7 @@ func (s *PostService) ListPost(ctx context.Context, req *pb.ListPostRequest) (*p
 	if err != nil {
 		return ret, err
 	}
-	rItems := lo.Map(items, func(g *biz.Post, _ int) *pb.Post {
+	rItems := lo.Map(items, func(g *biz.Order, _ int) *pb.Post {
 		b := &pb.Post{}
 		MapBizPost2Pb(g, b)
 		return b
@@ -56,7 +56,7 @@ func (s *PostService) GetPost(ctx context.Context, req *pb.GetPostRequest) (*pb.
 	return res, nil
 }
 func (s *PostService) CreatePost(ctx context.Context, req *pb.CreatePostRequest) (*pb.Post, error) {
-	e := &biz.Post{}
+	e := &biz.Order{}
 	MapCreatePbPost2Biz(req, e)
 	err := s.repo.Create(ctx, e)
 	if err != nil {
@@ -98,15 +98,15 @@ func (s *PostService) DeletePost(ctx context.Context, req *pb.DeletePostRequest)
 	}
 	return &pb.DeletePostReply{Id: g.ID.String(), Name: g.Name}, nil
 }
-func MapBizPost2Pb(a *biz.Post, b *pb.Post) {
+func MapBizPost2Pb(a *biz.Order, b *pb.Post) {
 	b.Id = a.ID.String()
 	b.Name = a.Name
 	b.CreatedAt = timestamppb.New(a.CreatedAt)
 }
 
-func MapUpdatePbPost2Biz(a *pb.UpdatePost, b *biz.Post) {
+func MapUpdatePbPost2Biz(a *pb.UpdatePost, b *biz.Order) {
 	b.Name = a.Name
 }
-func MapCreatePbPost2Biz(a *pb.CreatePostRequest, b *biz.Post) {
+func MapCreatePbPost2Biz(a *pb.CreatePostRequest, b *biz.Order) {
 	b.Name = a.Name
 }

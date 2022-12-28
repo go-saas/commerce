@@ -3,37 +3,37 @@ package data
 import (
 	"context"
 	"fmt"
-	v1 "order/api/post/v1"
-	"order/private/biz"
+	v1 "github.com/go-saas/commerce/order/api/post/v1"
+	"github.com/go-saas/commerce/order/private/biz"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
 	sgorm "github.com/go-saas/saas/gorm"
 	"github.com/goxiaoy/go-eventbus"
 	"gorm.io/gorm"
 )
 
-type PostRepo struct {
-	*kitgorm.Repo[biz.Post, string, v1.ListPostRequest]
+type OrderRepo struct {
+	*kitgorm.Repo[biz.Order, string, v1.ListPostRequest]
 }
 
-func NewPostRepo(dbProvider sgorm.DbProvider, eventbus *eventbus.EventBus) biz.PostRepo {
-	res := &PostRepo{}
-	res.Repo = kitgorm.NewRepo[biz.Post, string, v1.ListPostRequest](dbProvider, eventbus, res)
+func NewOrderRepo(dbProvider sgorm.DbProvider, eventbus *eventbus.EventBus) biz.OrderRepo {
+	res := &OrderRepo{}
+	res.Repo = kitgorm.NewRepo[biz.Order, string, v1.ListPostRequest](dbProvider, eventbus, res)
 	return res
 }
 
-func (c *PostRepo) GetDb(ctx context.Context) *gorm.DB {
+func (c *OrderRepo) GetDb(ctx context.Context) *gorm.DB {
 	return GetDb(ctx, c.Repo.DbProvider)
 }
 
-//BuildDetailScope preload relations
-func (c *PostRepo) BuildDetailScope(withDetail bool) func(db *gorm.DB) *gorm.DB {
+// BuildDetailScope preload relations
+func (c *OrderRepo) BuildDetailScope(withDetail bool) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		return db
 	}
 }
 
-//BuildFilterScope filter
-func (c *PostRepo) BuildFilterScope(q *v1.ListPostRequest) func(db *gorm.DB) *gorm.DB {
+// BuildFilterScope filter
+func (c *OrderRepo) BuildFilterScope(q *v1.ListPostRequest) func(db *gorm.DB) *gorm.DB {
 	search := q.Search
 	filter := q.Filter
 	return func(db *gorm.DB) *gorm.DB {
@@ -55,6 +55,6 @@ func (c *PostRepo) BuildFilterScope(q *v1.ListPostRequest) func(db *gorm.DB) *go
 	}
 }
 
-func (c *PostRepo) DefaultSorting() []string {
+func (c *OrderRepo) DefaultSorting() []string {
 	return []string{"created_at"}
 }

@@ -1,7 +1,7 @@
 package biz
 
 import (
-	v1 "cart/api/post/v1"
+	v1 "github.com/go-saas/commerce/cart/api/post/v1"
 	"github.com/go-saas/kit/pkg/data"
 	"github.com/go-saas/kit/pkg/gorm"
 )

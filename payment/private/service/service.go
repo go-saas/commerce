@@ -7,7 +7,7 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware"
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 	khttp "github.com/go-kratos/kratos/v2/transport/http"
-	v12 "payment/api/post/v1"
+	v12 "github.com/go-saas/commerce/payment/api/post/v1"
 	kitdi "github.com/go-saas/kit/pkg/di"
 	"github.com/go-saas/kit/pkg/server"
 	"net/http"

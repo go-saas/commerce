@@ -3,8 +3,8 @@ package data
 import (
 	"context"
 	"fmt"
-	v1 "payment/api/post/v1"
-	"payment/private/biz"
+	v1 "github.com/go-saas/commerce/payment/api/post/v1"
+	"github.com/go-saas/commerce/payment/private/biz"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
 	sgorm "github.com/go-saas/saas/gorm"
 	"github.com/goxiaoy/go-eventbus"
@@ -25,14 +25,14 @@ func (c *PostRepo) GetDb(ctx context.Context) *gorm.DB {
 	return GetDb(ctx, c.Repo.DbProvider)
 }
 
-//BuildDetailScope preload relations
+// BuildDetailScope preload relations
 func (c *PostRepo) BuildDetailScope(withDetail bool) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		return db
 	}
 }
 
-//BuildFilterScope filter
+// BuildFilterScope filter
 func (c *PostRepo) BuildFilterScope(q *v1.ListPostRequest) func(db *gorm.DB) *gorm.DB {
 	search := q.Search
 	filter := q.Filter

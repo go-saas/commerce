@@ -2,9 +2,9 @@ package server
 
 import (
 	"github.com/go-kratos/kratos/v2/transport"
-	api2 "product/api"
-	"product/private/biz"
-	"product/private/data"
+	api2 "github.com/go-saas/commerce/product/api"
+	"github.com/go-saas/commerce/product/private/biz"
+	"github.com/go-saas/commerce/product/private/data"
 	"github.com/go-saas/kit/pkg/api"
 	"github.com/go-saas/kit/pkg/authz/authz"
 	kitdi "github.com/go-saas/kit/pkg/di"

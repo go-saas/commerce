@@ -2,7 +2,7 @@ package data
 
 import (
 	"context"
-	"cart/private/biz"
+	"github.com/go-saas/commerce/cart/private/biz"
 	"github.com/go-saas/saas/seed"
 	"gorm.io/gorm"
 )

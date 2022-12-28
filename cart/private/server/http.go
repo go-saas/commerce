@@ -10,7 +10,7 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware/tracing"
 	"github.com/go-kratos/kratos/v2/middleware/validate"
 	khttp "github.com/go-kratos/kratos/v2/transport/http"
-	"cart/api"
+	"github.com/go-saas/commerce/cart/api"
 	api2 "github.com/go-saas/kit/pkg/api"
 	sapi "github.com/go-saas/kit/pkg/api"
 	"github.com/go-saas/kit/pkg/authn/jwt"

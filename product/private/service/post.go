@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"github.com/go-kratos/kratos/v2/errors"
-	pb "product/api/post/v1"
-	"product/private/biz"
+	pb "github.com/go-saas/commerce/product/api/post/v1"
+	"github.com/go-saas/commerce/product/private/biz"
 	"github.com/go-saas/kit/pkg/authz/authz"
 	"github.com/samber/lo"
 	"google.golang.org/protobuf/types/known/timestamppb"
