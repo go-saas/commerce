@@ -11,6 +11,7 @@ type Sortable interface {
 	SetSort(int)
 }
 
+// Embed implements Sortable interface. resource which supports sorting like "move up", "move to" can embed this struct
 type Embed struct {
 	Sort int
 }
@@ -25,6 +26,7 @@ func (e *Embed) SetSort(i int) {
 	e.Sort = i
 }
 
+// Normalize set sort by index
 func Normalize(l []Sortable) {
 	if len(l) == 0 {
 		return

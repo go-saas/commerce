@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package post.v1;
+package product.v1.product;
 
 import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
@@ -9,7 +9,7 @@ import "google/api/field_behavior.proto";
 import "validate/validate.proto";
 import "query/operation.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
-option go_package = "github.com/go-saas/commerce/product/api/post/v1;v1";
+option go_package = "github.com/go-saas/commerce/product/api/product/v1;v1";
 
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   security_definitions: {
@@ -30,90 +30,90 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   }
 };
 
-service PostService {
-  rpc ListPost (ListPostRequest) returns (ListPostReply){
+service ProductService {
+  rpc ListProduct (ListProductRequest) returns (ListProductReply){
     option (google.api.http) = {
-      get: "/v1/product/posts",
+      get: "/v1/product/products",
       additional_bindings:{
-        post:"/v1/product/post/list",
+        post:"/v1/product/product/list",
         body:"*"
       }
     };
   }
-  rpc GetPost (GetPostRequest) returns (Post){
+  rpc GetProduct (GetProductRequest) returns (Product){
     option (google.api.http) = {
-      get: "/v1/product/post/{id}"
+      get: "/v1/product/product/{id}"
     };
   }
-  rpc CreatePost (CreatePostRequest) returns (Post){
+  rpc CreateProduct (CreateProductRequest) returns (Product){
     option (google.api.http) = {
-      post: "/v1/product/post",
+      post: "/v1/product/product",
       body: "*"
     };
   }
-  rpc UpdatePost (UpdatePostRequest) returns (Post){
+  rpc UpdateProduct (UpdateProductRequest) returns (Product){
     option (google.api.http) = {
-      put: "/v1/product/post/{post.id}",
+      put: "/v1/product/product/{product.id}",
       body: "*"
       additional_bindings{
-        patch: "/v1/product/post/{post.id}",
+        patch: "/v1/product/product/{product.id}",
         body: "*"
       }
     };
   }
-  rpc DeletePost (DeletePostRequest) returns (DeletePostReply){
+  rpc DeleteProduct (DeleteProductRequest) returns (DeleteProductReply){
     option (google.api.http) = {
-      delete: "/v1/product/post/{id}"
+      delete: "/v1/product/product/{id}"
     };
   }
 
 }
 
-message CreatePostRequest {
+message CreateProductRequest {
   string name =1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
 }
 
-message UpdatePostRequest {
-  UpdatePost post=1 [(validate.rules).message.required=true,(google.api.field_behavior) = REQUIRED];
+message UpdateProductRequest {
+  UpdateProduct product=1 [(validate.rules).message.required=true,(google.api.field_behavior) = REQUIRED];
   google.protobuf.FieldMask update_mask = 2;
 }
 
-message UpdatePost{
+message UpdateProduct{
   string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
   string name=2;
 }
 
 
-message DeletePostRequest {
+message DeleteProductRequest {
   string id=1;
 }
-message DeletePostReply {
+message DeleteProductReply {
   string id=1;
   string name=2;
 }
 
-message GetPostRequest {
+message GetProductRequest {
   string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];
 }
 
-message PostFilter{
+message ProductFilter{
   query.operation.StringFilterOperation id=1;
   query.operation.StringFilterOperation name =2;
 }
-message ListPostRequest {
+message ListProductRequest {
   int32 page_offset =1;
   int32 page_size = 2;
   string search = 3;
   repeated string sort =4;
   google.protobuf.FieldMask fields=5;
-  PostFilter filter =6;
+  ProductFilter filter =6;
 }
-message ListPostReply {
+message ListProductReply {
   int32 total_size =1;
   int32 filter_size =2;
-  repeated Post items=3;
+  repeated Product items=3;
 }
-message Post{
+message Product{
   string id=1;
   string name=2;
   google.protobuf.Timestamp created_at =4;

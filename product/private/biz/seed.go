@@ -5,15 +5,15 @@ import (
 	"github.com/go-saas/saas/seed"
 )
 
-type PostSeeder struct {
+type ProductSeeder struct {
 }
 
-var _ seed.Contrib = (*PostSeeder)(nil)
+var _ seed.Contrib = (*ProductSeeder)(nil)
 
-func NewPostSeeder() *PostSeeder {
-	return &PostSeeder{}
+func NewPostSeeder() *ProductSeeder {
+	return &ProductSeeder{}
 }
 
-func (p *PostSeeder) Seed(ctx context.Context, sCtx *seed.Context) error {
+func (p *ProductSeeder) Seed(ctx context.Context, sCtx *seed.Context) error {
 	return nil
 }

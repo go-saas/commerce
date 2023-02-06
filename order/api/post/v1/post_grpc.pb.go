@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             (unknown)
-// source: api/post/v1/post.proto
+// source: order/api/post/v1/post.proto
 
 package v1
 
@@ -39,7 +39,7 @@ func NewPostServiceClient(cc grpc.ClientConnInterface) PostServiceClient {
 
 func (c *postServiceClient) ListPost(ctx context.Context, in *ListPostRequest, opts ...grpc.CallOption) (*ListPostReply, error) {
 	out := new(ListPostReply)
-	err := c.cc.Invoke(ctx, "/post.v1.PostService/ListPost", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/order.post.v1.PostService/ListPost", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func (c *postServiceClient) ListPost(ctx context.Context, in *ListPostRequest, o
 
 func (c *postServiceClient) GetPost(ctx context.Context, in *GetPostRequest, opts ...grpc.CallOption) (*Post, error) {
 	out := new(Post)
-	err := c.cc.Invoke(ctx, "/post.v1.PostService/GetPost", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/order.post.v1.PostService/GetPost", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +57,7 @@ func (c *postServiceClient) GetPost(ctx context.Context, in *GetPostRequest, opt
 
 func (c *postServiceClient) CreatePost(ctx context.Context, in *CreatePostRequest, opts ...grpc.CallOption) (*Post, error) {
 	out := new(Post)
-	err := c.cc.Invoke(ctx, "/post.v1.PostService/CreatePost", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/order.post.v1.PostService/CreatePost", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +66,7 @@ func (c *postServiceClient) CreatePost(ctx context.Context, in *CreatePostReques
 
 func (c *postServiceClient) UpdatePost(ctx context.Context, in *UpdatePostRequest, opts ...grpc.CallOption) (*Post, error) {
 	out := new(Post)
-	err := c.cc.Invoke(ctx, "/post.v1.PostService/UpdatePost", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/order.post.v1.PostService/UpdatePost", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func (c *postServiceClient) UpdatePost(ctx context.Context, in *UpdatePostReques
 
 func (c *postServiceClient) DeletePost(ctx context.Context, in *DeletePostRequest, opts ...grpc.CallOption) (*DeletePostReply, error) {
 	out := new(DeletePostReply)
-	err := c.cc.Invoke(ctx, "/post.v1.PostService/DeletePost", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/order.post.v1.PostService/DeletePost", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func (c *postServiceClient) DeletePost(ctx context.Context, in *DeletePostReques
 }
 
 // PostServiceServer is the server API for PostService service.
-// All implementations must embed UnimplementedPostServiceServer
+// All implementations should embed UnimplementedPostServiceServer
 // for forward compatibility
 type PostServiceServer interface {
 	ListPost(context.Context, *ListPostRequest) (*ListPostReply, error)
@@ -91,10 +91,9 @@ type PostServiceServer interface {
 	CreatePost(context.Context, *CreatePostRequest) (*Post, error)
 	UpdatePost(context.Context, *UpdatePostRequest) (*Post, error)
 	DeletePost(context.Context, *DeletePostRequest) (*DeletePostReply, error)
-	mustEmbedUnimplementedPostServiceServer()
 }
 
-// UnimplementedPostServiceServer must be embedded to have forward compatible implementations.
+// UnimplementedPostServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedPostServiceServer struct {
 }
 
@@ -113,7 +112,6 @@ func (UnimplementedPostServiceServer) UpdatePost(context.Context, *UpdatePostReq
 func (UnimplementedPostServiceServer) DeletePost(context.Context, *DeletePostRequest) (*DeletePostReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeletePost not implemented")
 }
-func (UnimplementedPostServiceServer) mustEmbedUnimplementedPostServiceServer() {}
 
 // UnsafePostServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to PostServiceServer will
@@ -136,7 +134,7 @@ func _PostService_ListPost_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/post.v1.PostService/ListPost",
+		FullMethod: "/order.post.v1.PostService/ListPost",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PostServiceServer).ListPost(ctx, req.(*ListPostRequest))
@@ -154,7 +152,7 @@ func _PostService_GetPost_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/post.v1.PostService/GetPost",
+		FullMethod: "/order.post.v1.PostService/GetPost",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PostServiceServer).GetPost(ctx, req.(*GetPostRequest))
@@ -172,7 +170,7 @@ func _PostService_CreatePost_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/post.v1.PostService/CreatePost",
+		FullMethod: "/order.post.v1.PostService/CreatePost",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PostServiceServer).CreatePost(ctx, req.(*CreatePostRequest))
@@ -190,7 +188,7 @@ func _PostService_UpdatePost_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/post.v1.PostService/UpdatePost",
+		FullMethod: "/order.post.v1.PostService/UpdatePost",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PostServiceServer).UpdatePost(ctx, req.(*UpdatePostRequest))
@@ -208,7 +206,7 @@ func _PostService_DeletePost_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/post.v1.PostService/DeletePost",
+		FullMethod: "/order.post.v1.PostService/DeletePost",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PostServiceServer).DeletePost(ctx, req.(*DeletePostRequest))
@@ -220,7 +218,7 @@ func _PostService_DeletePost_Handler(srv interface{}, ctx context.Context, dec f
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PostService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "post.v1.PostService",
+	ServiceName: "order.post.v1.PostService",
 	HandlerType: (*PostServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -245,5 +243,5 @@ var PostService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/post/v1/post.proto",
+	Metadata: "order/api/post/v1/post.proto",
 }

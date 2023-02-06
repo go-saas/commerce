@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "api/post/v1/post.proto",
+    "title": "order/api/post/v1/post.proto",
     "version": "version not set"
   },
   "tags": [

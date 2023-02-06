@@ -27,14 +27,12 @@ data:
           driver: sqlite
           source: "file::memory:?loc=Local"
           table_prefix: ""
-  blobs:
-    cart:
-      provider: os
-      public_url: http://localhost:9500
-      base_path: "assets/cart"
+  vfs:
+    -
+      public_url: http://localhost:9500/assets
+      mount_path: "/"
       os:
-        dir: "./.temp"
-
+        dir: ".assets"
 security:
   jwt:
     expire_in: 2592000s #    30 days

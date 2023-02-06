@@ -40,7 +40,7 @@ func PreloadCurrentLanguage() func(db *gorm.DB) *gorm.DB {
 				for _, s := range allLan {
 					queryArg = append(queryArg, s)
 				}
-				return db.Preload("Translations", queryArg...)
+				return db.Preload("Trans", queryArg...)
 			}
 
 		}

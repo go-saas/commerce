@@ -1,5 +1,5 @@
 syntax = "proto3";
-package kratos.api;
+package order.api;
 
 option go_package = "github.com/go-saas/commerce/order/event/v1;v1";
 

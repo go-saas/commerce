@@ -1,21 +1,24 @@
 package biz
 
-import "github.com/go-saas/kit/pkg/gorm"
+import kitgorm "github.com/go-saas/kit/pkg/gorm"
 
 // ProductSku sku
 type ProductSku struct {
-	gorm.UIDBase
+	kitgorm.UIDBase
+	kitgorm.AuditedModel
+
 	ProductId string
 	Product   Product
 
 	Title string
 
-	MainPic Media
-	Medias  []Media
+	MainPic Media   `gorm:"polymorphic:Owner;polymorphicValue:product_sku"`
+	Medias  []Media `gorm:"polymorphic:Owner;polymorphicValue:product_sku"`
 
 	Price PriceInfo `gorm:"embedded;embeddedPrefix:price_"`
 
-	Stock []Stock
+	NeedShipping bool    `gorm:"comment:是否需要邮寄"`
+	Stock        []Stock `gorm:"polymorphic:Owner;polymorphicValue:product_sku"`
 
 	Barcode string `gorm:"comment:商品条码"`
 }

@@ -18,7 +18,19 @@ func (e *Embed) GetLanguageCode() string {
 	return e.LanguageCode
 }
 
-// Multilingual Multilingual
+// Multilingual entity should implement this interface:
+//
+//	type Language struct {
+//		Code         string `gorm:"type:char(36);primaryKey;"`
+//		Name         string
+//		Trans []*LanguageTrans
+//	}
+//
+//	func (l *Language) GetTranslations() []interface{} {
+//		return lo.Map(l.Trans, func(item *LanguageTrans, _ int) interface{} {
+//			return item
+//		})
+//	}
 type Multilingual interface {
 	GetTranslations() []interface{}
 }
@@ -47,18 +59,18 @@ func GetTranslation(w Multilingual, tags ...language.Tag) (interface{}, bool) {
 }
 
 type Language struct {
-	Code         string `gorm:"type:char(36);primaryKey;"`
-	Name         string
-	Translations []*LanguageTranslation
+	Code  string `gorm:"type:char(36);primaryKey;"`
+	Name  string
+	Trans []*LanguageTrans
+}
+
+type LanguageTrans struct {
+	Embed
+	Name string
 }
 
 func (l *Language) GetTranslations() []interface{} {
-	return lo.Map(l.Translations, func(item *LanguageTranslation, _ int) interface{} {
+	return lo.Map(l.Trans, func(item *LanguageTrans, _ int) interface{} {
 		return item
 	})
-}
-
-type LanguageTranslation struct {
-	Embed
-	Name string
 }

@@ -29,18 +29,18 @@ func TestMain(m *testing.M) {
 }
 
 type testEntity struct {
-	Code         string `gorm:"type:char(36);primaryKey;"`
-	Name         string
-	Translations []*testEntityTranslation `gorm:"foreignKey:TestEntityCode;references:Code"`
+	Code  string `gorm:"type:char(36);primaryKey;"`
+	Name  string
+	Trans []*testEntityTrans `gorm:"foreignKey:TestEntityCode;references:Code"`
 }
 
 func (t *testEntity) GetTranslations() []interface{} {
-	return lo.Map(t.Translations, func(item *testEntityTranslation, _ int) interface{} {
+	return lo.Map(t.Trans, func(item *testEntityTrans, _ int) interface{} {
 		return item
 	})
 }
 
-type testEntityTranslation struct {
+type testEntityTrans struct {
 	multilingual.Embed
 	Name           string
 	TestEntityCode string
@@ -48,9 +48,9 @@ type testEntityTranslation struct {
 
 func TestDB(t *testing.T) {
 	var err error
-	err = db.Migrator().DropTable(&testEntity{}, &testEntityTranslation{})
+	err = db.Migrator().DropTable(&testEntity{}, &testEntityTrans{})
 	assert.NoError(t, err)
-	err = db.AutoMigrate(&testEntity{}, &testEntityTranslation{})
+	err = db.AutoMigrate(&testEntity{}, &testEntityTrans{})
 	assert.NoError(t, err)
 
 	preferredTags := []language.Tag{language.Chinese, language.SimplifiedChinese, language.AmericanEnglish, language.English}
@@ -61,7 +61,7 @@ func TestDB(t *testing.T) {
 	lan := &testEntity{
 		Code: "zh-CN",
 		Name: "中文",
-		Translations: []*testEntityTranslation{
+		Trans: []*testEntityTrans{
 			{
 				Embed: multilingual.Embed{LanguageCode: language.SimplifiedChinese.String()},
 				Name:  "中文",
@@ -87,11 +87,11 @@ func TestDB(t *testing.T) {
 
 	err = db.Session(&gorm.Session{NewDB: true}).Model(&testEntity{}).Preload(clause.Associations).Find(&dbLan, "code = ?", "zh-CN").Error
 	assert.NoError(t, err)
-	assert.Equal(t, 4, len(dbLan.Translations))
+	assert.Equal(t, 4, len(dbLan.Trans))
 
 	err = db.Session(&gorm.Session{NewDB: true}).Model(&testEntity{}).Scopes(PreloadCurrentLanguage()).Find(&dbLan, "code = ?", "zh-CN").Error
 	assert.NoError(t, err)
-	assert.Equal(t, 3, len(dbLan.Translations))
+	assert.Equal(t, 3, len(dbLan.Trans))
 
 	trans, ok := multilingual.GetTranslation(&dbLan, language.Chinese)
 	assert.True(t, ok)

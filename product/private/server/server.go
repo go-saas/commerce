@@ -26,7 +26,7 @@ var ProviderSet = kitdi.NewSet(
 
 var ClientName api.ClientName = api2.ServiceName
 
-func NewSeeding(uow uow.Manager, migrate *data.Migrate, post *biz.PostSeeder) seed.Contrib {
+func NewSeeding(uow uow.Manager, migrate *data.Migrate, post *biz.ProductSeeder) seed.Contrib {
 	return seed.Chain(server.NewUowContrib(uow, seed.Chain(migrate, post)))
 }
 

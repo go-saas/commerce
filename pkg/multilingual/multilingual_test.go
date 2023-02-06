@@ -38,7 +38,7 @@ func TestGetTranslation(t *testing.T) {
 	lan := &Language{
 		Code: "zh-CN",
 		Name: "中文",
-		Translations: []*LanguageTranslation{
+		Trans: []*LanguageTrans{
 			{
 				Embed: Embed{LanguageCode: language.SimplifiedChinese.String()},
 				Name:  "中文",
@@ -60,22 +60,22 @@ func TestGetTranslation(t *testing.T) {
 
 	trans, ok := GetTranslation(lan, []language.Tag{language.Chinese, language.SimplifiedChinese, language.English}...)
 	assert.Equal(t, true, ok)
-	assert.Equal(t, "中文", trans.(*LanguageTranslation).Name)
+	assert.Equal(t, "中文", trans.(*LanguageTrans).Name)
 
 	trans, ok = GetTranslation(lan, []language.Tag{language.Japanese, language.Chinese, language.SimplifiedChinese, language.English}...)
 	assert.Equal(t, true, ok)
-	assert.Equal(t, "中国語", trans.(*LanguageTranslation).Name)
+	assert.Equal(t, "中国語", trans.(*LanguageTrans).Name)
 
 	trans, ok = GetTranslation(lan, []language.Tag{language.English}...)
 	assert.Equal(t, true, ok)
-	assert.Equal(t, "Chinese", trans.(*LanguageTranslation).Name)
+	assert.Equal(t, "Chinese", trans.(*LanguageTrans).Name)
 
 	trans, ok = GetTranslation(lan, []language.Tag{language.AmericanEnglish}...)
 	assert.Equal(t, true, ok)
-	assert.Equal(t, "Chinese", trans.(*LanguageTranslation).Name)
+	assert.Equal(t, "Chinese", trans.(*LanguageTrans).Name)
 
 	trans, ok = GetTranslation(lan, []language.Tag{language.Bengali}...)
 	assert.Equal(t, true, ok)
-	assert.Equal(t, "Chinese", trans.(*LanguageTranslation).Name)
+	assert.Equal(t, "Chinese", trans.(*LanguageTrans).Name)
 
 }
