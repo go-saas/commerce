@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package order.post.v1;
+package order.api.order.v1;
 
 import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
@@ -9,7 +9,7 @@ import "google/api/field_behavior.proto";
 import "validate/validate.proto";
 import "query/operation.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
-option go_package = "github.com/go-saas/commerce/order/api/post/v1;v1";
+option go_package = "github.com/go-saas/commerce/order/api/order/v1;v1";
 
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   security_definitions: {
@@ -30,90 +30,90 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   }
 };
 
-service PostService {
-  rpc ListPost (ListPostRequest) returns (ListPostReply){
+service OrderService {
+  rpc ListOrder (ListOrderRequest) returns (ListOrderReply){
     option (google.api.http) = {
-      get: "/v1/order/posts",
+      get: "/v1/order/orders",
       additional_bindings:{
-        post:"/v1/order/post/list",
+        post:"/v1/order/order/list",
         body:"*"
       }
     };
   }
-  rpc GetPost (GetPostRequest) returns (Post){
+  rpc GetOrder (GetOrderRequest) returns (Order){
     option (google.api.http) = {
-      get: "/v1/order/post/{id}"
+      get: "/v1/order/order/{id}"
     };
   }
-  rpc CreatePost (CreatePostRequest) returns (Post){
+  rpc CreateOrder (CreateOrderRequest) returns (Order){
     option (google.api.http) = {
-      post: "/v1/order/post",
+      post: "/v1/order/order",
       body: "*"
     };
   }
-  rpc UpdatePost (UpdatePostRequest) returns (Post){
+  rpc UpdateOrder (UpdateOrderRequest) returns (Order){
     option (google.api.http) = {
-      put: "/v1/order/post/{post.id}",
+      put: "/v1/order/order/{order.id}",
       body: "*"
       additional_bindings{
-        patch: "/v1/order/post/{post.id}",
+        patch: "/v1/order/order/{order.id}",
         body: "*"
       }
     };
   }
-  rpc DeletePost (DeletePostRequest) returns (DeletePostReply){
+  rpc DeleteOrder (DeleteOrderRequest) returns (DeleteOrderReply){
     option (google.api.http) = {
-      delete: "/v1/order/post/{id}"
+      delete: "/v1/order/order/{id}"
     };
   }
 
 }
 
-message CreatePostRequest {
+message CreateOrderRequest {
   string name =1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
 }
 
-message UpdatePostRequest {
-  UpdatePost post=1 [(validate.rules).message.required=true,(google.api.field_behavior) = REQUIRED];
+message UpdateOrderRequest {
+  UpdateOrder order=1 [(validate.rules).message.required=true,(google.api.field_behavior) = REQUIRED];
   google.protobuf.FieldMask update_mask = 2;
 }
 
-message UpdatePost{
+message UpdateOrder{
   string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
   string name=2;
 }
 
 
-message DeletePostRequest {
+message DeleteOrderRequest {
   string id=1;
 }
-message DeletePostReply {
+message DeleteOrderReply {
   string id=1;
   string name=2;
 }
 
-message GetPostRequest {
+message GetOrderRequest {
   string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];
 }
 
-message PostFilter{
+message OrderFilter{
   query.operation.StringFilterOperation id=1;
   query.operation.StringFilterOperation name =2;
 }
-message ListPostRequest {
+message ListOrderRequest {
   int32 page_offset =1;
   int32 page_size = 2;
   string search = 3;
   repeated string sort =4;
   google.protobuf.FieldMask fields=5;
-  PostFilter filter =6;
+  OrderFilter filter =6;
 }
-message ListPostReply {
+message ListOrderReply {
   int32 total_size =1;
   int32 filter_size =2;
-  repeated Post items=3;
+  repeated Order items=3;
 }
-message Post{
+message Order{
   string id=1;
   string name=2;
   google.protobuf.Timestamp created_at =4;

@@ -57,15 +57,376 @@ func (m *CreateProductRequest) validate(all bool) error {
 
 	var errors []error
 
-	if utf8.RuneCountInString(m.GetName()) < 1 {
+	if utf8.RuneCountInString(m.GetTitle()) < 1 {
 		err := CreateProductRequestValidationError{
-			field:  "Name",
+			field:  "Title",
 			reason: "value length must be at least 1 runes",
 		}
 		if !all {
 			return err
 		}
 		errors = append(errors, err)
+	}
+
+	// no validation rules for ShortDesc
+
+	// no validation rules for Desc
+
+	if all {
+		switch v := interface{}(m.GetMainPic()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateProductRequestValidationError{
+					field:  "MainPic",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateProductRequestValidationError{
+					field:  "MainPic",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetMainPic()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateProductRequestValidationError{
+				field:  "MainPic",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	for idx, item := range m.GetMedias() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, CreateProductRequestValidationError{
+						field:  fmt.Sprintf("Medias[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, CreateProductRequestValidationError{
+						field:  fmt.Sprintf("Medias[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return CreateProductRequestValidationError{
+					field:  fmt.Sprintf("Medias[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetBadges() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, CreateProductRequestValidationError{
+						field:  fmt.Sprintf("Badges[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, CreateProductRequestValidationError{
+						field:  fmt.Sprintf("Badges[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return CreateProductRequestValidationError{
+					field:  fmt.Sprintf("Badges[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if all {
+		switch v := interface{}(m.GetVisibleFrom()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateProductRequestValidationError{
+					field:  "VisibleFrom",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateProductRequestValidationError{
+					field:  "VisibleFrom",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetVisibleFrom()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateProductRequestValidationError{
+				field:  "VisibleFrom",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetVisibleTo()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateProductRequestValidationError{
+					field:  "VisibleTo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateProductRequestValidationError{
+					field:  "VisibleTo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetVisibleTo()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateProductRequestValidationError{
+				field:  "VisibleTo",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for IsNew
+
+	// no validation rules for MainCategoryId
+
+	// no validation rules for Barcode
+
+	// no validation rules for Model
+
+	// no validation rules for BrandId
+
+	// no validation rules for IsSaleable
+
+	if all {
+		switch v := interface{}(m.GetSaleableFrom()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateProductRequestValidationError{
+					field:  "SaleableFrom",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateProductRequestValidationError{
+					field:  "SaleableFrom",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSaleableFrom()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateProductRequestValidationError{
+				field:  "SaleableFrom",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetSaleableTo()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateProductRequestValidationError{
+					field:  "SaleableTo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateProductRequestValidationError{
+					field:  "SaleableTo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSaleableTo()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateProductRequestValidationError{
+				field:  "SaleableTo",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetKeyword()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateProductRequestValidationError{
+					field:  "Keyword",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateProductRequestValidationError{
+					field:  "Keyword",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetKeyword()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateProductRequestValidationError{
+				field:  "Keyword",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetPrice()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateProductRequestValidationError{
+					field:  "Price",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateProductRequestValidationError{
+					field:  "Price",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPrice()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateProductRequestValidationError{
+				field:  "Price",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for IsGiveaway
+
+	// no validation rules for MultiSku
+
+	for idx, item := range m.GetCampaignRules() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, CreateProductRequestValidationError{
+						field:  fmt.Sprintf("CampaignRules[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, CreateProductRequestValidationError{
+						field:  fmt.Sprintf("CampaignRules[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return CreateProductRequestValidationError{
+					field:  fmt.Sprintf("CampaignRules[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for NeedShipping
+
+	for idx, item := range m.GetStock() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, CreateProductRequestValidationError{
+						field:  fmt.Sprintf("Stock[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, CreateProductRequestValidationError{
+						field:  fmt.Sprintf("Stock[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return CreateProductRequestValidationError{
+					field:  fmt.Sprintf("Stock[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	if len(errors) > 0 {

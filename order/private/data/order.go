@@ -3,7 +3,7 @@ package data
 import (
 	"context"
 	"fmt"
-	v1 "github.com/go-saas/commerce/order/api/post/v1"
+	v1 "github.com/go-saas/commerce/order/api/order/v1"
 	"github.com/go-saas/commerce/order/private/biz"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
 	sgorm "github.com/go-saas/saas/gorm"
@@ -12,12 +12,12 @@ import (
 )
 
 type OrderRepo struct {
-	*kitgorm.Repo[biz.Order, string, v1.ListPostRequest]
+	*kitgorm.Repo[biz.Order, string, v1.ListOrderRequest]
 }
 
 func NewOrderRepo(dbProvider sgorm.DbProvider, eventbus *eventbus.EventBus) biz.OrderRepo {
 	res := &OrderRepo{}
-	res.Repo = kitgorm.NewRepo[biz.Order, string, v1.ListPostRequest](dbProvider, eventbus, res)
+	res.Repo = kitgorm.NewRepo[biz.Order, string, v1.ListOrderRequest](dbProvider, eventbus, res)
 	return res
 }
 
@@ -33,7 +33,7 @@ func (c *OrderRepo) BuildDetailScope(withDetail bool) func(db *gorm.DB) *gorm.DB
 }
 
 // BuildFilterScope filter
-func (c *OrderRepo) BuildFilterScope(q *v1.ListPostRequest) func(db *gorm.DB) *gorm.DB {
+func (c *OrderRepo) BuildFilterScope(q *v1.ListOrderRequest) func(db *gorm.DB) *gorm.DB {
 	search := q.Search
 	filter := q.Filter
 	return func(db *gorm.DB) *gorm.DB {

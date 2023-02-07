@@ -17,8 +17,7 @@ type ProductSku struct {
 
 	Price PriceInfo `gorm:"embedded;embeddedPrefix:price_"`
 
-	NeedShipping bool    `gorm:"comment:是否需要邮寄"`
-	Stock        []Stock `gorm:"polymorphic:Owner;polymorphicValue:product_sku"`
+	Stock []Stock `gorm:"polymorphic:Owner;polymorphicValue:product_sku"`
 
 	Barcode string `gorm:"comment:商品条码"`
 }

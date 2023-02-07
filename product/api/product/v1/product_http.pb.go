@@ -19,11 +19,11 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationProductServiceCreateProduct = "/product.v1.product.ProductService/CreateProduct"
-const OperationProductServiceDeleteProduct = "/product.v1.product.ProductService/DeleteProduct"
-const OperationProductServiceGetProduct = "/product.v1.product.ProductService/GetProduct"
-const OperationProductServiceListProduct = "/product.v1.product.ProductService/ListProduct"
-const OperationProductServiceUpdateProduct = "/product.v1.product.ProductService/UpdateProduct"
+const OperationProductServiceCreateProduct = "/brand.api.v1.ProductService/CreateProduct"
+const OperationProductServiceDeleteProduct = "/brand.api.v1.ProductService/DeleteProduct"
+const OperationProductServiceGetProduct = "/brand.api.v1.ProductService/GetProduct"
+const OperationProductServiceListProduct = "/brand.api.v1.ProductService/ListProduct"
+const OperationProductServiceUpdateProduct = "/brand.api.v1.ProductService/UpdateProduct"
 
 type ProductServiceHTTPServer interface {
 	CreateProduct(context.Context, *CreateProductRequest) (*Product, error)

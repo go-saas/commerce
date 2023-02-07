@@ -8,13 +8,15 @@ import (
 
 type Brand struct {
 	gorm.UIDBase
-	Code        string
-	Name        string
-	Logo        string
-	Url         string
-	Description string
+	Code string
+	Name string
+	Logo string
+	Url  string
+	Desc string
 
 	Trans []*BrandTrans
+
+	OwnedTenantId string
 }
 
 type BrandTrans struct {

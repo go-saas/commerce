@@ -18,9 +18,10 @@ type Product struct {
 	concurrency.Version
 	gorm.MultiTenancy
 
-	Title     string `gorm:"comment:商品标题"`
-	ShortDesc string `gorm:"comment:商品简述"`
-	Desc      string `gorm:"comment:商品描述"`
+	Title     string       `gorm:"comment:商品标题"`
+	ShortDesc string       `gorm:"comment:商品简述"`
+	Desc      string       `gorm:"comment:商品描述"`
+	Content   data.JSONMap `gorm:"comment:描述页面内容"`
 
 	MainPic Media   `gorm:"polymorphic:Owner;polymorphicValue:product"`
 	Medias  []Media `gorm:"polymorphic:Owner;polymorphicValue:product"`
@@ -50,13 +51,13 @@ type Product struct {
 
 	MultiSku bool `gorm:"comment:是否多SKU产品,只能创建时修改"`
 
-	Sku []ProductSku
-
 	// CampaignRules
 	CampaignRules []CampaignRule `gorm:"polymorphic:Owner;polymorphicValue:product"`
 
 	NeedShipping bool    `gorm:"comment:是否需要邮寄"`
 	Stock        []Stock `gorm:"polymorphic:Owner;polymorphicValue:product"`
+
+	Sku []ProductSku
 }
 
 type Media struct {
@@ -163,3 +164,10 @@ type Stock struct {
 	Amount       int
 	DeliveryCode string
 }
+
+// Stock Level values
+const (
+	StockLevelOutOfStock = "out"
+	StockLevelInStock    = "in"
+	StockLevelLowStock   = "low"
+)

@@ -1,0 +1,116 @@
+syntax = "proto3";
+
+package brand.api.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/field_behavior.proto";
+import "validate/validate.proto";
+import "query/operation.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+option go_package = "github.com/go-saas/commerce/category/api/category/v1;v1";
+
+
+service CategoryService {
+  rpc ListCategory (ListCategoryRequest) returns (ListCategoryReply){
+    option (google.api.http) = {
+      get: "/v1/product/categories",
+      additional_bindings:{
+        post:"/v1/product/category/list",
+        body:"*"
+      }
+    };
+  }
+  rpc GetCategory (GetCategoryRequest) returns (Category){
+    option (google.api.http) = {
+      get: "/v1/product/category/{id}"
+    };
+  }
+  rpc CreateCategory (CreateCategoryRequest) returns (Category){
+    option (google.api.http) = {
+      post: "/v1/product/category",
+      body: "*"
+    };
+  }
+  rpc UpdateCategory (UpdateCategoryRequest) returns (Category){
+    option (google.api.http) = {
+      put: "/v1/product/category/{category.id}",
+      body: "*"
+      additional_bindings{
+        patch: "/v1/product/category/{category.id}",
+        body: "*"
+      }
+    };
+  }
+  rpc DeleteCategory (DeleteCategoryRequest) returns (DeleteCategoryReply){
+    option (google.api.http) = {
+      delete: "/v1/product/category/{id}"
+    };
+  }
+
+}
+
+
+message CreateCategoryRequest {
+  string code=2 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+  string name=3;
+  string logo=4;
+  string parent_id=6;
+
+}
+
+message UpdateCategoryRequest {
+  UpdateCategory category=1 [(validate.rules).message.required=true,(google.api.field_behavior) = REQUIRED];
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateCategory{
+  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+  string code=2 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+  string name=3;
+  string logo=4;
+  string parent_id=6;
+}
+
+
+message DeleteCategoryRequest {
+  string id=1;
+}
+
+message DeleteCategoryReply {
+  string id=1;
+  string code=2;
+}
+
+message GetCategoryRequest {
+  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];
+}
+
+message CategoryFilter{
+  query.operation.StringFilterOperation id=1;
+  query.operation.StringFilterOperation code =2;
+}
+
+message ListCategoryRequest {
+  int32 page_offset =1;
+  int32 page_size = 2;
+  string search = 3;
+  repeated string sort =4;
+  google.protobuf.FieldMask fields=5;
+  CategoryFilter filter =6;
+}
+message ListCategoryReply {
+  int32 total_size =1;
+  int32 filter_size =2;
+  repeated Category items=3;
+}
+
+message Category{
+  string id=1;
+  string code=2;
+  string name=3;
+  string logo=4;
+  string parent_id=6;
+  string path=7;
+}
