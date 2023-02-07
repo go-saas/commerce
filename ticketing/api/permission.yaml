@@ -1,0 +1,14 @@
+groups:
+
+  - name: "permission.ticketing.post.group"
+    def:
+      - name: "permission.ticketing.post.any"
+        namespace: "ticketing.post"
+        action: "*"
+        internal: true
+      - name: "permission.permission.read"
+        namespace: "ticketing.post"
+        action: "read"
+      - name: "permission.permission.write"
+        namespace: "ticketing.post"
+        action: "write"

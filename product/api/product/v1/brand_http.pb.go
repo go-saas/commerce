@@ -19,11 +19,11 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationBrandServiceCreateBrand = "/brand.api.v1.BrandService/CreateBrand"
-const OperationBrandServiceDeleteBrand = "/brand.api.v1.BrandService/DeleteBrand"
-const OperationBrandServiceGetBrand = "/brand.api.v1.BrandService/GetBrand"
-const OperationBrandServiceListBrand = "/brand.api.v1.BrandService/ListBrand"
-const OperationBrandServiceUpdateBrand = "/brand.api.v1.BrandService/UpdateBrand"
+const OperationBrandServiceCreateBrand = "/product.api.product.v1.BrandService/CreateBrand"
+const OperationBrandServiceDeleteBrand = "/product.api.product.v1.BrandService/DeleteBrand"
+const OperationBrandServiceGetBrand = "/product.api.product.v1.BrandService/GetBrand"
+const OperationBrandServiceListBrand = "/product.api.product.v1.BrandService/ListBrand"
+const OperationBrandServiceUpdateBrand = "/product.api.product.v1.BrandService/UpdateBrand"
 
 type BrandServiceHTTPServer interface {
 	CreateBrand(context.Context, *CreateBrandRequest) (*Brand, error)

@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package ticketing.api.location.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/field_behavior.proto";
+import "validate/validate.proto";
+import "query/operation.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+option go_package = "github.com/go-saas/commerce/ticketing/api/location/v1;v1";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  security_definitions: {
+    security: {
+      key: "bearer"
+      value: {
+        type: TYPE_API_KEY
+        in: IN_HEADER
+        name: "Authorization"
+        description: "Authentication token, prefixed by Bearer: Bearer <token>"
+      }
+    }
+  }
+  security: {
+    security_requirement: {
+      key: "bearer"
+    }
+  }
+};
+
+service LocationService {
+  rpc ListLocation (ListLocationRequest) returns (ListLocationReply){
+    option (google.api.http) = {
+      get: "/v1/ticketing/locations",
+      additional_bindings:{
+        post:"/v1/ticketing/location/list",
+        body:"*"
+      }
+    };
+  }
+  rpc GetLocation (GetLocationRequest) returns (Location){
+    option (google.api.http) = {
+      get: "/v1/ticketing/location/{id}"
+    };
+  }
+  rpc CreateLocation (CreateLocationRequest) returns (Location){
+    option (google.api.http) = {
+      post: "/v1/ticketing/location",
+      body: "*"
+    };
+  }
+  rpc UpdateLocation (UpdateLocationRequest) returns (Location){
+    option (google.api.http) = {
+      put: "/v1/ticketing/location/{location.id}",
+      body: "*"
+      additional_bindings{
+        patch: "/v1/ticketing/location/{location.id}",
+        body: "*"
+      }
+    };
+  }
+  rpc DeleteLocation (DeleteLocationRequest) returns (DeleteLocationReply){
+    option (google.api.http) = {
+      delete: "/v1/ticketing/location/{id}"
+    };
+  }
+
+}
+
+message CreateLocationRequest {
+  string name =1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+}
+
+message UpdateLocationRequest {
+  UpdateLocation location=1 [(validate.rules).message.required=true,(google.api.field_behavior) = REQUIRED];
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateLocation{
+  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+  string name=2;
+}
+
+
+message DeleteLocationRequest {
+  string id=1;
+}
+message DeleteLocationReply {
+  string id=1;
+  string name=2;
+}
+
+message GetLocationRequest {
+  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];
+}
+
+message LocationFilter{
+  query.operation.StringFilterOperation id=1;
+  query.operation.StringFilterOperation name =2;
+}
+message ListLocationRequest {
+  int32 page_offset =1;
+  int32 page_size = 2;
+  string search = 3;
+  repeated string sort =4;
+  google.protobuf.FieldMask fields=5;
+  LocationFilter filter =6;
+}
+message ListLocationReply {
+  int32 total_size =1;
+  int32 filter_size =2;
+  repeated Location items=3;
+}
+message Location{
+  string id=1;
+  string name=2;
+  google.protobuf.Timestamp created_at =4;
+}

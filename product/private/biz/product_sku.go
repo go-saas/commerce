@@ -12,8 +12,8 @@ type ProductSku struct {
 
 	Title string
 
-	MainPic Media   `gorm:"polymorphic:Owner;polymorphicValue:product_sku"`
-	Medias  []Media `gorm:"polymorphic:Owner;polymorphicValue:product_sku"`
+	MainPic ProductMedia   `gorm:"polymorphic:Owner;polymorphicValue:product_sku"`
+	Medias  []ProductMedia `gorm:"polymorphic:Owner;polymorphicValue:product_sku"`
 
 	Price PriceInfo `gorm:"embedded;embeddedPrefix:price_"`
 

@@ -39,7 +39,7 @@ func NewCategoryServiceClient(cc grpc.ClientConnInterface) CategoryServiceClient
 
 func (c *categoryServiceClient) ListCategory(ctx context.Context, in *ListCategoryRequest, opts ...grpc.CallOption) (*ListCategoryReply, error) {
 	out := new(ListCategoryReply)
-	err := c.cc.Invoke(ctx, "/brand.api.v1.CategoryService/ListCategory", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.api.product.v1.CategoryService/ListCategory", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func (c *categoryServiceClient) ListCategory(ctx context.Context, in *ListCatego
 
 func (c *categoryServiceClient) GetCategory(ctx context.Context, in *GetCategoryRequest, opts ...grpc.CallOption) (*Category, error) {
 	out := new(Category)
-	err := c.cc.Invoke(ctx, "/brand.api.v1.CategoryService/GetCategory", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.api.product.v1.CategoryService/GetCategory", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +57,7 @@ func (c *categoryServiceClient) GetCategory(ctx context.Context, in *GetCategory
 
 func (c *categoryServiceClient) CreateCategory(ctx context.Context, in *CreateCategoryRequest, opts ...grpc.CallOption) (*Category, error) {
 	out := new(Category)
-	err := c.cc.Invoke(ctx, "/brand.api.v1.CategoryService/CreateCategory", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.api.product.v1.CategoryService/CreateCategory", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +66,7 @@ func (c *categoryServiceClient) CreateCategory(ctx context.Context, in *CreateCa
 
 func (c *categoryServiceClient) UpdateCategory(ctx context.Context, in *UpdateCategoryRequest, opts ...grpc.CallOption) (*Category, error) {
 	out := new(Category)
-	err := c.cc.Invoke(ctx, "/brand.api.v1.CategoryService/UpdateCategory", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.api.product.v1.CategoryService/UpdateCategory", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func (c *categoryServiceClient) UpdateCategory(ctx context.Context, in *UpdateCa
 
 func (c *categoryServiceClient) DeleteCategory(ctx context.Context, in *DeleteCategoryRequest, opts ...grpc.CallOption) (*DeleteCategoryReply, error) {
 	out := new(DeleteCategoryReply)
-	err := c.cc.Invoke(ctx, "/brand.api.v1.CategoryService/DeleteCategory", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.api.product.v1.CategoryService/DeleteCategory", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +134,7 @@ func _CategoryService_ListCategory_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/brand.api.v1.CategoryService/ListCategory",
+		FullMethod: "/product.api.product.v1.CategoryService/ListCategory",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CategoryServiceServer).ListCategory(ctx, req.(*ListCategoryRequest))
@@ -152,7 +152,7 @@ func _CategoryService_GetCategory_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/brand.api.v1.CategoryService/GetCategory",
+		FullMethod: "/product.api.product.v1.CategoryService/GetCategory",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CategoryServiceServer).GetCategory(ctx, req.(*GetCategoryRequest))
@@ -170,7 +170,7 @@ func _CategoryService_CreateCategory_Handler(srv interface{}, ctx context.Contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/brand.api.v1.CategoryService/CreateCategory",
+		FullMethod: "/product.api.product.v1.CategoryService/CreateCategory",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CategoryServiceServer).CreateCategory(ctx, req.(*CreateCategoryRequest))
@@ -188,7 +188,7 @@ func _CategoryService_UpdateCategory_Handler(srv interface{}, ctx context.Contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/brand.api.v1.CategoryService/UpdateCategory",
+		FullMethod: "/product.api.product.v1.CategoryService/UpdateCategory",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CategoryServiceServer).UpdateCategory(ctx, req.(*UpdateCategoryRequest))
@@ -206,7 +206,7 @@ func _CategoryService_DeleteCategory_Handler(srv interface{}, ctx context.Contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/brand.api.v1.CategoryService/DeleteCategory",
+		FullMethod: "/product.api.product.v1.CategoryService/DeleteCategory",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CategoryServiceServer).DeleteCategory(ctx, req.(*DeleteCategoryRequest))
@@ -218,7 +218,7 @@ func _CategoryService_DeleteCategory_Handler(srv interface{}, ctx context.Contex
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var CategoryService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "brand.api.v1.CategoryService",
+	ServiceName: "product.api.product.v1.CategoryService",
 	HandlerType: (*CategoryServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

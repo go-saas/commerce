@@ -39,7 +39,7 @@ func NewBrandServiceClient(cc grpc.ClientConnInterface) BrandServiceClient {
 
 func (c *brandServiceClient) ListBrand(ctx context.Context, in *ListBrandRequest, opts ...grpc.CallOption) (*ListBrandReply, error) {
 	out := new(ListBrandReply)
-	err := c.cc.Invoke(ctx, "/brand.api.v1.BrandService/ListBrand", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.api.product.v1.BrandService/ListBrand", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func (c *brandServiceClient) ListBrand(ctx context.Context, in *ListBrandRequest
 
 func (c *brandServiceClient) GetBrand(ctx context.Context, in *GetBrandRequest, opts ...grpc.CallOption) (*Brand, error) {
 	out := new(Brand)
-	err := c.cc.Invoke(ctx, "/brand.api.v1.BrandService/GetBrand", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.api.product.v1.BrandService/GetBrand", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +57,7 @@ func (c *brandServiceClient) GetBrand(ctx context.Context, in *GetBrandRequest, 
 
 func (c *brandServiceClient) CreateBrand(ctx context.Context, in *CreateBrandRequest, opts ...grpc.CallOption) (*Brand, error) {
 	out := new(Brand)
-	err := c.cc.Invoke(ctx, "/brand.api.v1.BrandService/CreateBrand", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.api.product.v1.BrandService/CreateBrand", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +66,7 @@ func (c *brandServiceClient) CreateBrand(ctx context.Context, in *CreateBrandReq
 
 func (c *brandServiceClient) UpdateBrand(ctx context.Context, in *UpdateBrandRequest, opts ...grpc.CallOption) (*Brand, error) {
 	out := new(Brand)
-	err := c.cc.Invoke(ctx, "/brand.api.v1.BrandService/UpdateBrand", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.api.product.v1.BrandService/UpdateBrand", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func (c *brandServiceClient) UpdateBrand(ctx context.Context, in *UpdateBrandReq
 
 func (c *brandServiceClient) DeleteBrand(ctx context.Context, in *DeleteBrandRequest, opts ...grpc.CallOption) (*DeleteBrandReply, error) {
 	out := new(DeleteBrandReply)
-	err := c.cc.Invoke(ctx, "/brand.api.v1.BrandService/DeleteBrand", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.api.product.v1.BrandService/DeleteBrand", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +134,7 @@ func _BrandService_ListBrand_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/brand.api.v1.BrandService/ListBrand",
+		FullMethod: "/product.api.product.v1.BrandService/ListBrand",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BrandServiceServer).ListBrand(ctx, req.(*ListBrandRequest))
@@ -152,7 +152,7 @@ func _BrandService_GetBrand_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/brand.api.v1.BrandService/GetBrand",
+		FullMethod: "/product.api.product.v1.BrandService/GetBrand",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BrandServiceServer).GetBrand(ctx, req.(*GetBrandRequest))
@@ -170,7 +170,7 @@ func _BrandService_CreateBrand_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/brand.api.v1.BrandService/CreateBrand",
+		FullMethod: "/product.api.product.v1.BrandService/CreateBrand",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BrandServiceServer).CreateBrand(ctx, req.(*CreateBrandRequest))
@@ -188,7 +188,7 @@ func _BrandService_UpdateBrand_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/brand.api.v1.BrandService/UpdateBrand",
+		FullMethod: "/product.api.product.v1.BrandService/UpdateBrand",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BrandServiceServer).UpdateBrand(ctx, req.(*UpdateBrandRequest))
@@ -206,7 +206,7 @@ func _BrandService_DeleteBrand_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/brand.api.v1.BrandService/DeleteBrand",
+		FullMethod: "/product.api.product.v1.BrandService/DeleteBrand",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BrandServiceServer).DeleteBrand(ctx, req.(*DeleteBrandRequest))
@@ -218,7 +218,7 @@ func _BrandService_DeleteBrand_Handler(srv interface{}, ctx context.Context, dec
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var BrandService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "brand.api.v1.BrandService",
+	ServiceName: "product.api.product.v1.BrandService",
 	HandlerType: (*BrandServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

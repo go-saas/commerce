@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package brand.api.v1;
+package product.api.product.v1;
 
 import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
@@ -9,7 +9,7 @@ import "google/api/field_behavior.proto";
 import "validate/validate.proto";
 import "query/operation.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
-option go_package = "github.com/go-saas/commerce/category/api/category/v1;v1";
+option go_package = "github.com/go-saas/commerce/product/api/product/v1;v1";
 
 
 service CategoryService {

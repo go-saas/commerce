@@ -23,8 +23,8 @@ type Product struct {
 	Desc      string       `gorm:"comment:商品描述"`
 	Content   data.JSONMap `gorm:"comment:描述页面内容"`
 
-	MainPic Media   `gorm:"polymorphic:Owner;polymorphicValue:product"`
-	Medias  []Media `gorm:"polymorphic:Owner;polymorphicValue:product"`
+	MainPic ProductMedia   `gorm:"polymorphic:Owner;polymorphicValue:product"`
+	Medias  []ProductMedia `gorm:"polymorphic:Owner;polymorphicValue:product"`
 
 	Badges []Badge `gorm:"comment:商品徽章"`
 
@@ -33,9 +33,11 @@ type Product struct {
 
 	IsNew bool
 
-	Categories     []Category `gorm:"many2many:product_categories;"`
+	Categories     []ProductCategory `gorm:"many2many:product_categories;"`
 	MainCategoryID *string
-	MainCategory   *Category `gorm:"foreignKey:MainCategoryID;comment:商品主要分类"`
+	MainCategory   *ProductCategory `gorm:"foreignKey:MainCategoryID;comment:商品主要分类"`
+
+	Keyword []KeyWord `gorm:"polymorphic:Owner;polymorphicValue:product;comment:商品关键字"`
 
 	Barcode string `gorm:"comment:商品条码"`
 	Model   string `gorm:"comment:商品型号"`
@@ -43,7 +45,7 @@ type Product struct {
 	BrandId *string
 	Brand   *Brand
 
-	Saleable
+	price.Saleable
 
 	IsGiveaway bool `gorm:"comment:是否赠品"`
 
@@ -60,8 +62,8 @@ type Product struct {
 	Sku []ProductSku
 }
 
-type Media struct {
-	kitgorm.UIDBase
+type ProductMedia struct {
+	ID string `gorm:"primaryKey;size:128"`
 
 	OwnerID string
 	// OwnerType product/product_sku
@@ -86,48 +88,29 @@ type Badge struct {
 
 type KeyWord struct {
 	kitgorm.UIDBase
-	ProductId string
-	Product   *Product
+	OwnerID string
+	// OwnerType product/product_sku
+	OwnerType string
 
 	Text  string
 	Refer string
 }
 
-// Category represents some Teaser infos for Category
-type Category struct {
-	// Code the identifier of the Category
+// ProductCategory represents some Teaser infos for ProductCategory
+type ProductCategory struct {
+	// Code the identifier of the ProductCategory
 	Code string `gorm:"primaryKey;size:128"`
-	// The Path (root to leaf) for this Category - separated by "/"
+	// The Path (root to leaf) for this ProductCategory - separated by "/"
 	Path string
 	// Name is the speaking name of the category
 	Name     string
 	ParentID *string
 	// Parent is an optional link to parent teaser
-	Parent *Category `gorm:"foreignKey:ParentID;references:code"`
+	Parent *ProductCategory `gorm:"foreignKey:ParentID;references:code"`
 }
 
 type ProductRepo interface {
 	data.Repo[Product, string, v1.ListProductRequest]
-}
-
-// Saleable embed struct for saleable item
-type Saleable struct {
-	IsSaleable   bool
-	SaleableFrom *time.Time
-	SaleableTo   *time.Time
-
-	Keyword []KeyWord `gorm:"comment:商品关键字"`
-
-	Price PriceInfo `gorm:"embedded;embeddedPrefix:price_"`
-}
-
-// PriceInfo embed struct for holding price info
-type PriceInfo struct {
-	Default      price.Price `gorm:"embedded;embeddedPrefix:default_"`
-	Discounted   price.Price `gorm:"embedded;embeddedPrefix:discounted_"`
-	DiscountText string
-
-	DenyMoreDiscounts bool
 }
 
 type CampaignRule struct {

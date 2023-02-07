@@ -1,18 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "product/api/product/v1/product.proto",
+    "title": "ticketing/api/location/v1/location.proto",
     "version": "version not set"
   },
   "tags": [
     {
-      "name": "ProductService"
-    },
-    {
-      "name": "BrandService"
-    },
-    {
-      "name": "CategoryService"
+      "name": "LocationService"
     }
   ],
   "consumes": [
@@ -22,14 +16,14 @@
     "application/json"
   ],
   "paths": {
-    "/v1/product/brand": {
+    "/v1/ticketing/location": {
       "post": {
-        "operationId": "BrandService_CreateBrand",
+        "operationId": "LocationService_CreateLocation",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1Brand"
+              "$ref": "#/definitions/locationv1Location"
             }
           },
           "default": {
@@ -45,23 +39,23 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1CreateBrandRequest"
+              "$ref": "#/definitions/v1CreateLocationRequest"
             }
           }
         ],
         "tags": [
-          "BrandService"
+          "LocationService"
         ]
       }
     },
-    "/v1/product/brand/list": {
+    "/v1/ticketing/location/list": {
       "post": {
-        "operationId": "BrandService_ListBrand2",
+        "operationId": "LocationService_ListLocation2",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListBrandReply"
+              "$ref": "#/definitions/v1ListLocationReply"
             }
           },
           "default": {
@@ -77,97 +71,23 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1ListBrandRequest"
+              "$ref": "#/definitions/v1ListLocationRequest"
             }
           }
         ],
         "tags": [
-          "BrandService"
+          "LocationService"
         ]
       }
     },
-    "/v1/product/brand/{brand.id}": {
-      "put": {
-        "operationId": "BrandService_UpdateBrand",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1Brand"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "brand.id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1UpdateBrandRequest"
-            }
-          }
-        ],
-        "tags": [
-          "BrandService"
-        ]
-      },
-      "patch": {
-        "operationId": "BrandService_UpdateBrand2",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1Brand"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "brand.id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1UpdateBrandRequest"
-            }
-          }
-        ],
-        "tags": [
-          "BrandService"
-        ]
-      }
-    },
-    "/v1/product/brand/{id}": {
+    "/v1/ticketing/location/{id}": {
       "get": {
-        "operationId": "BrandService_GetBrand",
+        "operationId": "LocationService_GetLocation",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1Brand"
+              "$ref": "#/definitions/locationv1Location"
             }
           },
           "default": {
@@ -186,16 +106,16 @@
           }
         ],
         "tags": [
-          "BrandService"
+          "LocationService"
         ]
       },
       "delete": {
-        "operationId": "BrandService_DeleteBrand",
+        "operationId": "LocationService_DeleteLocation",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1DeleteBrandReply"
+              "$ref": "#/definitions/v1DeleteLocationReply"
             }
           },
           "default": {
@@ -214,570 +134,18 @@
           }
         ],
         "tags": [
-          "BrandService"
+          "LocationService"
         ]
       }
     },
-    "/v1/product/brands": {
-      "get": {
-        "operationId": "BrandService_ListBrand",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1ListBrandReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "pageOffset",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "search",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$eq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$neq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$contains",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$starts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$nstarts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$ends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$nends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$in",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.id.$nin",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.id.$null",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$nnull",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$empty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$nempty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$like",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$eq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$neq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$contains",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$starts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$nstarts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$ends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$nends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$in",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.code.$nin",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.code.$null",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.code.$nnull",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.code.$empty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.code.$nempty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.code.$like",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "BrandService"
-        ]
-      }
-    },
-    "/v1/product/categories": {
-      "get": {
-        "operationId": "CategoryService_ListCategory",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1ListCategoryReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "pageOffset",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "search",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$eq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$neq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$contains",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$starts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$nstarts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$ends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$nends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$in",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.id.$nin",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.id.$null",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$nnull",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$empty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$nempty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$like",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$eq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$neq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$contains",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$starts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$nstarts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$ends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$nends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$in",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.code.$nin",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.code.$null",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.code.$nnull",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.code.$empty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.code.$nempty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.code.$like",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "CategoryService"
-        ]
-      }
-    },
-    "/v1/product/category": {
-      "post": {
-        "operationId": "CategoryService_CreateCategory",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1Category"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1CreateCategoryRequest"
-            }
-          }
-        ],
-        "tags": [
-          "CategoryService"
-        ]
-      }
-    },
-    "/v1/product/category/list": {
-      "post": {
-        "operationId": "CategoryService_ListCategory2",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1ListCategoryReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1ListCategoryRequest"
-            }
-          }
-        ],
-        "tags": [
-          "CategoryService"
-        ]
-      }
-    },
-    "/v1/product/category/{category.id}": {
+    "/v1/ticketing/location/{location.id}": {
       "put": {
-        "operationId": "CategoryService_UpdateCategory",
+        "operationId": "LocationService_UpdateLocation",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1Category"
+              "$ref": "#/definitions/locationv1Location"
             }
           },
           "default": {
@@ -789,7 +157,7 @@
         },
         "parameters": [
           {
-            "name": "category.id",
+            "name": "location.id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -799,21 +167,21 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateCategoryRequest"
+              "$ref": "#/definitions/v1UpdateLocationRequest"
             }
           }
         ],
         "tags": [
-          "CategoryService"
+          "LocationService"
         ]
       },
       "patch": {
-        "operationId": "CategoryService_UpdateCategory2",
+        "operationId": "LocationService_UpdateLocation2",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1Category"
+              "$ref": "#/definitions/locationv1Location"
             }
           },
           "default": {
@@ -825,7 +193,7 @@
         },
         "parameters": [
           {
-            "name": "category.id",
+            "name": "location.id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -835,277 +203,23 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateCategoryRequest"
+              "$ref": "#/definitions/v1UpdateLocationRequest"
             }
           }
         ],
         "tags": [
-          "CategoryService"
+          "LocationService"
         ]
       }
     },
-    "/v1/product/category/{id}": {
+    "/v1/ticketing/locations": {
       "get": {
-        "operationId": "CategoryService_GetCategory",
+        "operationId": "LocationService_ListLocation",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1Category"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "CategoryService"
-        ]
-      },
-      "delete": {
-        "operationId": "CategoryService_DeleteCategory",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1DeleteCategoryReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "CategoryService"
-        ]
-      }
-    },
-    "/v1/product/product": {
-      "post": {
-        "operationId": "ProductService_CreateProduct",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1Product"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1CreateProductRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ProductService"
-        ]
-      }
-    },
-    "/v1/product/product/list": {
-      "post": {
-        "operationId": "ProductService_ListProduct2",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1ListProductReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1ListProductRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ProductService"
-        ]
-      }
-    },
-    "/v1/product/product/{id}": {
-      "get": {
-        "operationId": "ProductService_GetProduct",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1Product"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "ProductService"
-        ]
-      },
-      "delete": {
-        "operationId": "ProductService_DeleteProduct",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1DeleteProductReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "ProductService"
-        ]
-      }
-    },
-    "/v1/product/product/{product.id}": {
-      "put": {
-        "operationId": "ProductService_UpdateProduct",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1Product"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "product.id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1UpdateProductRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ProductService"
-        ]
-      },
-      "patch": {
-        "operationId": "ProductService_UpdateProduct2",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1Product"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "product.id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1UpdateProductRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ProductService"
-        ]
-      }
-    },
-    "/v1/product/products": {
-      "get": {
-        "operationId": "ProductService_ListProduct",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1ListProductReply"
+              "$ref": "#/definitions/v1ListLocationReply"
             }
           },
           "default": {
@@ -1338,7 +452,7 @@
           }
         ],
         "tags": [
-          "ProductService"
+          "LocationService"
         ]
       }
     }
@@ -1359,6 +473,21 @@
           "items": {
             "$ref": "#/definitions/protobufAny"
           }
+        }
+      }
+    },
+    "locationv1Location": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     },
@@ -1436,284 +565,21 @@
       },
       "additionalProperties": {}
     },
-    "protobufNullValue": {
-      "type": "string",
-      "enum": [
-        "NULL_VALUE"
-      ],
-      "default": "NULL_VALUE",
-      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\n The JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
-    },
-    "v1Badge": {
+    "v1CreateLocationRequest": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string"
-        },
-        "code": {
-          "type": "string"
-        },
-        "label": {
-          "type": "string"
-        }
-      }
-    },
-    "v1Brand": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "code": {
-          "type": "string"
-        },
         "name": {
-          "type": "string"
-        },
-        "logo": {
-          "type": "string"
-        },
-        "url": {
-          "type": "string"
-        },
-        "desc": {
-          "type": "string"
-        }
-      }
-    },
-    "v1BrandFilter": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "$ref": "#/definitions/operationStringFilterOperation"
-        },
-        "code": {
-          "$ref": "#/definitions/operationStringFilterOperation"
-        }
-      }
-    },
-    "v1CampaignRule": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "rule": {
-          "type": "string"
-        },
-        "extra": {
-          "type": "object"
-        }
-      }
-    },
-    "v1Category": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "code": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "logo": {
-          "type": "string"
-        },
-        "parentId": {
-          "type": "string"
-        },
-        "path": {
-          "type": "string"
-        }
-      }
-    },
-    "v1CategoryFilter": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "$ref": "#/definitions/operationStringFilterOperation"
-        },
-        "code": {
-          "$ref": "#/definitions/operationStringFilterOperation"
-        }
-      }
-    },
-    "v1CreateBrandRequest": {
-      "type": "object",
-      "properties": {
-        "code": {
           "type": "string",
           "required": [
-            "code"
+            "name"
           ]
-        },
-        "name": {
-          "type": "string"
-        },
-        "logo": {
-          "type": "string"
-        },
-        "url": {
-          "type": "string"
-        },
-        "desc": {
-          "type": "string"
         }
       },
       "required": [
-        "code"
+        "name"
       ]
     },
-    "v1CreateCategoryRequest": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "type": "string",
-          "required": [
-            "code"
-          ]
-        },
-        "name": {
-          "type": "string"
-        },
-        "logo": {
-          "type": "string"
-        },
-        "parentId": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "code"
-      ]
-    },
-    "v1CreateProductRequest": {
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string",
-          "required": [
-            "title"
-          ]
-        },
-        "shortDesc": {
-          "type": "string"
-        },
-        "desc": {
-          "type": "string"
-        },
-        "mainPic": {
-          "$ref": "#/definitions/v1Media"
-        },
-        "medias": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1Media"
-          }
-        },
-        "badges": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1Badge"
-          }
-        },
-        "visibleFrom": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "visibleTo": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "isNew": {
-          "type": "boolean"
-        },
-        "mainCategoryId": {
-          "type": "string"
-        },
-        "categories": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "barcode": {
-          "type": "string"
-        },
-        "model": {
-          "type": "string"
-        },
-        "brandId": {
-          "type": "string"
-        },
-        "isSaleable": {
-          "type": "boolean"
-        },
-        "saleableFrom": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "saleableTo": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "keyword": {
-          "$ref": "#/definitions/v1Keyword"
-        },
-        "price": {
-          "$ref": "#/definitions/v1Price"
-        },
-        "isGiveaway": {
-          "type": "boolean"
-        },
-        "multiSku": {
-          "type": "boolean"
-        },
-        "campaignRules": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1CampaignRule"
-          }
-        },
-        "needShipping": {
-          "type": "boolean"
-        },
-        "stock": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1Stock"
-          }
-        }
-      },
-      "required": [
-        "title"
-      ]
-    },
-    "v1DeleteBrandReply": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "code": {
-          "type": "string"
-        }
-      }
-    },
-    "v1DeleteCategoryReply": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "code": {
-          "type": "string"
-        }
-      }
-    },
-    "v1DeleteProductReply": {
+    "v1DeleteLocationReply": {
       "type": "object",
       "properties": {
         "id": {
@@ -1724,21 +590,7 @@
         }
       }
     },
-    "v1Keyword": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "text": {
-          "type": "string"
-        },
-        "refer": {
-          "type": "string"
-        }
-      }
-    },
-    "v1ListBrandReply": {
+    "v1ListLocationReply": {
       "type": "object",
       "properties": {
         "totalSize": {
@@ -1752,12 +604,12 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/v1Brand"
+            "$ref": "#/definitions/locationv1Location"
           }
         }
       }
     },
-    "v1ListBrandRequest": {
+    "v1ListLocationRequest": {
       "type": "object",
       "properties": {
         "pageOffset": {
@@ -1781,156 +633,11 @@
           "type": "string"
         },
         "filter": {
-          "$ref": "#/definitions/v1BrandFilter"
+          "$ref": "#/definitions/v1LocationFilter"
         }
       }
     },
-    "v1ListCategoryReply": {
-      "type": "object",
-      "properties": {
-        "totalSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "filterSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1Category"
-          }
-        }
-      }
-    },
-    "v1ListCategoryRequest": {
-      "type": "object",
-      "properties": {
-        "pageOffset": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "pageSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "search": {
-          "type": "string"
-        },
-        "sort": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "fields": {
-          "type": "string"
-        },
-        "filter": {
-          "$ref": "#/definitions/v1CategoryFilter"
-        }
-      }
-    },
-    "v1ListProductReply": {
-      "type": "object",
-      "properties": {
-        "totalSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "filterSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1Product"
-          }
-        }
-      }
-    },
-    "v1ListProductRequest": {
-      "type": "object",
-      "properties": {
-        "pageOffset": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "pageSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "search": {
-          "type": "string"
-        },
-        "sort": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "fields": {
-          "type": "string"
-        },
-        "filter": {
-          "$ref": "#/definitions/v1ProductFilter"
-        }
-      }
-    },
-    "v1Media": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "type": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        }
-      }
-    },
-    "v1Price": {
-      "type": "object",
-      "properties": {
-        "currencyCode": {
-          "type": "string"
-        },
-        "defaultAmount": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "discountedAmount": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "discountText": {
-          "type": "string"
-        },
-        "denyMoreDiscounts": {
-          "type": "boolean"
-        }
-      }
-    },
-    "v1Product": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
-    "v1ProductFilter": {
+    "v1LocationFilter": {
       "type": "object",
       "properties": {
         "id": {
@@ -1941,109 +648,7 @@
         }
       }
     },
-    "v1Stock": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "inStock": {
-          "type": "boolean"
-        },
-        "level": {
-          "type": "string"
-        },
-        "amount": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "deliveryCode": {
-          "type": "string"
-        }
-      }
-    },
-    "v1UpdateBrand": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
-        },
-        "code": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "logo": {
-          "type": "string"
-        },
-        "url": {
-          "type": "string"
-        },
-        "desc": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "id"
-      ]
-    },
-    "v1UpdateBrandRequest": {
-      "type": "object",
-      "properties": {
-        "brand": {
-          "$ref": "#/definitions/v1UpdateBrand"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
-    },
-    "v1UpdateCategory": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
-        },
-        "code": {
-          "type": "string",
-          "required": [
-            "code"
-          ]
-        },
-        "name": {
-          "type": "string"
-        },
-        "logo": {
-          "type": "string"
-        },
-        "parentId": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "id",
-        "code"
-      ]
-    },
-    "v1UpdateCategoryRequest": {
-      "type": "object",
-      "properties": {
-        "category": {
-          "$ref": "#/definitions/v1UpdateCategory"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
-    },
-    "v1UpdateProduct": {
+    "v1UpdateLocation": {
       "type": "object",
       "properties": {
         "id": {
@@ -2060,11 +665,11 @@
         "id"
       ]
     },
-    "v1UpdateProductRequest": {
+    "v1UpdateLocationRequest": {
       "type": "object",
       "properties": {
-        "product": {
-          "$ref": "#/definitions/v1UpdateProduct"
+        "location": {
+          "$ref": "#/definitions/v1UpdateLocation"
         },
         "updateMask": {
           "type": "string"

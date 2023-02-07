@@ -39,7 +39,7 @@ func NewProductServiceClient(cc grpc.ClientConnInterface) ProductServiceClient {
 
 func (c *productServiceClient) ListProduct(ctx context.Context, in *ListProductRequest, opts ...grpc.CallOption) (*ListProductReply, error) {
 	out := new(ListProductReply)
-	err := c.cc.Invoke(ctx, "/brand.api.v1.ProductService/ListProduct", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.api.product.v1.ProductService/ListProduct", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func (c *productServiceClient) ListProduct(ctx context.Context, in *ListProductR
 
 func (c *productServiceClient) GetProduct(ctx context.Context, in *GetProductRequest, opts ...grpc.CallOption) (*Product, error) {
 	out := new(Product)
-	err := c.cc.Invoke(ctx, "/brand.api.v1.ProductService/GetProduct", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.api.product.v1.ProductService/GetProduct", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +57,7 @@ func (c *productServiceClient) GetProduct(ctx context.Context, in *GetProductReq
 
 func (c *productServiceClient) CreateProduct(ctx context.Context, in *CreateProductRequest, opts ...grpc.CallOption) (*Product, error) {
 	out := new(Product)
-	err := c.cc.Invoke(ctx, "/brand.api.v1.ProductService/CreateProduct", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.api.product.v1.ProductService/CreateProduct", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +66,7 @@ func (c *productServiceClient) CreateProduct(ctx context.Context, in *CreateProd
 
 func (c *productServiceClient) UpdateProduct(ctx context.Context, in *UpdateProductRequest, opts ...grpc.CallOption) (*Product, error) {
 	out := new(Product)
-	err := c.cc.Invoke(ctx, "/brand.api.v1.ProductService/UpdateProduct", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.api.product.v1.ProductService/UpdateProduct", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func (c *productServiceClient) UpdateProduct(ctx context.Context, in *UpdateProd
 
 func (c *productServiceClient) DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*DeleteProductReply, error) {
 	out := new(DeleteProductReply)
-	err := c.cc.Invoke(ctx, "/brand.api.v1.ProductService/DeleteProduct", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/product.api.product.v1.ProductService/DeleteProduct", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +134,7 @@ func _ProductService_ListProduct_Handler(srv interface{}, ctx context.Context, d
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/brand.api.v1.ProductService/ListProduct",
+		FullMethod: "/product.api.product.v1.ProductService/ListProduct",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProductServiceServer).ListProduct(ctx, req.(*ListProductRequest))
@@ -152,7 +152,7 @@ func _ProductService_GetProduct_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/brand.api.v1.ProductService/GetProduct",
+		FullMethod: "/product.api.product.v1.ProductService/GetProduct",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProductServiceServer).GetProduct(ctx, req.(*GetProductRequest))
@@ -170,7 +170,7 @@ func _ProductService_CreateProduct_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/brand.api.v1.ProductService/CreateProduct",
+		FullMethod: "/product.api.product.v1.ProductService/CreateProduct",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProductServiceServer).CreateProduct(ctx, req.(*CreateProductRequest))
@@ -188,7 +188,7 @@ func _ProductService_UpdateProduct_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/brand.api.v1.ProductService/UpdateProduct",
+		FullMethod: "/product.api.product.v1.ProductService/UpdateProduct",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProductServiceServer).UpdateProduct(ctx, req.(*UpdateProductRequest))
@@ -206,7 +206,7 @@ func _ProductService_DeleteProduct_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/brand.api.v1.ProductService/DeleteProduct",
+		FullMethod: "/product.api.product.v1.ProductService/DeleteProduct",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProductServiceServer).DeleteProduct(ctx, req.(*DeleteProductRequest))
@@ -218,7 +218,7 @@ func _ProductService_DeleteProduct_Handler(srv interface{}, ctx context.Context,
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ProductService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "brand.api.v1.ProductService",
+	ServiceName: "product.api.product.v1.ProductService",
 	HandlerType: (*ProductServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

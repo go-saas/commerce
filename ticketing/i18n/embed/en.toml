@@ -1,0 +1,6 @@
+[permission.ticketing.post.group]
+other = "Post"
+[permission.ticketing.post.read]
+other = "Read Post"
+[permission.ticketing.post.write]
+other = "Write Post"

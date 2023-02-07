@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package brand.api.v1;
+package product.api.product.v1;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/struct.proto";

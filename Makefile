@@ -25,6 +25,7 @@ api:
 	buf generate --path ./order --template ./order/buf.gen.yaml
 	buf generate --path ./payment --template ./payment/buf.gen.yaml
 	buf generate --path ./product --template ./product/buf.gen.yaml
+	buf generate --path ./ticketing --template ./ticketing/buf.gen.yaml
 	buf generate
 
 .PHONY: build
@@ -34,6 +35,7 @@ build:
 	cd order && mkdir -p bin/ && go build -ldflags "-X main.Version=$(VERSION)" -o ./bin/ ./...
 	cd payment && mkdir -p bin/ && go build -ldflags "-X main.Version=$(VERSION)" -o ./bin/ ./...
 	cd product && mkdir -p bin/ && go build -ldflags "-X main.Version=$(VERSION)" -o ./bin/ ./...
+	cd ticketing && mkdir -p bin/ && go build -ldflags "-X main.Version=$(VERSION)" -o ./bin/ ./...
 
 .PHONY: all
 # generate all

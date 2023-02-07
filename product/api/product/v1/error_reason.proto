@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package product.post.v1;
+package product.api.product.v1;
 import "errors/errors.proto";
 
-option go_package = "github.com/go-saas/commerce/product/api/post/v1;v1";
+option go_package = "github.com/go-saas/commerce/product/api/product/v1;v1";
 
 enum ErrorReason {
   option (errors.default_code) = 500;

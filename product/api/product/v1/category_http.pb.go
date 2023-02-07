@@ -19,11 +19,11 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationCategoryServiceCreateCategory = "/brand.api.v1.CategoryService/CreateCategory"
-const OperationCategoryServiceDeleteCategory = "/brand.api.v1.CategoryService/DeleteCategory"
-const OperationCategoryServiceGetCategory = "/brand.api.v1.CategoryService/GetCategory"
-const OperationCategoryServiceListCategory = "/brand.api.v1.CategoryService/ListCategory"
-const OperationCategoryServiceUpdateCategory = "/brand.api.v1.CategoryService/UpdateCategory"
+const OperationCategoryServiceCreateCategory = "/product.api.product.v1.CategoryService/CreateCategory"
+const OperationCategoryServiceDeleteCategory = "/product.api.product.v1.CategoryService/DeleteCategory"
+const OperationCategoryServiceGetCategory = "/product.api.product.v1.CategoryService/GetCategory"
+const OperationCategoryServiceListCategory = "/product.api.product.v1.CategoryService/ListCategory"
+const OperationCategoryServiceUpdateCategory = "/product.api.product.v1.CategoryService/UpdateCategory"
 
 type CategoryServiceHTTPServer interface {
 	CreateCategory(context.Context, *CreateCategoryRequest) (*Category, error)
