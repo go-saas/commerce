@@ -42,3 +42,15 @@ func (c *locationServiceClientProxy) UpdateLocation(ctx context.Context, in *Upd
 func (c *locationServiceClientProxy) DeleteLocation(ctx context.Context, in *DeleteLocationRequest) (*DeleteLocationReply, error) {
 	return c.cc.DeleteLocation(ctx, in)
 }
+func (c *locationServiceClientProxy) GetLocationHalls(ctx context.Context, in *GetLocationHallsRequest) (*GetLocationHallsReply, error) {
+	return c.cc.GetLocationHalls(ctx, in)
+}
+func (c *locationServiceClientProxy) CreateLocationHall(ctx context.Context, in *CreateLocationHallRequest) (*CreateLocationHallReply, error) {
+	return c.cc.CreateLocationHall(ctx, in)
+}
+func (c *locationServiceClientProxy) UpdateLocationHall(ctx context.Context, in *UpdateLocationHallRequest) (*UpdateLocationHallReply, error) {
+	return c.cc.UpdateLocationHall(ctx, in)
+}
+func (c *locationServiceClientProxy) DeleteLocationHall(ctx context.Context, in *DeleteLocationHallRequest) (*DeleteLocationHallReply, error) {
+	return c.cc.DeleteLocationHall(ctx, in)
+}

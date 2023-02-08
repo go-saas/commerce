@@ -36,7 +36,7 @@ type OrderServiceHTTPServer interface {
 func RegisterOrderServiceHTTPServer(s *http.Server, srv OrderServiceHTTPServer) {
 	r := s.Route("/")
 	r.POST("/v1/order/order/list", _OrderService_ListOrder0_HTTP_Handler(srv))
-	r.GET("/v1/order/orders", _OrderService_ListOrder1_HTTP_Handler(srv))
+	r.GET("/v1/order/order", _OrderService_ListOrder1_HTTP_Handler(srv))
 	r.GET("/v1/order/order/{id}", _OrderService_GetOrder0_HTTP_Handler(srv))
 	r.POST("/v1/order/order", _OrderService_CreateOrder0_HTTP_Handler(srv))
 	r.PATCH("/v1/order/order/{order.id}", _OrderService_UpdateOrder0_HTTP_Handler(srv))
@@ -246,7 +246,7 @@ func (c *OrderServiceHTTPClientImpl) GetOrder(ctx context.Context, in *GetOrderR
 
 func (c *OrderServiceHTTPClientImpl) ListOrder(ctx context.Context, in *ListOrderRequest, opts ...http.CallOption) (*ListOrderReply, error) {
 	var out ListOrderReply
-	pattern := "/v1/order/orders"
+	pattern := "/v1/order/order"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationOrderServiceListOrder))
 	opts = append(opts, http.PathTemplate(pattern))

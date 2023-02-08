@@ -5,10 +5,13 @@ package ticketing.api.location.v1;
 import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/struct.proto";
 import "google/api/field_behavior.proto";
 import "validate/validate.proto";
 import "query/operation.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
+import "lbs/address.proto";
+
 option go_package = "github.com/go-saas/commerce/ticketing/api/location/v1;v1";
 
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
@@ -31,26 +34,30 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 };
 
 service LocationService {
+
   rpc ListLocation (ListLocationRequest) returns (ListLocationReply){
     option (google.api.http) = {
-      get: "/v1/ticketing/locations",
+      get: "/v1/ticketing/location",
       additional_bindings:{
         post:"/v1/ticketing/location/list",
         body:"*"
       }
     };
   }
+
   rpc GetLocation (GetLocationRequest) returns (Location){
     option (google.api.http) = {
       get: "/v1/ticketing/location/{id}"
     };
   }
+
   rpc CreateLocation (CreateLocationRequest) returns (Location){
     option (google.api.http) = {
       post: "/v1/ticketing/location",
       body: "*"
     };
   }
+
   rpc UpdateLocation (UpdateLocationRequest) returns (Location){
     option (google.api.http) = {
       put: "/v1/ticketing/location/{location.id}",
@@ -61,16 +68,77 @@ service LocationService {
       }
     };
   }
+
   rpc DeleteLocation (DeleteLocationRequest) returns (DeleteLocationReply){
     option (google.api.http) = {
       delete: "/v1/ticketing/location/{id}"
     };
   }
 
+
+  rpc GetLocationHalls(GetLocationHallsRequest)returns(GetLocationHallsReply){
+    option (google.api.http) = {
+      get: "/v1/ticketing/location/{id}/hall"
+      additional_bindings:{
+        post:"/v1/ticketing/location/{id}/hall/list",
+        body:"*"
+      }
+    };
+  }
+
+  rpc CreateLocationHall(CreateLocationHallRequest)returns(CreateLocationHallReply){
+    option (google.api.http) = {
+      post: "/v1/ticketing/location/{id}/hall"
+      body:"*"
+    };
+  }
+
+  rpc UpdateLocationHall(UpdateLocationHallRequest)returns(UpdateLocationHallReply){
+    option (google.api.http) = {
+      put: "/v1/ticketing/location/{id}/hall/{hall.id}",
+      body: "*"
+      additional_bindings{
+        patch: "/v1/ticketing/location/{id}/hall/{hall.id}",
+        body: "*"
+      }
+    };
+  }
+
+  rpc DeleteLocationHall(DeleteLocationHallRequest)returns(DeleteLocationHallReply){
+    option (google.api.http) = {
+      delete: "/v1/ticketing/location/{id}/hall/{hall_id}"
+    };
+  }
+
 }
 
 message CreateLocationRequest {
-  string name =1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+  string name =10 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+  string logo =11;
+  repeated TicketingMedia medias=12;
+  string desc=13;
+  string short_desc=14;
+  google.protobuf.Struct content=15;
+
+  .lbs.Address address=16;
+
+  string legal_docs=17;
+
+  ContactInfo public_contact=18;
+
+}
+
+message ContactInfo{
+  string phone=1;
+  string email=2;
+}
+
+message TicketingMedia{
+  string id =1;
+  string type=2;
+  string mime_type=3;
+  string title=4;
+  string url=5;
 }
 
 message UpdateLocationRequest {
@@ -80,7 +148,20 @@ message UpdateLocationRequest {
 
 message UpdateLocation{
   string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
-  string name=2;
+
+  string name =10 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+  TicketingMedia logo =11;
+  repeated TicketingMedia medias=12;
+  string desc=13;
+  string short_desc=14;
+  google.protobuf.Struct content=15;
+
+  .lbs.Address address=16;
+
+  TicketingMedia legal_docs=17;
+
+  ContactInfo public_contact=18;
+
 }
 
 
@@ -108,13 +189,105 @@ message ListLocationRequest {
   google.protobuf.FieldMask fields=5;
   LocationFilter filter =6;
 }
+
 message ListLocationReply {
   int32 total_size =1;
   int32 filter_size =2;
   repeated Location items=3;
 }
+
 message Location{
   string id=1;
+
+  string name =10 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+
+  TicketingMedia logo =11;
+  repeated TicketingMedia medias=12;
+  string desc=13;
+  string short_desc=14;
+  google.protobuf.Struct content=15;
+
+  .lbs.Address address=16;
+
+  TicketingMedia legal_docs=17;
+
+  ContactInfo public_contact=18;
+
+  int32 rating=19;
+}
+
+message LocationHall{
+  string  id=1;
   string name=2;
-  google.protobuf.Timestamp created_at =4;
+  string tags=3;
+  int32 capacity=4;
+  repeated SeatGroup seat_groups=6;
+}
+
+message SeatGroup{
+  string  id=1;
+  string name=2;
+  int32 seat_count=5;
+}
+
+message GetLocationHallsRequest{
+  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];
+}
+
+message GetLocationHallsReply{
+
+  repeated LocationHall halls=1;
+
+}
+
+message CreateLocationHallRequest{
+  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];
+
+  UpdateLocationHall hall=2;
+}
+
+message UpdateLocationHall{
+  string id=1;
+  string name=2;
+  string tags=3;
+  int32 capacity=4;
+
+  repeated UpdateSeatGroup seat_groups=6;
+
+  repeated Seat seats=7;
+}
+
+message UpdateSeatGroup{
+  string name=2;
+
+  repeated Seat seats=3;
+}
+
+message Seat{
+  string id=1;
+  int32 row=2;
+  int32 col=3;
+}
+
+message CreateLocationHallReply{
+
+}
+
+message UpdateLocationHallRequest{
+  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];
+
+  UpdateLocationHall hall=2;
+}
+
+message UpdateLocationHallReply{
+
+}
+
+message DeleteLocationHallRequest{
+  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];
+  string hall_id=2 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];
+}
+message DeleteLocationHallReply{
+  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];
+  string hall_id=2 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];
 }

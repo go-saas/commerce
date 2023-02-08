@@ -33,7 +33,7 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 service OrderService {
   rpc ListOrder (ListOrderRequest) returns (ListOrderReply){
     option (google.api.http) = {
-      get: "/v1/order/orders",
+      get: "/v1/order/order",
       additional_bindings:{
         post:"/v1/order/order/list",
         body:"*"

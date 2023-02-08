@@ -68,6 +68,135 @@ func (m *CreateLocationRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	// no validation rules for Logo
+
+	for idx, item := range m.GetMedias() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, CreateLocationRequestValidationError{
+						field:  fmt.Sprintf("Medias[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, CreateLocationRequestValidationError{
+						field:  fmt.Sprintf("Medias[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return CreateLocationRequestValidationError{
+					field:  fmt.Sprintf("Medias[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for Desc
+
+	// no validation rules for ShortDesc
+
+	if all {
+		switch v := interface{}(m.GetContent()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateLocationRequestValidationError{
+					field:  "Content",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateLocationRequestValidationError{
+					field:  "Content",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetContent()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateLocationRequestValidationError{
+				field:  "Content",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetAddress()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateLocationRequestValidationError{
+					field:  "Address",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateLocationRequestValidationError{
+					field:  "Address",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAddress()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateLocationRequestValidationError{
+				field:  "Address",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for LegalDocs
+
+	if all {
+		switch v := interface{}(m.GetPublicContact()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateLocationRequestValidationError{
+					field:  "PublicContact",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateLocationRequestValidationError{
+					field:  "PublicContact",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPublicContact()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateLocationRequestValidationError{
+				field:  "PublicContact",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
 		return CreateLocationRequestMultiError(errors)
 	}
@@ -147,6 +276,219 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = CreateLocationRequestValidationError{}
+
+// Validate checks the field values on ContactInfo with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *ContactInfo) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ContactInfo with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in ContactInfoMultiError, or
+// nil if none found.
+func (m *ContactInfo) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ContactInfo) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Phone
+
+	// no validation rules for Email
+
+	if len(errors) > 0 {
+		return ContactInfoMultiError(errors)
+	}
+
+	return nil
+}
+
+// ContactInfoMultiError is an error wrapping multiple validation errors
+// returned by ContactInfo.ValidateAll() if the designated constraints aren't met.
+type ContactInfoMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ContactInfoMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ContactInfoMultiError) AllErrors() []error { return m }
+
+// ContactInfoValidationError is the validation error returned by
+// ContactInfo.Validate if the designated constraints aren't met.
+type ContactInfoValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ContactInfoValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ContactInfoValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ContactInfoValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ContactInfoValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ContactInfoValidationError) ErrorName() string { return "ContactInfoValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ContactInfoValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sContactInfo.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ContactInfoValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ContactInfoValidationError{}
+
+// Validate checks the field values on TicketingMedia with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *TicketingMedia) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TicketingMedia with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in TicketingMediaMultiError,
+// or nil if none found.
+func (m *TicketingMedia) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TicketingMedia) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Type
+
+	// no validation rules for MimeType
+
+	// no validation rules for Title
+
+	// no validation rules for Url
+
+	if len(errors) > 0 {
+		return TicketingMediaMultiError(errors)
+	}
+
+	return nil
+}
+
+// TicketingMediaMultiError is an error wrapping multiple validation errors
+// returned by TicketingMedia.ValidateAll() if the designated constraints
+// aren't met.
+type TicketingMediaMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TicketingMediaMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TicketingMediaMultiError) AllErrors() []error { return m }
+
+// TicketingMediaValidationError is the validation error returned by
+// TicketingMedia.Validate if the designated constraints aren't met.
+type TicketingMediaValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e TicketingMediaValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e TicketingMediaValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e TicketingMediaValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e TicketingMediaValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e TicketingMediaValidationError) ErrorName() string { return "TicketingMediaValidationError" }
+
+// Error satisfies the builtin error interface
+func (e TicketingMediaValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sTicketingMedia.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = TicketingMediaValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = TicketingMediaValidationError{}
 
 // Validate checks the field values on UpdateLocationRequest with the rules
 // defined in the proto definition for this message. If any rules are
@@ -352,7 +694,199 @@ func (m *UpdateLocation) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	// no validation rules for Name
+	if utf8.RuneCountInString(m.GetName()) < 1 {
+		err := UpdateLocationValidationError{
+			field:  "Name",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetLogo()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateLocationValidationError{
+					field:  "Logo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateLocationValidationError{
+					field:  "Logo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLogo()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateLocationValidationError{
+				field:  "Logo",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	for idx, item := range m.GetMedias() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, UpdateLocationValidationError{
+						field:  fmt.Sprintf("Medias[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, UpdateLocationValidationError{
+						field:  fmt.Sprintf("Medias[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return UpdateLocationValidationError{
+					field:  fmt.Sprintf("Medias[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for Desc
+
+	// no validation rules for ShortDesc
+
+	if all {
+		switch v := interface{}(m.GetContent()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateLocationValidationError{
+					field:  "Content",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateLocationValidationError{
+					field:  "Content",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetContent()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateLocationValidationError{
+				field:  "Content",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetAddress()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateLocationValidationError{
+					field:  "Address",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateLocationValidationError{
+					field:  "Address",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAddress()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateLocationValidationError{
+				field:  "Address",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetLegalDocs()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateLocationValidationError{
+					field:  "LegalDocs",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateLocationValidationError{
+					field:  "LegalDocs",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLegalDocs()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateLocationValidationError{
+				field:  "LegalDocs",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetPublicContact()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateLocationValidationError{
+					field:  "PublicContact",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateLocationValidationError{
+					field:  "PublicContact",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPublicContact()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateLocationValidationError{
+				field:  "PublicContact",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return UpdateLocationMultiError(errors)
@@ -1243,14 +1777,23 @@ func (m *Location) validate(all bool) error {
 
 	// no validation rules for Id
 
-	// no validation rules for Name
+	if utf8.RuneCountInString(m.GetName()) < 1 {
+		err := LocationValidationError{
+			field:  "Name",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	if all {
-		switch v := interface{}(m.GetCreatedAt()).(type) {
+		switch v := interface{}(m.GetLogo()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, LocationValidationError{
-					field:  "CreatedAt",
+					field:  "Logo",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1258,21 +1801,177 @@ func (m *Location) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, LocationValidationError{
-					field:  "CreatedAt",
+					field:  "Logo",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetCreatedAt()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetLogo()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return LocationValidationError{
-				field:  "CreatedAt",
+				field:  "Logo",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
 		}
 	}
+
+	for idx, item := range m.GetMedias() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, LocationValidationError{
+						field:  fmt.Sprintf("Medias[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, LocationValidationError{
+						field:  fmt.Sprintf("Medias[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return LocationValidationError{
+					field:  fmt.Sprintf("Medias[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for Desc
+
+	// no validation rules for ShortDesc
+
+	if all {
+		switch v := interface{}(m.GetContent()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, LocationValidationError{
+					field:  "Content",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, LocationValidationError{
+					field:  "Content",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetContent()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return LocationValidationError{
+				field:  "Content",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetAddress()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, LocationValidationError{
+					field:  "Address",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, LocationValidationError{
+					field:  "Address",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAddress()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return LocationValidationError{
+				field:  "Address",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetLegalDocs()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, LocationValidationError{
+					field:  "LegalDocs",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, LocationValidationError{
+					field:  "LegalDocs",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLegalDocs()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return LocationValidationError{
+				field:  "LegalDocs",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetPublicContact()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, LocationValidationError{
+					field:  "PublicContact",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, LocationValidationError{
+					field:  "PublicContact",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPublicContact()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return LocationValidationError{
+				field:  "PublicContact",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Rating
 
 	if len(errors) > 0 {
 		return LocationMultiError(errors)
@@ -1350,3 +2049,1652 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = LocationValidationError{}
+
+// Validate checks the field values on LocationHall with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *LocationHall) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on LocationHall with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in LocationHallMultiError, or
+// nil if none found.
+func (m *LocationHall) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *LocationHall) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Name
+
+	// no validation rules for Tags
+
+	// no validation rules for Capacity
+
+	for idx, item := range m.GetSeatGroups() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, LocationHallValidationError{
+						field:  fmt.Sprintf("SeatGroups[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, LocationHallValidationError{
+						field:  fmt.Sprintf("SeatGroups[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return LocationHallValidationError{
+					field:  fmt.Sprintf("SeatGroups[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return LocationHallMultiError(errors)
+	}
+
+	return nil
+}
+
+// LocationHallMultiError is an error wrapping multiple validation errors
+// returned by LocationHall.ValidateAll() if the designated constraints aren't met.
+type LocationHallMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m LocationHallMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m LocationHallMultiError) AllErrors() []error { return m }
+
+// LocationHallValidationError is the validation error returned by
+// LocationHall.Validate if the designated constraints aren't met.
+type LocationHallValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e LocationHallValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e LocationHallValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e LocationHallValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e LocationHallValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e LocationHallValidationError) ErrorName() string { return "LocationHallValidationError" }
+
+// Error satisfies the builtin error interface
+func (e LocationHallValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sLocationHall.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = LocationHallValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = LocationHallValidationError{}
+
+// Validate checks the field values on SeatGroup with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *SeatGroup) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SeatGroup with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in SeatGroupMultiError, or nil
+// if none found.
+func (m *SeatGroup) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SeatGroup) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Name
+
+	// no validation rules for SeatCount
+
+	if len(errors) > 0 {
+		return SeatGroupMultiError(errors)
+	}
+
+	return nil
+}
+
+// SeatGroupMultiError is an error wrapping multiple validation errors returned
+// by SeatGroup.ValidateAll() if the designated constraints aren't met.
+type SeatGroupMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SeatGroupMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SeatGroupMultiError) AllErrors() []error { return m }
+
+// SeatGroupValidationError is the validation error returned by
+// SeatGroup.Validate if the designated constraints aren't met.
+type SeatGroupValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SeatGroupValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SeatGroupValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SeatGroupValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SeatGroupValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SeatGroupValidationError) ErrorName() string { return "SeatGroupValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SeatGroupValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSeatGroup.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SeatGroupValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SeatGroupValidationError{}
+
+// Validate checks the field values on GetLocationHallsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetLocationHallsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetLocationHallsRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetLocationHallsRequestMultiError, or nil if none found.
+func (m *GetLocationHallsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetLocationHallsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetId()) < 1 {
+		err := GetLocationHallsRequestValidationError{
+			field:  "Id",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return GetLocationHallsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetLocationHallsRequestMultiError is an error wrapping multiple validation
+// errors returned by GetLocationHallsRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetLocationHallsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetLocationHallsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetLocationHallsRequestMultiError) AllErrors() []error { return m }
+
+// GetLocationHallsRequestValidationError is the validation error returned by
+// GetLocationHallsRequest.Validate if the designated constraints aren't met.
+type GetLocationHallsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetLocationHallsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetLocationHallsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetLocationHallsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetLocationHallsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetLocationHallsRequestValidationError) ErrorName() string {
+	return "GetLocationHallsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetLocationHallsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetLocationHallsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetLocationHallsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetLocationHallsRequestValidationError{}
+
+// Validate checks the field values on GetLocationHallsReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetLocationHallsReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetLocationHallsReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetLocationHallsReplyMultiError, or nil if none found.
+func (m *GetLocationHallsReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetLocationHallsReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetHalls() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetLocationHallsReplyValidationError{
+						field:  fmt.Sprintf("Halls[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetLocationHallsReplyValidationError{
+						field:  fmt.Sprintf("Halls[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetLocationHallsReplyValidationError{
+					field:  fmt.Sprintf("Halls[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return GetLocationHallsReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetLocationHallsReplyMultiError is an error wrapping multiple validation
+// errors returned by GetLocationHallsReply.ValidateAll() if the designated
+// constraints aren't met.
+type GetLocationHallsReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetLocationHallsReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetLocationHallsReplyMultiError) AllErrors() []error { return m }
+
+// GetLocationHallsReplyValidationError is the validation error returned by
+// GetLocationHallsReply.Validate if the designated constraints aren't met.
+type GetLocationHallsReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetLocationHallsReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetLocationHallsReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetLocationHallsReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetLocationHallsReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetLocationHallsReplyValidationError) ErrorName() string {
+	return "GetLocationHallsReplyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetLocationHallsReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetLocationHallsReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetLocationHallsReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetLocationHallsReplyValidationError{}
+
+// Validate checks the field values on CreateLocationHallRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CreateLocationHallRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreateLocationHallRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CreateLocationHallRequestMultiError, or nil if none found.
+func (m *CreateLocationHallRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreateLocationHallRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetId()) < 1 {
+		err := CreateLocationHallRequestValidationError{
+			field:  "Id",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetHall()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateLocationHallRequestValidationError{
+					field:  "Hall",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateLocationHallRequestValidationError{
+					field:  "Hall",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetHall()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateLocationHallRequestValidationError{
+				field:  "Hall",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return CreateLocationHallRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// CreateLocationHallRequestMultiError is an error wrapping multiple validation
+// errors returned by CreateLocationHallRequest.ValidateAll() if the
+// designated constraints aren't met.
+type CreateLocationHallRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreateLocationHallRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreateLocationHallRequestMultiError) AllErrors() []error { return m }
+
+// CreateLocationHallRequestValidationError is the validation error returned by
+// CreateLocationHallRequest.Validate if the designated constraints aren't met.
+type CreateLocationHallRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CreateLocationHallRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CreateLocationHallRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CreateLocationHallRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CreateLocationHallRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CreateLocationHallRequestValidationError) ErrorName() string {
+	return "CreateLocationHallRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CreateLocationHallRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCreateLocationHallRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CreateLocationHallRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CreateLocationHallRequestValidationError{}
+
+// Validate checks the field values on UpdateLocationHall with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateLocationHall) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateLocationHall with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateLocationHallMultiError, or nil if none found.
+func (m *UpdateLocationHall) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateLocationHall) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Name
+
+	// no validation rules for Tags
+
+	// no validation rules for Capacity
+
+	for idx, item := range m.GetSeatGroups() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, UpdateLocationHallValidationError{
+						field:  fmt.Sprintf("SeatGroups[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, UpdateLocationHallValidationError{
+						field:  fmt.Sprintf("SeatGroups[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return UpdateLocationHallValidationError{
+					field:  fmt.Sprintf("SeatGroups[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetSeats() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, UpdateLocationHallValidationError{
+						field:  fmt.Sprintf("Seats[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, UpdateLocationHallValidationError{
+						field:  fmt.Sprintf("Seats[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return UpdateLocationHallValidationError{
+					field:  fmt.Sprintf("Seats[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return UpdateLocationHallMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateLocationHallMultiError is an error wrapping multiple validation errors
+// returned by UpdateLocationHall.ValidateAll() if the designated constraints
+// aren't met.
+type UpdateLocationHallMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateLocationHallMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateLocationHallMultiError) AllErrors() []error { return m }
+
+// UpdateLocationHallValidationError is the validation error returned by
+// UpdateLocationHall.Validate if the designated constraints aren't met.
+type UpdateLocationHallValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateLocationHallValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateLocationHallValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateLocationHallValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateLocationHallValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateLocationHallValidationError) ErrorName() string {
+	return "UpdateLocationHallValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateLocationHallValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateLocationHall.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateLocationHallValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateLocationHallValidationError{}
+
+// Validate checks the field values on UpdateSeatGroup with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *UpdateSeatGroup) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateSeatGroup with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateSeatGroupMultiError, or nil if none found.
+func (m *UpdateSeatGroup) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateSeatGroup) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	for idx, item := range m.GetSeats() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, UpdateSeatGroupValidationError{
+						field:  fmt.Sprintf("Seats[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, UpdateSeatGroupValidationError{
+						field:  fmt.Sprintf("Seats[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return UpdateSeatGroupValidationError{
+					field:  fmt.Sprintf("Seats[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return UpdateSeatGroupMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateSeatGroupMultiError is an error wrapping multiple validation errors
+// returned by UpdateSeatGroup.ValidateAll() if the designated constraints
+// aren't met.
+type UpdateSeatGroupMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateSeatGroupMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateSeatGroupMultiError) AllErrors() []error { return m }
+
+// UpdateSeatGroupValidationError is the validation error returned by
+// UpdateSeatGroup.Validate if the designated constraints aren't met.
+type UpdateSeatGroupValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateSeatGroupValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateSeatGroupValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateSeatGroupValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateSeatGroupValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateSeatGroupValidationError) ErrorName() string { return "UpdateSeatGroupValidationError" }
+
+// Error satisfies the builtin error interface
+func (e UpdateSeatGroupValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateSeatGroup.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateSeatGroupValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateSeatGroupValidationError{}
+
+// Validate checks the field values on Seat with the rules defined in the proto
+// definition for this message. If any rules are violated, the first error
+// encountered is returned, or nil if there are no violations.
+func (m *Seat) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Seat with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in SeatMultiError, or nil if none found.
+func (m *Seat) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Seat) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Row
+
+	// no validation rules for Col
+
+	if len(errors) > 0 {
+		return SeatMultiError(errors)
+	}
+
+	return nil
+}
+
+// SeatMultiError is an error wrapping multiple validation errors returned by
+// Seat.ValidateAll() if the designated constraints aren't met.
+type SeatMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SeatMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SeatMultiError) AllErrors() []error { return m }
+
+// SeatValidationError is the validation error returned by Seat.Validate if the
+// designated constraints aren't met.
+type SeatValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SeatValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SeatValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SeatValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SeatValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SeatValidationError) ErrorName() string { return "SeatValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SeatValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSeat.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SeatValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SeatValidationError{}
+
+// Validate checks the field values on CreateLocationHallReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CreateLocationHallReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreateLocationHallReply with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CreateLocationHallReplyMultiError, or nil if none found.
+func (m *CreateLocationHallReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreateLocationHallReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return CreateLocationHallReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// CreateLocationHallReplyMultiError is an error wrapping multiple validation
+// errors returned by CreateLocationHallReply.ValidateAll() if the designated
+// constraints aren't met.
+type CreateLocationHallReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreateLocationHallReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreateLocationHallReplyMultiError) AllErrors() []error { return m }
+
+// CreateLocationHallReplyValidationError is the validation error returned by
+// CreateLocationHallReply.Validate if the designated constraints aren't met.
+type CreateLocationHallReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CreateLocationHallReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CreateLocationHallReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CreateLocationHallReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CreateLocationHallReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CreateLocationHallReplyValidationError) ErrorName() string {
+	return "CreateLocationHallReplyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CreateLocationHallReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCreateLocationHallReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CreateLocationHallReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CreateLocationHallReplyValidationError{}
+
+// Validate checks the field values on UpdateLocationHallRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateLocationHallRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateLocationHallRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateLocationHallRequestMultiError, or nil if none found.
+func (m *UpdateLocationHallRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateLocationHallRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetId()) < 1 {
+		err := UpdateLocationHallRequestValidationError{
+			field:  "Id",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetHall()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateLocationHallRequestValidationError{
+					field:  "Hall",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateLocationHallRequestValidationError{
+					field:  "Hall",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetHall()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateLocationHallRequestValidationError{
+				field:  "Hall",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return UpdateLocationHallRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateLocationHallRequestMultiError is an error wrapping multiple validation
+// errors returned by UpdateLocationHallRequest.ValidateAll() if the
+// designated constraints aren't met.
+type UpdateLocationHallRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateLocationHallRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateLocationHallRequestMultiError) AllErrors() []error { return m }
+
+// UpdateLocationHallRequestValidationError is the validation error returned by
+// UpdateLocationHallRequest.Validate if the designated constraints aren't met.
+type UpdateLocationHallRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateLocationHallRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateLocationHallRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateLocationHallRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateLocationHallRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateLocationHallRequestValidationError) ErrorName() string {
+	return "UpdateLocationHallRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateLocationHallRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateLocationHallRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateLocationHallRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateLocationHallRequestValidationError{}
+
+// Validate checks the field values on UpdateLocationHallReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateLocationHallReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateLocationHallReply with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateLocationHallReplyMultiError, or nil if none found.
+func (m *UpdateLocationHallReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateLocationHallReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return UpdateLocationHallReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateLocationHallReplyMultiError is an error wrapping multiple validation
+// errors returned by UpdateLocationHallReply.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateLocationHallReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateLocationHallReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateLocationHallReplyMultiError) AllErrors() []error { return m }
+
+// UpdateLocationHallReplyValidationError is the validation error returned by
+// UpdateLocationHallReply.Validate if the designated constraints aren't met.
+type UpdateLocationHallReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateLocationHallReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateLocationHallReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateLocationHallReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateLocationHallReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateLocationHallReplyValidationError) ErrorName() string {
+	return "UpdateLocationHallReplyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateLocationHallReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateLocationHallReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateLocationHallReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateLocationHallReplyValidationError{}
+
+// Validate checks the field values on DeleteLocationHallRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DeleteLocationHallRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteLocationHallRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DeleteLocationHallRequestMultiError, or nil if none found.
+func (m *DeleteLocationHallRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteLocationHallRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetId()) < 1 {
+		err := DeleteLocationHallRequestValidationError{
+			field:  "Id",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetHallId()) < 1 {
+		err := DeleteLocationHallRequestValidationError{
+			field:  "HallId",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return DeleteLocationHallRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteLocationHallRequestMultiError is an error wrapping multiple validation
+// errors returned by DeleteLocationHallRequest.ValidateAll() if the
+// designated constraints aren't met.
+type DeleteLocationHallRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteLocationHallRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteLocationHallRequestMultiError) AllErrors() []error { return m }
+
+// DeleteLocationHallRequestValidationError is the validation error returned by
+// DeleteLocationHallRequest.Validate if the designated constraints aren't met.
+type DeleteLocationHallRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteLocationHallRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteLocationHallRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteLocationHallRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteLocationHallRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteLocationHallRequestValidationError) ErrorName() string {
+	return "DeleteLocationHallRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteLocationHallRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteLocationHallRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteLocationHallRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteLocationHallRequestValidationError{}
+
+// Validate checks the field values on DeleteLocationHallReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DeleteLocationHallReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeleteLocationHallReply with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DeleteLocationHallReplyMultiError, or nil if none found.
+func (m *DeleteLocationHallReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeleteLocationHallReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetId()) < 1 {
+		err := DeleteLocationHallReplyValidationError{
+			field:  "Id",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetHallId()) < 1 {
+		err := DeleteLocationHallReplyValidationError{
+			field:  "HallId",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return DeleteLocationHallReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeleteLocationHallReplyMultiError is an error wrapping multiple validation
+// errors returned by DeleteLocationHallReply.ValidateAll() if the designated
+// constraints aren't met.
+type DeleteLocationHallReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeleteLocationHallReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeleteLocationHallReplyMultiError) AllErrors() []error { return m }
+
+// DeleteLocationHallReplyValidationError is the validation error returned by
+// DeleteLocationHallReply.Validate if the designated constraints aren't met.
+type DeleteLocationHallReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeleteLocationHallReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeleteLocationHallReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeleteLocationHallReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeleteLocationHallReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeleteLocationHallReplyValidationError) ErrorName() string {
+	return "DeleteLocationHallReplyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeleteLocationHallReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeleteLocationHallReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeleteLocationHallReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeleteLocationHallReplyValidationError{}

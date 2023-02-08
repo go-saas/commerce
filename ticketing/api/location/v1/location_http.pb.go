@@ -20,28 +20,42 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationLocationServiceCreateLocation = "/ticketing.api.location.v1.LocationService/CreateLocation"
+const OperationLocationServiceCreateLocationHall = "/ticketing.api.location.v1.LocationService/CreateLocationHall"
 const OperationLocationServiceDeleteLocation = "/ticketing.api.location.v1.LocationService/DeleteLocation"
+const OperationLocationServiceDeleteLocationHall = "/ticketing.api.location.v1.LocationService/DeleteLocationHall"
 const OperationLocationServiceGetLocation = "/ticketing.api.location.v1.LocationService/GetLocation"
+const OperationLocationServiceGetLocationHalls = "/ticketing.api.location.v1.LocationService/GetLocationHalls"
 const OperationLocationServiceListLocation = "/ticketing.api.location.v1.LocationService/ListLocation"
 const OperationLocationServiceUpdateLocation = "/ticketing.api.location.v1.LocationService/UpdateLocation"
+const OperationLocationServiceUpdateLocationHall = "/ticketing.api.location.v1.LocationService/UpdateLocationHall"
 
 type LocationServiceHTTPServer interface {
 	CreateLocation(context.Context, *CreateLocationRequest) (*Location, error)
+	CreateLocationHall(context.Context, *CreateLocationHallRequest) (*CreateLocationHallReply, error)
 	DeleteLocation(context.Context, *DeleteLocationRequest) (*DeleteLocationReply, error)
+	DeleteLocationHall(context.Context, *DeleteLocationHallRequest) (*DeleteLocationHallReply, error)
 	GetLocation(context.Context, *GetLocationRequest) (*Location, error)
+	GetLocationHalls(context.Context, *GetLocationHallsRequest) (*GetLocationHallsReply, error)
 	ListLocation(context.Context, *ListLocationRequest) (*ListLocationReply, error)
 	UpdateLocation(context.Context, *UpdateLocationRequest) (*Location, error)
+	UpdateLocationHall(context.Context, *UpdateLocationHallRequest) (*UpdateLocationHallReply, error)
 }
 
 func RegisterLocationServiceHTTPServer(s *http.Server, srv LocationServiceHTTPServer) {
 	r := s.Route("/")
 	r.POST("/v1/ticketing/location/list", _LocationService_ListLocation0_HTTP_Handler(srv))
-	r.GET("/v1/ticketing/locations", _LocationService_ListLocation1_HTTP_Handler(srv))
+	r.GET("/v1/ticketing/location", _LocationService_ListLocation1_HTTP_Handler(srv))
 	r.GET("/v1/ticketing/location/{id}", _LocationService_GetLocation0_HTTP_Handler(srv))
 	r.POST("/v1/ticketing/location", _LocationService_CreateLocation0_HTTP_Handler(srv))
 	r.PATCH("/v1/ticketing/location/{location.id}", _LocationService_UpdateLocation0_HTTP_Handler(srv))
 	r.PUT("/v1/ticketing/location/{location.id}", _LocationService_UpdateLocation1_HTTP_Handler(srv))
 	r.DELETE("/v1/ticketing/location/{id}", _LocationService_DeleteLocation0_HTTP_Handler(srv))
+	r.POST("/v1/ticketing/location/{id}/hall/list", _LocationService_GetLocationHalls0_HTTP_Handler(srv))
+	r.GET("/v1/ticketing/location/{id}/hall", _LocationService_GetLocationHalls1_HTTP_Handler(srv))
+	r.POST("/v1/ticketing/location/{id}/hall", _LocationService_CreateLocationHall0_HTTP_Handler(srv))
+	r.PATCH("/v1/ticketing/location/{id}/hall/{hall.id}", _LocationService_UpdateLocationHall0_HTTP_Handler(srv))
+	r.PUT("/v1/ticketing/location/{id}/hall/{hall.id}", _LocationService_UpdateLocationHall1_HTTP_Handler(srv))
+	r.DELETE("/v1/ticketing/location/{id}/hall/{hall_id}", _LocationService_DeleteLocationHall0_HTTP_Handler(srv))
 }
 
 func _LocationService_ListLocation0_HTTP_Handler(srv LocationServiceHTTPServer) func(ctx http.Context) error {
@@ -189,12 +203,148 @@ func _LocationService_DeleteLocation0_HTTP_Handler(srv LocationServiceHTTPServer
 	}
 }
 
+func _LocationService_GetLocationHalls0_HTTP_Handler(srv LocationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetLocationHallsRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationLocationServiceGetLocationHalls)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetLocationHalls(ctx, req.(*GetLocationHallsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetLocationHallsReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _LocationService_GetLocationHalls1_HTTP_Handler(srv LocationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetLocationHallsRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationLocationServiceGetLocationHalls)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetLocationHalls(ctx, req.(*GetLocationHallsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetLocationHallsReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _LocationService_CreateLocationHall0_HTTP_Handler(srv LocationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateLocationHallRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationLocationServiceCreateLocationHall)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateLocationHall(ctx, req.(*CreateLocationHallRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CreateLocationHallReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _LocationService_UpdateLocationHall0_HTTP_Handler(srv LocationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateLocationHallRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationLocationServiceUpdateLocationHall)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateLocationHall(ctx, req.(*UpdateLocationHallRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*UpdateLocationHallReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _LocationService_UpdateLocationHall1_HTTP_Handler(srv LocationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateLocationHallRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationLocationServiceUpdateLocationHall)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateLocationHall(ctx, req.(*UpdateLocationHallRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*UpdateLocationHallReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _LocationService_DeleteLocationHall0_HTTP_Handler(srv LocationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in DeleteLocationHallRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationLocationServiceDeleteLocationHall)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.DeleteLocationHall(ctx, req.(*DeleteLocationHallRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*DeleteLocationHallReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type LocationServiceHTTPClient interface {
 	CreateLocation(ctx context.Context, req *CreateLocationRequest, opts ...http.CallOption) (rsp *Location, err error)
+	CreateLocationHall(ctx context.Context, req *CreateLocationHallRequest, opts ...http.CallOption) (rsp *CreateLocationHallReply, err error)
 	DeleteLocation(ctx context.Context, req *DeleteLocationRequest, opts ...http.CallOption) (rsp *DeleteLocationReply, err error)
+	DeleteLocationHall(ctx context.Context, req *DeleteLocationHallRequest, opts ...http.CallOption) (rsp *DeleteLocationHallReply, err error)
 	GetLocation(ctx context.Context, req *GetLocationRequest, opts ...http.CallOption) (rsp *Location, err error)
+	GetLocationHalls(ctx context.Context, req *GetLocationHallsRequest, opts ...http.CallOption) (rsp *GetLocationHallsReply, err error)
 	ListLocation(ctx context.Context, req *ListLocationRequest, opts ...http.CallOption) (rsp *ListLocationReply, err error)
 	UpdateLocation(ctx context.Context, req *UpdateLocationRequest, opts ...http.CallOption) (rsp *Location, err error)
+	UpdateLocationHall(ctx context.Context, req *UpdateLocationHallRequest, opts ...http.CallOption) (rsp *UpdateLocationHallReply, err error)
 }
 
 type LocationServiceHTTPClientImpl struct {
@@ -218,11 +368,37 @@ func (c *LocationServiceHTTPClientImpl) CreateLocation(ctx context.Context, in *
 	return &out, err
 }
 
+func (c *LocationServiceHTTPClientImpl) CreateLocationHall(ctx context.Context, in *CreateLocationHallRequest, opts ...http.CallOption) (*CreateLocationHallReply, error) {
+	var out CreateLocationHallReply
+	pattern := "/v1/ticketing/location/{id}/hall"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationLocationServiceCreateLocationHall))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
 func (c *LocationServiceHTTPClientImpl) DeleteLocation(ctx context.Context, in *DeleteLocationRequest, opts ...http.CallOption) (*DeleteLocationReply, error) {
 	var out DeleteLocationReply
 	pattern := "/v1/ticketing/location/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationLocationServiceDeleteLocation))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *LocationServiceHTTPClientImpl) DeleteLocationHall(ctx context.Context, in *DeleteLocationHallRequest, opts ...http.CallOption) (*DeleteLocationHallReply, error) {
+	var out DeleteLocationHallReply
+	pattern := "/v1/ticketing/location/{id}/hall/{hall_id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationLocationServiceDeleteLocationHall))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -244,9 +420,22 @@ func (c *LocationServiceHTTPClientImpl) GetLocation(ctx context.Context, in *Get
 	return &out, err
 }
 
+func (c *LocationServiceHTTPClientImpl) GetLocationHalls(ctx context.Context, in *GetLocationHallsRequest, opts ...http.CallOption) (*GetLocationHallsReply, error) {
+	var out GetLocationHallsReply
+	pattern := "/v1/ticketing/location/{id}/hall"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationLocationServiceGetLocationHalls))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
 func (c *LocationServiceHTTPClientImpl) ListLocation(ctx context.Context, in *ListLocationRequest, opts ...http.CallOption) (*ListLocationReply, error) {
 	var out ListLocationReply
-	pattern := "/v1/ticketing/locations"
+	pattern := "/v1/ticketing/location"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationLocationServiceListLocation))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -262,6 +451,19 @@ func (c *LocationServiceHTTPClientImpl) UpdateLocation(ctx context.Context, in *
 	pattern := "/v1/ticketing/location/{location.id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationLocationServiceUpdateLocation))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *LocationServiceHTTPClientImpl) UpdateLocationHall(ctx context.Context, in *UpdateLocationHallRequest, opts ...http.CallOption) (*UpdateLocationHallReply, error) {
+	var out UpdateLocationHallReply
+	pattern := "/v1/ticketing/location/{id}/hall/{hall.id}"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationLocationServiceUpdateLocationHall))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {

@@ -33,9 +33,10 @@ type Product struct {
 
 	IsNew bool
 
-	Categories     []ProductCategory `gorm:"many2many:product_categories;"`
-	MainCategoryID *string
-	MainCategory   *ProductCategory `gorm:"foreignKey:MainCategoryID;comment:商品主要分类"`
+	Categories []ProductCategory `gorm:"many2many:product_categories;"`
+
+	MainCategoryKey *string
+	MainCategory    *ProductCategory `gorm:"foreignKey:MainCategoryKey;comment:商品主要分类"`
 
 	Keyword []KeyWord `gorm:"polymorphic:Owner;polymorphicValue:product;comment:商品关键字"`
 
@@ -98,15 +99,15 @@ type KeyWord struct {
 
 // ProductCategory represents some Teaser infos for ProductCategory
 type ProductCategory struct {
-	// Code the identifier of the ProductCategory
-	Code string `gorm:"primaryKey;size:128"`
+	// Key the identifier of the ProductCategory
+	Key string `gorm:"primaryKey;size:128"`
 	// The Path (root to leaf) for this ProductCategory - separated by "/"
 	Path string
 	// Name is the speaking name of the category
 	Name     string
 	ParentID *string
 	// Parent is an optional link to parent teaser
-	Parent *ProductCategory `gorm:"foreignKey:ParentID;references:code"`
+	Parent *ProductCategory `gorm:"foreignKey:ParentID;references:key"`
 }
 
 type ProductRepo interface {

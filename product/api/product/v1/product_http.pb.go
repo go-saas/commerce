@@ -36,7 +36,7 @@ type ProductServiceHTTPServer interface {
 func RegisterProductServiceHTTPServer(s *http.Server, srv ProductServiceHTTPServer) {
 	r := s.Route("/")
 	r.POST("/v1/product/product/list", _ProductService_ListProduct0_HTTP_Handler(srv))
-	r.GET("/v1/product/products", _ProductService_ListProduct1_HTTP_Handler(srv))
+	r.GET("/v1/product/product", _ProductService_ListProduct1_HTTP_Handler(srv))
 	r.GET("/v1/product/product/{id}", _ProductService_GetProduct0_HTTP_Handler(srv))
 	r.POST("/v1/product/product", _ProductService_CreateProduct0_HTTP_Handler(srv))
 	r.PATCH("/v1/product/product/{product.id}", _ProductService_UpdateProduct0_HTTP_Handler(srv))
@@ -246,7 +246,7 @@ func (c *ProductServiceHTTPClientImpl) GetProduct(ctx context.Context, in *GetPr
 
 func (c *ProductServiceHTTPClientImpl) ListProduct(ctx context.Context, in *ListProductRequest, opts ...http.CallOption) (*ListProductReply, error) {
 	var out ListProductReply
-	pattern := "/v1/product/products"
+	pattern := "/v1/product/product"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationProductServiceListProduct))
 	opts = append(opts, http.PathTemplate(pattern))

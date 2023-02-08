@@ -1,7 +1,6 @@
 package biz
 
 import (
-	"github.com/go-saas/commerce/pkg/price"
 	"github.com/go-saas/commerce/pkg/sortable"
 	"github.com/go-saas/kit/pkg/data"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
@@ -24,8 +23,6 @@ type Activity struct {
 	SeatSelectable bool `gorm:"comment:是否可以选座"`
 
 	Duration time.Duration `gorm:"comment:单次活动预估时间"`
-
-	Kind []ActivitySalesKind
 }
 
 const (
@@ -33,14 +30,6 @@ const (
 	ActivityStatusOngoing = "ongoing"
 	ActivityStatusEnded   = "ended"
 )
-
-type ActivitySalesKind struct {
-	kitgorm.UIDBase
-	Name string
-	price.Saleable
-	ActivityID string
-	Activity   Activity `gorm:"foreignKey:ActivityID"`
-}
 
 type TicketingMedia struct {
 	ID string `gorm:"primaryKey;size:128"`
@@ -59,13 +48,13 @@ type TicketingMedia struct {
 
 // TicketingCategory represents some Teaser infos for TicketingCategory
 type TicketingCategory struct {
-	// Code the identifier of the TicketingCategory
-	Code string `gorm:"primaryKey;size:128"`
+	// Key the identifier of the TicketingCategory
+	Key string `gorm:"primaryKey;size:128"`
 	// The Path (root to leaf) for this TicketingCategory - separated by "/"
 	Path string
 	// Name is the speaking name of the category
 	Name     string
 	ParentID *string
 	// Parent is an optional link to parent teaser
-	Parent *TicketingCategory `gorm:"foreignKey:ParentID;references:code"`
+	Parent *TicketingCategory `gorm:"foreignKey:ParentID;references:key"`
 }

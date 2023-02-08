@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package ticketing.api.ticket.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/field_behavior.proto";
+import "validate/validate.proto";
+import "query/operation.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+option go_package = "github.com/go-saas/commerce/ticketing/api/ticket/v1;v1";
+
+
+service TicketService {
+  rpc ListTicket (ListTicketRequest) returns (ListTicketReply){
+    option (google.api.http) = {
+      get: "/v1/ticketing/ticket",
+      additional_bindings:{
+        post:"/v1/ticket/ticket/list",
+        body:"*"
+      }
+    };
+  }
+  rpc GetTicket (GetTicketRequest) returns (Ticket){
+    option (google.api.http) = {
+      get: "/v1/ticketing/ticket/{id}"
+    };
+  }
+  rpc CreateTicket (CreateTicketRequest) returns (Ticket){
+    option (google.api.http) = {
+      post: "/v1/ticketing/ticket",
+      body: "*"
+    };
+  }
+  rpc UpdateTicket (UpdateTicketRequest) returns (Ticket){
+    option (google.api.http) = {
+      put: "/v1/ticketing/ticket/{ticket.id}",
+      body: "*"
+      additional_bindings{
+        patch: "/v1/ticketing/ticket/{ticket.id}",
+        body: "*"
+      }
+    };
+  }
+  rpc DeleteTicket (DeleteTicketRequest) returns (DeleteTicketReply){
+    option (google.api.http) = {
+      delete: "/v1/ticketing/ticket/{id}"
+    };
+  }
+
+}
+
+message CreateTicketRequest {
+  string name =1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+}
+
+message UpdateTicketRequest {
+  UpdateTicket ticket=1 [(validate.rules).message.required=true,(google.api.field_behavior) = REQUIRED];
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateTicket{
+  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+  string name=2;
+}
+
+
+message DeleteTicketRequest {
+  string id=1;
+}
+message DeleteTicketReply {
+  string id=1;
+  string name=2;
+}
+
+message GetTicketRequest {
+  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];
+}
+
+message TicketFilter{
+  query.operation.StringFilterOperation id=1;
+  query.operation.StringFilterOperation name =2;
+}
+message ListTicketRequest {
+  int32 page_offset =1;
+  int32 page_size = 2;
+  string search = 3;
+  repeated string sort =4;
+  google.protobuf.FieldMask fields=5;
+  TicketFilter filter =6;
+}
+message ListTicketReply {
+  int32 total_size =1;
+  int32 filter_size =2;
+  repeated Ticket items=3;
+}
+message Ticket{
+  string id=1;
+  string name=2;
+  google.protobuf.Timestamp created_at =4;
+}

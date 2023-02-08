@@ -27,6 +27,10 @@ type LocationServiceClient interface {
 	CreateLocation(ctx context.Context, in *CreateLocationRequest, opts ...grpc.CallOption) (*Location, error)
 	UpdateLocation(ctx context.Context, in *UpdateLocationRequest, opts ...grpc.CallOption) (*Location, error)
 	DeleteLocation(ctx context.Context, in *DeleteLocationRequest, opts ...grpc.CallOption) (*DeleteLocationReply, error)
+	GetLocationHalls(ctx context.Context, in *GetLocationHallsRequest, opts ...grpc.CallOption) (*GetLocationHallsReply, error)
+	CreateLocationHall(ctx context.Context, in *CreateLocationHallRequest, opts ...grpc.CallOption) (*CreateLocationHallReply, error)
+	UpdateLocationHall(ctx context.Context, in *UpdateLocationHallRequest, opts ...grpc.CallOption) (*UpdateLocationHallReply, error)
+	DeleteLocationHall(ctx context.Context, in *DeleteLocationHallRequest, opts ...grpc.CallOption) (*DeleteLocationHallReply, error)
 }
 
 type locationServiceClient struct {
@@ -82,6 +86,42 @@ func (c *locationServiceClient) DeleteLocation(ctx context.Context, in *DeleteLo
 	return out, nil
 }
 
+func (c *locationServiceClient) GetLocationHalls(ctx context.Context, in *GetLocationHallsRequest, opts ...grpc.CallOption) (*GetLocationHallsReply, error) {
+	out := new(GetLocationHallsReply)
+	err := c.cc.Invoke(ctx, "/ticketing.api.location.v1.LocationService/GetLocationHalls", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *locationServiceClient) CreateLocationHall(ctx context.Context, in *CreateLocationHallRequest, opts ...grpc.CallOption) (*CreateLocationHallReply, error) {
+	out := new(CreateLocationHallReply)
+	err := c.cc.Invoke(ctx, "/ticketing.api.location.v1.LocationService/CreateLocationHall", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *locationServiceClient) UpdateLocationHall(ctx context.Context, in *UpdateLocationHallRequest, opts ...grpc.CallOption) (*UpdateLocationHallReply, error) {
+	out := new(UpdateLocationHallReply)
+	err := c.cc.Invoke(ctx, "/ticketing.api.location.v1.LocationService/UpdateLocationHall", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *locationServiceClient) DeleteLocationHall(ctx context.Context, in *DeleteLocationHallRequest, opts ...grpc.CallOption) (*DeleteLocationHallReply, error) {
+	out := new(DeleteLocationHallReply)
+	err := c.cc.Invoke(ctx, "/ticketing.api.location.v1.LocationService/DeleteLocationHall", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LocationServiceServer is the server API for LocationService service.
 // All implementations should embed UnimplementedLocationServiceServer
 // for forward compatibility
@@ -91,6 +131,10 @@ type LocationServiceServer interface {
 	CreateLocation(context.Context, *CreateLocationRequest) (*Location, error)
 	UpdateLocation(context.Context, *UpdateLocationRequest) (*Location, error)
 	DeleteLocation(context.Context, *DeleteLocationRequest) (*DeleteLocationReply, error)
+	GetLocationHalls(context.Context, *GetLocationHallsRequest) (*GetLocationHallsReply, error)
+	CreateLocationHall(context.Context, *CreateLocationHallRequest) (*CreateLocationHallReply, error)
+	UpdateLocationHall(context.Context, *UpdateLocationHallRequest) (*UpdateLocationHallReply, error)
+	DeleteLocationHall(context.Context, *DeleteLocationHallRequest) (*DeleteLocationHallReply, error)
 }
 
 // UnimplementedLocationServiceServer should be embedded to have forward compatible implementations.
@@ -111,6 +155,18 @@ func (UnimplementedLocationServiceServer) UpdateLocation(context.Context, *Updat
 }
 func (UnimplementedLocationServiceServer) DeleteLocation(context.Context, *DeleteLocationRequest) (*DeleteLocationReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteLocation not implemented")
+}
+func (UnimplementedLocationServiceServer) GetLocationHalls(context.Context, *GetLocationHallsRequest) (*GetLocationHallsReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLocationHalls not implemented")
+}
+func (UnimplementedLocationServiceServer) CreateLocationHall(context.Context, *CreateLocationHallRequest) (*CreateLocationHallReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateLocationHall not implemented")
+}
+func (UnimplementedLocationServiceServer) UpdateLocationHall(context.Context, *UpdateLocationHallRequest) (*UpdateLocationHallReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateLocationHall not implemented")
+}
+func (UnimplementedLocationServiceServer) DeleteLocationHall(context.Context, *DeleteLocationHallRequest) (*DeleteLocationHallReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteLocationHall not implemented")
 }
 
 // UnsafeLocationServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -214,6 +270,78 @@ func _LocationService_DeleteLocation_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LocationService_GetLocationHalls_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLocationHallsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocationServiceServer).GetLocationHalls(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ticketing.api.location.v1.LocationService/GetLocationHalls",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocationServiceServer).GetLocationHalls(ctx, req.(*GetLocationHallsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LocationService_CreateLocationHall_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateLocationHallRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocationServiceServer).CreateLocationHall(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ticketing.api.location.v1.LocationService/CreateLocationHall",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocationServiceServer).CreateLocationHall(ctx, req.(*CreateLocationHallRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LocationService_UpdateLocationHall_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateLocationHallRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocationServiceServer).UpdateLocationHall(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ticketing.api.location.v1.LocationService/UpdateLocationHall",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocationServiceServer).UpdateLocationHall(ctx, req.(*UpdateLocationHallRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LocationService_DeleteLocationHall_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteLocationHallRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocationServiceServer).DeleteLocationHall(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ticketing.api.location.v1.LocationService/DeleteLocationHall",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocationServiceServer).DeleteLocationHall(ctx, req.(*DeleteLocationHallRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // LocationService_ServiceDesc is the grpc.ServiceDesc for LocationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -240,6 +368,22 @@ var LocationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteLocation",
 			Handler:    _LocationService_DeleteLocation_Handler,
+		},
+		{
+			MethodName: "GetLocationHalls",
+			Handler:    _LocationService_GetLocationHalls_Handler,
+		},
+		{
+			MethodName: "CreateLocationHall",
+			Handler:    _LocationService_CreateLocationHall_Handler,
+		},
+		{
+			MethodName: "UpdateLocationHall",
+			Handler:    _LocationService_UpdateLocationHall_Handler,
+		},
+		{
+			MethodName: "DeleteLocationHall",
+			Handler:    _LocationService_DeleteLocationHall_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
