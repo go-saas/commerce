@@ -52,6 +52,7 @@ import (
 	_ "github.com/go-saas/commerce/product/api"
 	_ "github.com/go-saas/commerce/ticketing/api"
 
+	_ "github.com/go-saas/commerce/order/menu"
 	_ "github.com/go-saas/commerce/ticketing/menu"
 )
 
