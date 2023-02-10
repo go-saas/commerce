@@ -139,4 +139,7 @@ export default defineConfig({
     slave: {},
   },
   monorepoRedirect: { srcDir: ['dist'], peerDeps: true },
+  define: {
+    BASE_URL: REACT_APP_ENV == 'dev' ? '/basic-api' : '',
+  },
 });
