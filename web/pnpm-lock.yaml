@@ -1,92 +1,104 @@
 lockfileVersion: 5.4
 
-specifiers:
-  '@ant-design/icons': ^4.7.0
-  '@ant-design/pro-cli': ^2.1.0
-  '@ant-design/pro-components': ^2.3.53
-  '@ant-design/use-emotion-css': 1.0.4
-  '@gosaas/core': ^0.0.1
-  '@testing-library/react': ^13.4.0
-  '@types/classnames': ^2.3.1
-  '@types/express': ^4.17.14
-  '@types/history': ^4.7.11
-  '@types/jest': ^29.2.1
-  '@types/lodash': ^4.14.186
-  '@types/react': ^18.0.0
-  '@types/react-dom': ^18.0.0
-  '@types/react-helmet': ^6.1.5
-  '@umijs/lint': ^4.0.34
-  '@umijs/max': ^4.0.51
-  '@umijs/route-utils': ^2.1.3
-  antd: ^5.2.0
-  classnames: ^2.3.2
-  cross-env: ^7.0.3
-  eslint: ^8.0.0
-  express: ^4.18.2
-  gh-pages: ^3.2.0
-  jest: ^29.2.2
-  jest-environment-jsdom: ^29.2.2
-  lint-staged: ^10.0.0
-  lodash: ^4.17.21
-  mockjs: ^1.1.0
-  moment: ^2.29.4
-  omit.js: ^2.0.2
-  prettier: ^2.7.1
-  rc-menu: ^9.6.4
-  rc-util: ^5.24.4
-  react: ^18.0.0
-  react-dev-inspector: ^1.8.1
-  react-dom: ^18.0.0
-  react-helmet-async: ^1.3.0
-  swagger-ui-dist: ^4.14.2
-  ts-node: ^10.9.1
-  typescript: ^4.8.4
-  umi-presets-pro: ^2.0.0
+importers:
 
-dependencies:
-  '@ant-design/icons': 4.8.0_biqbaboplfbrettd7655fr4n2y
-  '@ant-design/pro-components': 2.3.53_x4gxf6lxbcpjdxudaev7t6hcuu
-  '@ant-design/use-emotion-css': 1.0.4_x4gxf6lxbcpjdxudaev7t6hcuu
-  '@gosaas/core': 0.0.1
-  '@umijs/route-utils': 2.2.2
-  antd: 5.2.0_jb42yyeu5qxbfieyxjks6malva
-  classnames: 2.3.2
-  lodash: 4.17.21
-  moment: 2.29.4
-  omit.js: 2.0.2
-  rc-menu: 9.8.1_biqbaboplfbrettd7655fr4n2y
-  rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
-  react: 18.2.0
-  react-dev-inspector: 1.8.4_ol4nhuzbuflsbzk2mijpqykzba
-  react-dom: 18.2.0_react@18.2.0
-  react-helmet-async: 1.3.0_biqbaboplfbrettd7655fr4n2y
+  .:
+    specifiers:
+      '@ant-design/icons': ^4.7.0
+      '@ant-design/pro-cli': ^2.1.0
+      '@ant-design/pro-components': ^2.3.53
+      '@ant-design/use-emotion-css': 1.0.4
+      '@gosaas/commerce-api': workspace:^
+      '@gosaas/core': ^0.0.1
+      '@testing-library/react': ^13.4.0
+      '@types/classnames': ^2.3.1
+      '@types/express': ^4.17.14
+      '@types/history': ^4.7.11
+      '@types/jest': ^29.2.1
+      '@types/lodash': ^4.14.186
+      '@types/react': ^18.0.0
+      '@types/react-dom': ^18.0.0
+      '@types/react-helmet': ^6.1.5
+      '@umijs/lint': ^4.0.34
+      '@umijs/max': ^4.0.51
+      '@umijs/route-utils': ^2.1.3
+      antd: ^5.2.0
+      classnames: ^2.3.2
+      cross-env: ^7.0.3
+      eslint: ^8.0.0
+      express: ^4.18.2
+      gh-pages: ^3.2.0
+      jest: ^29.2.2
+      jest-environment-jsdom: ^29.2.2
+      lint-staged: ^10.0.0
+      lodash: ^4.17.21
+      mockjs: ^1.1.0
+      moment: ^2.29.4
+      omit.js: ^2.0.2
+      prettier: ^2.7.1
+      rc-menu: ^9.6.4
+      rc-util: ^5.24.4
+      react: ^18.0.0
+      react-dev-inspector: ^1.8.1
+      react-dom: ^18.0.0
+      react-helmet-async: ^1.3.0
+      swagger-ui-dist: ^4.14.2
+      ts-node: ^10.9.1
+      typescript: ^4.8.4
+      umi-presets-pro: ^2.0.0
+    dependencies:
+      '@ant-design/icons': 4.8.0_biqbaboplfbrettd7655fr4n2y
+      '@ant-design/pro-components': 2.3.53_x4gxf6lxbcpjdxudaev7t6hcuu
+      '@ant-design/use-emotion-css': 1.0.4_x4gxf6lxbcpjdxudaev7t6hcuu
+      '@gosaas/commerce-api': link:packages/commerce-api
+      '@gosaas/core': 0.0.1
+      '@umijs/route-utils': 2.2.2
+      antd: 5.2.0_jb42yyeu5qxbfieyxjks6malva
+      classnames: 2.3.2
+      lodash: 4.17.21
+      moment: 2.29.4
+      omit.js: 2.0.2
+      rc-menu: 9.8.1_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dev-inspector: 1.8.4_ol4nhuzbuflsbzk2mijpqykzba
+      react-dom: 18.2.0_react@18.2.0
+      react-helmet-async: 1.3.0_biqbaboplfbrettd7655fr4n2y
+    devDependencies:
+      '@ant-design/pro-cli': 2.1.5
+      '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
+      '@types/classnames': 2.3.1
+      '@types/express': 4.17.15
+      '@types/history': 4.7.11
+      '@types/jest': 29.2.5
+      '@types/lodash': 4.14.191
+      '@types/react': 18.0.26
+      '@types/react-dom': 18.0.10
+      '@types/react-helmet': 6.1.6
+      '@umijs/lint': 4.0.44_kudefufnb5v4dzpyosesvz63ky
+      '@umijs/max': 4.0.51_qgo5fbsqag6anccdzo2ypcvrri
+      cross-env: 7.0.3
+      eslint: 8.31.0
+      express: 4.18.2
+      gh-pages: 3.2.3
+      jest: 29.3.1_ts-node@10.9.1
+      jest-environment-jsdom: 29.3.1
+      lint-staged: 10.5.4
+      mockjs: 1.1.0
+      prettier: 2.8.2
+      swagger-ui-dist: 4.15.5
+      ts-node: 10.9.1_typescript@4.9.4
+      typescript: 4.9.4
+      umi-presets-pro: 2.0.2_hrqzwphvvhwd3ivs55nzdawj4e
 
-devDependencies:
-  '@ant-design/pro-cli': 2.1.5
-  '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
-  '@types/classnames': 2.3.1
-  '@types/express': 4.17.15
-  '@types/history': 4.7.11
-  '@types/jest': 29.2.5
-  '@types/lodash': 4.14.191
-  '@types/react': 18.0.26
-  '@types/react-dom': 18.0.10
-  '@types/react-helmet': 6.1.6
-  '@umijs/lint': 4.0.44_kudefufnb5v4dzpyosesvz63ky
-  '@umijs/max': 4.0.51_qgo5fbsqag6anccdzo2ypcvrri
-  cross-env: 7.0.3
-  eslint: 8.31.0
-  express: 4.18.2
-  gh-pages: 3.2.3
-  jest: 29.3.1_ts-node@10.9.1
-  jest-environment-jsdom: 29.3.1
-  lint-staged: 10.5.4
-  mockjs: 1.1.0
-  prettier: 2.8.2
-  swagger-ui-dist: 4.15.5
-  ts-node: 10.9.1_typescript@4.9.4
-  typescript: 4.9.4
-  umi-presets-pro: 2.0.2_hrqzwphvvhwd3ivs55nzdawj4e
+  packages/commerce-api:
+    specifiers:
+      axios: ^0.27.2
+      typescript: ^4.4.4
+    dependencies:
+      axios: 0.27.2
+    devDependencies:
+      typescript: 4.9.4
 
 packages:
 

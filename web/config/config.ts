@@ -138,4 +138,5 @@ export default defineConfig({
   qiankun: {
     slave: {},
   },
+  monorepoRedirect: { srcDir: ['dist'], peerDeps: true },
 });

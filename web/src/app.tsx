@@ -1,12 +1,12 @@
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
-import { LinkOutlined } from '@ant-design/icons';
+
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
-import { history, Link } from '@umijs/max';
+import { history } from '@umijs/max';
 import { getRequestInstance } from '@@/plugin-request/request';
-import { setDefaultAxiosFactory } from '@kit/platform-api';
+import { setDefaultAxiosFactory } from '@gosaas/commerce-api';
 import defaultSettings from '../config/defaultSettings';
 import type { AxiosResponse } from 'umi';
 import {
@@ -19,13 +19,11 @@ import {
   tenantErrorInterceptor,
   ErrorShowType,
   FriendlyError,
-} from '@kit/core';
+} from '@gosaas/core';
 import type { RequestConfig } from 'umi';
 import { message, notification } from 'antd';
 
-import 'echarts-wordcloud';
 
-const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
 /**
@@ -65,13 +63,12 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态
-    childrenRender: (children, props) => {
+    childrenRender: (children) => {
       // if (initialState?.loading) return <PageLoading />;
       return (
         <>
           {children}
-          {!props.location?.pathname?.includes('/login') && (
-            <SettingDrawer
+          <SettingDrawer
               disableUrlParams
               enableDarkTheme
               settings={initialState?.settings}
@@ -82,7 +79,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
                 }));
               }}
             />
-          )}
         </>
       );
     },
@@ -134,7 +130,7 @@ function errorInterceptor() {
           // do nothing
           break;
         case ErrorShowType.WARN_MESSAGE:
-          message.warn(errorMessage);
+          message.warning(errorMessage);
           break;
         case ErrorShowType.ERROR_MESSAGE:
           message.error(errorMessage);
