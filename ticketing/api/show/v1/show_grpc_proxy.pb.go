@@ -18,6 +18,12 @@ const _ = grpc.SupportPackageIsVersion7
 
 var _ ShowServiceServer = (*showServiceClientProxy)(nil)
 
+const GrpcOperationShowServiceListShow = "/ticketing.api.show.v1.ShowService/ListShow"
+const GrpcOperationShowServiceGetShow = "/ticketing.api.show.v1.ShowService/GetShow"
+const GrpcOperationShowServiceCreateShow = "/ticketing.api.show.v1.ShowService/CreateShow"
+const GrpcOperationShowServiceUpdateShow = "/ticketing.api.show.v1.ShowService/UpdateShow"
+const GrpcOperationShowServiceDeleteShow = "/ticketing.api.show.v1.ShowService/DeleteShow"
+
 // showServiceClientProxy is the proxy to turn ShowService client to server interface.
 type showServiceClientProxy struct {
 	cc ShowServiceClient

@@ -1,0 +1,70 @@
+app:
+  host_display_name: GO SAAS COMMERCE
+  host_logo: /logo.svg
+services:
+  registry:
+    type: etcd
+    endpoint: http://etcd:2379
+  services:
+    user: {}
+    sys: {}
+    saas: {}
+    realtime: {}
+    dtmservice: {}
+data:
+  endpoints:
+    databases:
+      default:
+        driver: mysql
+        source: root:youShouldChangeThis@tcp(mysqld:3306)/kit?parseTime=true&loc=Local&charset=utf8mb4&interpolateParams=true
+    redis:
+      default:
+        addrs: ["redis:6379"]
+        password: youShouldChangeThis
+    email: {}
+    events:
+      default:
+        topic: kit
+        addr: kafka:9092
+        type: kafka
+#        type: pulsar
+#        addr: pulsar://pulsar:6650
+      saas:
+        group: saas-golang
+      user:
+        group: user-golang
+      sys:
+        group: sys-golang
+      realtime:
+        group: realtime-golang
+  vfs:
+    -
+      public_url: http://localhost/assets
+      mount_path: "/"
+      os:
+        dir: ".assets"
+
+security:
+  jwt:
+    expire_in: 2592000s #    30 days
+    secret: 6efa4458-b245-40a3-9685-6b30d5dcda49
+  security_cookie:
+    hash_key: gt35ofggk07kdt7ief99bl51avd7pbhe
+  oidc:
+    hydra:
+      admin_url: http://hydra:4445
+
+logging:
+  zap:
+    level: "info"
+    outputPaths: [ "stdout", "rolling://.temp/logs" ]
+    errorOutputPaths: [ "stderr" ]
+    encoding: json
+    encoderConfig:
+      messageKey: message
+      levelKey: level
+      levelEncoder: lowercase
+
+tracing:
+  otel:
+    grpc: host.docker.internal:4317

@@ -1,7 +1,6 @@
 package biz
 
 import (
-	v1 "github.com/go-saas/commerce/cart/api/post/v1"
 	"github.com/go-saas/kit/pkg/data"
 	"github.com/go-saas/kit/pkg/gorm"
 )
@@ -13,5 +12,5 @@ type Post struct {
 }
 
 type PostRepo interface {
-	data.Repo[Post, string, v1.ListPostRequest]
+	data.Repo[Post, string, interface{}]
 }

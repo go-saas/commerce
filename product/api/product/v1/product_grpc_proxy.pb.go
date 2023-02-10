@@ -18,6 +18,12 @@ const _ = grpc.SupportPackageIsVersion7
 
 var _ ProductServiceServer = (*productServiceClientProxy)(nil)
 
+const GrpcOperationProductServiceListProduct = "/product.api.product.v1.ProductService/ListProduct"
+const GrpcOperationProductServiceGetProduct = "/product.api.product.v1.ProductService/GetProduct"
+const GrpcOperationProductServiceCreateProduct = "/product.api.product.v1.ProductService/CreateProduct"
+const GrpcOperationProductServiceUpdateProduct = "/product.api.product.v1.ProductService/UpdateProduct"
+const GrpcOperationProductServiceDeleteProduct = "/product.api.product.v1.ProductService/DeleteProduct"
+
 // productServiceClientProxy is the proxy to turn ProductService client to server interface.
 type productServiceClientProxy struct {
 	cc ProductServiceClient

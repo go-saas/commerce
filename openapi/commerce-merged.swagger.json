@@ -1,27 +1,18 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "cart/api/post/v1/post.proto",
+    "title": "order/api/order/v1/order.proto",
     "version": "version not set"
   },
   "tags": [
     {
-      "name": "PostService"
-    },
-    {
       "name": "OrderService"
     },
     {
-      "name": "PostService"
-    },
-    {
-      "name": "CategoryService"
+      "name": "ProductCategoryService"
     },
     {
       "name": "BrandService"
-    },
-    {
-      "name": "CategoryService"
     },
     {
       "name": "ProductService"
@@ -33,7 +24,7 @@
       "name": "ActivityService"
     },
     {
-      "name": "CategoryService"
+      "name": "TicketingCategoryService"
     },
     {
       "name": "ShowService"
@@ -49,446 +40,6 @@
     "application/json"
   ],
   "paths": {
-    "/v1/cart/post": {
-      "post": {
-        "operationId": "PostService_CreatePost",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/cartpostv1Post"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/cartpostv1CreatePostRequest"
-            }
-          }
-        ],
-        "tags": [
-          "PostService"
-        ]
-      }
-    },
-    "/v1/cart/post/list": {
-      "post": {
-        "operationId": "PostService_ListPost2",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/cartpostv1ListPostReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/cartpostv1ListPostRequest"
-            }
-          }
-        ],
-        "tags": [
-          "PostService"
-        ]
-      }
-    },
-    "/v1/cart/post/{id}": {
-      "get": {
-        "operationId": "PostService_GetPost",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/cartpostv1Post"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "PostService"
-        ]
-      },
-      "delete": {
-        "operationId": "PostService_DeletePost",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/cartpostv1DeletePostReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "PostService"
-        ]
-      }
-    },
-    "/v1/cart/post/{post.id}": {
-      "put": {
-        "operationId": "PostService_UpdatePost",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/cartpostv1Post"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "post.id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/cartpostv1UpdatePostRequest"
-            }
-          }
-        ],
-        "tags": [
-          "PostService"
-        ]
-      },
-      "patch": {
-        "operationId": "PostService_UpdatePost2",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/cartpostv1Post"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "post.id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/cartpostv1UpdatePostRequest"
-            }
-          }
-        ],
-        "tags": [
-          "PostService"
-        ]
-      }
-    },
-    "/v1/cart/posts": {
-      "get": {
-        "operationId": "PostService_ListPost",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/cartpostv1ListPostReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "pageOffset",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "search",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$eq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$neq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$contains",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$starts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$nstarts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$ends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$nends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$in",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.id.$nin",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.id.$null",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$nnull",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$empty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$nempty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$like",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.name.$eq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.name.$neq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.name.$contains",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.name.$starts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.name.$nstarts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.name.$ends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.name.$nends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.name.$in",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.name.$nin",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.name.$null",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.name.$nnull",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.name.$empty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.name.$nempty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.name.$like",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "PostService"
-        ]
-      }
-    },
     "/v1/order/order": {
       "get": {
         "operationId": "OrderService_ListOrder",
@@ -924,446 +475,6 @@
         ],
         "tags": [
           "OrderService"
-        ]
-      }
-    },
-    "/v1/payment/post": {
-      "post": {
-        "operationId": "PostService_CreatePost",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/paymentpostv1Post"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/paymentpostv1CreatePostRequest"
-            }
-          }
-        ],
-        "tags": [
-          "PostService"
-        ]
-      }
-    },
-    "/v1/payment/post/list": {
-      "post": {
-        "operationId": "PostService_ListPost2",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/paymentpostv1ListPostReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/paymentpostv1ListPostRequest"
-            }
-          }
-        ],
-        "tags": [
-          "PostService"
-        ]
-      }
-    },
-    "/v1/payment/post/{id}": {
-      "get": {
-        "operationId": "PostService_GetPost",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/paymentpostv1Post"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "PostService"
-        ]
-      },
-      "delete": {
-        "operationId": "PostService_DeletePost",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/paymentpostv1DeletePostReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "PostService"
-        ]
-      }
-    },
-    "/v1/payment/post/{post.id}": {
-      "put": {
-        "operationId": "PostService_UpdatePost",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/paymentpostv1Post"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "post.id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/paymentpostv1UpdatePostRequest"
-            }
-          }
-        ],
-        "tags": [
-          "PostService"
-        ]
-      },
-      "patch": {
-        "operationId": "PostService_UpdatePost2",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/paymentpostv1Post"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "post.id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/paymentpostv1UpdatePostRequest"
-            }
-          }
-        ],
-        "tags": [
-          "PostService"
-        ]
-      }
-    },
-    "/v1/payment/posts": {
-      "get": {
-        "operationId": "PostService_ListPost",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/paymentpostv1ListPostReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "pageOffset",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "search",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$eq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$neq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$contains",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$starts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$nstarts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$ends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$nends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$in",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.id.$nin",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.id.$null",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$nnull",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$empty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$nempty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$like",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.name.$eq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.name.$neq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.name.$contains",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.name.$starts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.name.$nstarts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.name.$ends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.name.$nends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.name.$in",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.name.$nin",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.name.$null",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.name.$nnull",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.name.$empty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.name.$nempty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.name.$like",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "PostService"
         ]
       }
     },
@@ -1807,253 +918,9 @@
         ]
       }
     },
-    "/v1/product/categories": {
-      "get": {
-        "operationId": "CategoryService_ListCategory",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apiproductv1ListCategoryReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "pageOffset",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "search",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$eq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$neq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$contains",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$starts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$nstarts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$ends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$nends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.id.$in",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.id.$nin",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.id.$null",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$nnull",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$empty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$nempty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.id.$like",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$eq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$neq",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$contains",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$starts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$nstarts_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$ends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$nends_with",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "filter.code.$in",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.code.$nin",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "filter.code.$null",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.code.$nnull",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.code.$empty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.code.$nempty",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "filter.code.$like",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "CategoryService"
-        ]
-      }
-    },
     "/v1/product/category": {
       "get": {
-        "operationId": "CategoryService_ListCategory",
+        "operationId": "ProductCategoryService_ListCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -2383,16 +1250,16 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "ProductCategoryService"
         ]
       },
       "post": {
-        "operationId": "CategoryService_CreateCategory",
+        "operationId": "ProductCategoryService_CreateCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/apiproductv1Category"
+              "$ref": "#/definitions/productapicategoryv1Category"
             }
           },
           "default": {
@@ -2408,23 +1275,23 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/apiproductv1CreateCategoryRequest"
+              "$ref": "#/definitions/productapicategoryv1CreateCategoryRequest"
             }
           }
         ],
         "tags": [
-          "CategoryService"
+          "ProductCategoryService"
         ]
       }
     },
     "/v1/product/category/list": {
       "post": {
-        "operationId": "CategoryService_ListCategory2",
+        "operationId": "ProductCategoryService_ListCategory2",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/apiproductv1ListCategoryReply"
+              "$ref": "#/definitions/productapicategoryv1ListCategoryReply"
             }
           },
           "default": {
@@ -2440,92 +1307,18 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/apiproductv1ListCategoryRequest"
+              "$ref": "#/definitions/productapicategoryv1ListCategoryRequest"
             }
           }
         ],
         "tags": [
-          "CategoryService"
-        ]
-      }
-    },
-    "/v1/product/category/{category.id}": {
-      "put": {
-        "operationId": "CategoryService_UpdateCategory",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apiproductv1Category"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "category.id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/apiproductv1UpdateCategoryRequest"
-            }
-          }
-        ],
-        "tags": [
-          "CategoryService"
-        ]
-      },
-      "patch": {
-        "operationId": "CategoryService_UpdateCategory2",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apiproductv1Category"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "category.id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/apiproductv1UpdateCategoryRequest"
-            }
-          }
-        ],
-        "tags": [
-          "CategoryService"
+          "ProductCategoryService"
         ]
       }
     },
     "/v1/product/category/{category.key}": {
       "put": {
-        "operationId": "CategoryService_UpdateCategory",
+        "operationId": "ProductCategoryService_UpdateCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -2557,11 +1350,11 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "ProductCategoryService"
         ]
       },
       "patch": {
-        "operationId": "CategoryService_UpdateCategory2",
+        "operationId": "ProductCategoryService_UpdateCategory2",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -2593,71 +1386,13 @@
           }
         ],
         "tags": [
-          "CategoryService"
-        ]
-      }
-    },
-    "/v1/product/category/{id}": {
-      "get": {
-        "operationId": "CategoryService_GetCategory",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apiproductv1Category"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "CategoryService"
-        ]
-      },
-      "delete": {
-        "operationId": "CategoryService_DeleteCategory",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apiproductv1DeleteCategoryReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "CategoryService"
+          "ProductCategoryService"
         ]
       }
     },
     "/v1/product/category/{key}": {
       "get": {
-        "operationId": "CategoryService_GetCategory",
+        "operationId": "ProductCategoryService_GetCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -2681,11 +1416,11 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "ProductCategoryService"
         ]
       },
       "delete": {
-        "operationId": "CategoryService_DeleteCategory",
+        "operationId": "ProductCategoryService_DeleteCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -2709,7 +1444,7 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "ProductCategoryService"
         ]
       }
     },
@@ -3655,7 +2390,7 @@
     },
     "/v1/ticketing/category": {
       "get": {
-        "operationId": "CategoryService_ListCategory",
+        "operationId": "TicketingCategoryService_ListCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -3985,11 +2720,11 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "TicketingCategoryService"
         ]
       },
       "post": {
-        "operationId": "CategoryService_CreateCategory",
+        "operationId": "TicketingCategoryService_CreateCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -4015,13 +2750,13 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "TicketingCategoryService"
         ]
       }
     },
     "/v1/ticketing/category/list": {
       "post": {
-        "operationId": "CategoryService_ListCategory2",
+        "operationId": "TicketingCategoryService_ListCategory2",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -4047,13 +2782,13 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "TicketingCategoryService"
         ]
       }
     },
     "/v1/ticketing/category/{category.key}": {
       "put": {
-        "operationId": "CategoryService_UpdateCategory",
+        "operationId": "TicketingCategoryService_UpdateCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -4085,11 +2820,11 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "TicketingCategoryService"
         ]
       },
       "patch": {
-        "operationId": "CategoryService_UpdateCategory2",
+        "operationId": "TicketingCategoryService_UpdateCategory2",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -4121,13 +2856,13 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "TicketingCategoryService"
         ]
       }
     },
     "/v1/ticketing/category/{key}": {
       "get": {
-        "operationId": "CategoryService_GetCategory",
+        "operationId": "TicketingCategoryService_GetCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -4151,11 +2886,11 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "TicketingCategoryService"
         ]
       },
       "delete": {
-        "operationId": "CategoryService_DeleteCategory",
+        "operationId": "TicketingCategoryService_DeleteCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -4179,7 +2914,7 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "TicketingCategoryService"
         ]
       }
     },
@@ -5676,288 +4411,6 @@
     }
   },
   "definitions": {
-    "apiproductv1Category": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "code": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "logo": {
-          "type": "string"
-        },
-        "parentId": {
-          "type": "string"
-        },
-        "path": {
-          "type": "string"
-        }
-      }
-    },
-    "apiproductv1CategoryFilter": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "$ref": "#/definitions/operationStringFilterOperation"
-        },
-        "code": {
-          "$ref": "#/definitions/operationStringFilterOperation"
-        }
-      }
-    },
-    "apiproductv1CreateCategoryRequest": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "type": "string",
-          "required": [
-            "code"
-          ]
-        },
-        "name": {
-          "type": "string"
-        },
-        "logo": {
-          "type": "string"
-        },
-        "parentId": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "code"
-      ]
-    },
-    "apiproductv1DeleteCategoryReply": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "code": {
-          "type": "string"
-        }
-      }
-    },
-    "apiproductv1ListCategoryReply": {
-      "type": "object",
-      "properties": {
-        "totalSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "filterSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/apiproductv1Category"
-          }
-        }
-      }
-    },
-    "apiproductv1ListCategoryRequest": {
-      "type": "object",
-      "properties": {
-        "pageOffset": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "pageSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "search": {
-          "type": "string"
-        },
-        "sort": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "fields": {
-          "type": "string"
-        },
-        "filter": {
-          "$ref": "#/definitions/apiproductv1CategoryFilter"
-        }
-      }
-    },
-    "apiproductv1UpdateCategory": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
-        },
-        "code": {
-          "type": "string",
-          "required": [
-            "code"
-          ]
-        },
-        "name": {
-          "type": "string"
-        },
-        "logo": {
-          "type": "string"
-        },
-        "parentId": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "id",
-        "code"
-      ]
-    },
-    "apiproductv1UpdateCategoryRequest": {
-      "type": "object",
-      "properties": {
-        "category": {
-          "$ref": "#/definitions/apiproductv1UpdateCategory"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
-    },
-    "cartpostv1CreatePostRequest": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "required": [
-            "name"
-          ]
-        }
-      },
-      "required": [
-        "name"
-      ]
-    },
-    "cartpostv1DeletePostReply": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        }
-      }
-    },
-    "cartpostv1ListPostReply": {
-      "type": "object",
-      "properties": {
-        "totalSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "filterSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/cartpostv1Post"
-          }
-        }
-      }
-    },
-    "cartpostv1ListPostRequest": {
-      "type": "object",
-      "properties": {
-        "pageOffset": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "pageSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "search": {
-          "type": "string"
-        },
-        "sort": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "fields": {
-          "type": "string"
-        },
-        "filter": {
-          "$ref": "#/definitions/cartpostv1PostFilter"
-        }
-      }
-    },
-    "cartpostv1Post": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
-    "cartpostv1PostFilter": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "$ref": "#/definitions/operationStringFilterOperation"
-        },
-        "name": {
-          "$ref": "#/definitions/operationStringFilterOperation"
-        }
-      }
-    },
-    "cartpostv1UpdatePost": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
-        },
-        "name": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "id"
-      ]
-    },
-    "cartpostv1UpdatePostRequest": {
-      "type": "object",
-      "properties": {
-        "post": {
-          "$ref": "#/definitions/cartpostv1UpdatePost"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
-    },
     "googlerpcStatus": {
       "type": "object",
       "properties": {
@@ -6120,132 +4573,6 @@
         "$like": {
           "type": "string",
           "x-nullable": true
-        }
-      }
-    },
-    "paymentpostv1CreatePostRequest": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "required": [
-            "name"
-          ]
-        }
-      },
-      "required": [
-        "name"
-      ]
-    },
-    "paymentpostv1DeletePostReply": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        }
-      }
-    },
-    "paymentpostv1ListPostReply": {
-      "type": "object",
-      "properties": {
-        "totalSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "filterSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/paymentpostv1Post"
-          }
-        }
-      }
-    },
-    "paymentpostv1ListPostRequest": {
-      "type": "object",
-      "properties": {
-        "pageOffset": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "pageSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "search": {
-          "type": "string"
-        },
-        "sort": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "fields": {
-          "type": "string"
-        },
-        "filter": {
-          "$ref": "#/definitions/paymentpostv1PostFilter"
-        }
-      }
-    },
-    "paymentpostv1Post": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
-    "paymentpostv1PostFilter": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "$ref": "#/definitions/operationStringFilterOperation"
-        },
-        "name": {
-          "$ref": "#/definitions/operationStringFilterOperation"
-        }
-      }
-    },
-    "paymentpostv1UpdatePost": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
-        },
-        "name": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "id"
-      ]
-    },
-    "paymentpostv1UpdatePostRequest": {
-      "type": "object",
-      "properties": {
-        "post": {
-          "$ref": "#/definitions/paymentpostv1UpdatePost"
-        },
-        "updateMask": {
-          "type": "string"
         }
       }
     },

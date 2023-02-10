@@ -16,29 +16,35 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-var _ CategoryServiceServer = (*categoryServiceClientProxy)(nil)
+var _ ProductCategoryServiceServer = (*productCategoryServiceClientProxy)(nil)
 
-// categoryServiceClientProxy is the proxy to turn CategoryService client to server interface.
-type categoryServiceClientProxy struct {
-	cc CategoryServiceClient
+const GrpcOperationProductCategoryServiceListCategory = "/product.api.category.v1.ProductCategoryService/ListCategory"
+const GrpcOperationProductCategoryServiceGetCategory = "/product.api.category.v1.ProductCategoryService/GetCategory"
+const GrpcOperationProductCategoryServiceCreateCategory = "/product.api.category.v1.ProductCategoryService/CreateCategory"
+const GrpcOperationProductCategoryServiceUpdateCategory = "/product.api.category.v1.ProductCategoryService/UpdateCategory"
+const GrpcOperationProductCategoryServiceDeleteCategory = "/product.api.category.v1.ProductCategoryService/DeleteCategory"
+
+// productCategoryServiceClientProxy is the proxy to turn ProductCategoryService client to server interface.
+type productCategoryServiceClientProxy struct {
+	cc ProductCategoryServiceClient
 }
 
-func NewCategoryServiceClientProxy(cc CategoryServiceClient) CategoryServiceServer {
-	return &categoryServiceClientProxy{cc}
+func NewProductCategoryServiceClientProxy(cc ProductCategoryServiceClient) ProductCategoryServiceServer {
+	return &productCategoryServiceClientProxy{cc}
 }
 
-func (c *categoryServiceClientProxy) ListCategory(ctx context.Context, in *ListCategoryRequest) (*ListCategoryReply, error) {
+func (c *productCategoryServiceClientProxy) ListCategory(ctx context.Context, in *ListCategoryRequest) (*ListCategoryReply, error) {
 	return c.cc.ListCategory(ctx, in)
 }
-func (c *categoryServiceClientProxy) GetCategory(ctx context.Context, in *GetCategoryRequest) (*Category, error) {
+func (c *productCategoryServiceClientProxy) GetCategory(ctx context.Context, in *GetCategoryRequest) (*Category, error) {
 	return c.cc.GetCategory(ctx, in)
 }
-func (c *categoryServiceClientProxy) CreateCategory(ctx context.Context, in *CreateCategoryRequest) (*Category, error) {
+func (c *productCategoryServiceClientProxy) CreateCategory(ctx context.Context, in *CreateCategoryRequest) (*Category, error) {
 	return c.cc.CreateCategory(ctx, in)
 }
-func (c *categoryServiceClientProxy) UpdateCategory(ctx context.Context, in *UpdateCategoryRequest) (*Category, error) {
+func (c *productCategoryServiceClientProxy) UpdateCategory(ctx context.Context, in *UpdateCategoryRequest) (*Category, error) {
 	return c.cc.UpdateCategory(ctx, in)
 }
-func (c *categoryServiceClientProxy) DeleteCategory(ctx context.Context, in *DeleteCategoryRequest) (*DeleteCategoryReply, error) {
+func (c *productCategoryServiceClientProxy) DeleteCategory(ctx context.Context, in *DeleteCategoryRequest) (*DeleteCategoryReply, error) {
 	return c.cc.DeleteCategory(ctx, in)
 }

@@ -14,7 +14,7 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 option go_package = "github.com/go-saas/commerce/ticketing/api/category/v1;v1";
 
 
-service CategoryService {
+service TicketingCategoryService {
   rpc ListCategory (ListCategoryRequest) returns (ListCategoryReply){
     option (google.api.http) = {
       get: "/v1/ticketing/category",

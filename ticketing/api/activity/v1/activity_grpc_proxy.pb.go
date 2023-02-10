@@ -18,6 +18,12 @@ const _ = grpc.SupportPackageIsVersion7
 
 var _ ActivityServiceServer = (*activityServiceClientProxy)(nil)
 
+const GrpcOperationActivityServiceListActivity = "/ticketing.api.activity.v1.ActivityService/ListActivity"
+const GrpcOperationActivityServiceGetActivity = "/ticketing.api.activity.v1.ActivityService/GetActivity"
+const GrpcOperationActivityServiceCreateActivity = "/ticketing.api.activity.v1.ActivityService/CreateActivity"
+const GrpcOperationActivityServiceUpdateActivity = "/ticketing.api.activity.v1.ActivityService/UpdateActivity"
+const GrpcOperationActivityServiceDeleteActivity = "/ticketing.api.activity.v1.ActivityService/DeleteActivity"
+
 // activityServiceClientProxy is the proxy to turn ActivityService client to server interface.
 type activityServiceClientProxy struct {
 	cc ActivityServiceClient

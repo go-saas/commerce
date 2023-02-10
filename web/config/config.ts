@@ -135,4 +135,7 @@ export default defineConfig({
     strategy: 'normal',
   },
   requestRecord: {},
+  qiankun: {
+    slave: {},
+  },
 });

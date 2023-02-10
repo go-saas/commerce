@@ -18,6 +18,12 @@ const _ = grpc.SupportPackageIsVersion7
 
 var _ OrderServiceServer = (*orderServiceClientProxy)(nil)
 
+const GrpcOperationOrderServiceListOrder = "/order.api.order.v1.OrderService/ListOrder"
+const GrpcOperationOrderServiceGetOrder = "/order.api.order.v1.OrderService/GetOrder"
+const GrpcOperationOrderServiceCreateOrder = "/order.api.order.v1.OrderService/CreateOrder"
+const GrpcOperationOrderServiceUpdateOrder = "/order.api.order.v1.OrderService/UpdateOrder"
+const GrpcOperationOrderServiceDeleteOrder = "/order.api.order.v1.OrderService/DeleteOrder"
+
 // orderServiceClientProxy is the proxy to turn OrderService client to server interface.
 type orderServiceClientProxy struct {
 	cc OrderServiceClient

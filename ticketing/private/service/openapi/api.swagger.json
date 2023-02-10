@@ -12,7 +12,7 @@
       "name": "ActivityService"
     },
     {
-      "name": "CategoryService"
+      "name": "TicketingCategoryService"
     },
     {
       "name": "ShowService"
@@ -532,7 +532,7 @@
     },
     "/v1/ticketing/category": {
       "get": {
-        "operationId": "CategoryService_ListCategory",
+        "operationId": "TicketingCategoryService_ListCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -862,11 +862,11 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "TicketingCategoryService"
         ]
       },
       "post": {
-        "operationId": "CategoryService_CreateCategory",
+        "operationId": "TicketingCategoryService_CreateCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -892,13 +892,13 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "TicketingCategoryService"
         ]
       }
     },
     "/v1/ticketing/category/list": {
       "post": {
-        "operationId": "CategoryService_ListCategory2",
+        "operationId": "TicketingCategoryService_ListCategory2",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -924,13 +924,13 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "TicketingCategoryService"
         ]
       }
     },
     "/v1/ticketing/category/{category.key}": {
       "put": {
-        "operationId": "CategoryService_UpdateCategory",
+        "operationId": "TicketingCategoryService_UpdateCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -962,11 +962,11 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "TicketingCategoryService"
         ]
       },
       "patch": {
-        "operationId": "CategoryService_UpdateCategory2",
+        "operationId": "TicketingCategoryService_UpdateCategory2",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -998,13 +998,13 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "TicketingCategoryService"
         ]
       }
     },
     "/v1/ticketing/category/{key}": {
       "get": {
-        "operationId": "CategoryService_GetCategory",
+        "operationId": "TicketingCategoryService_GetCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -1028,11 +1028,11 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "TicketingCategoryService"
         ]
       },
       "delete": {
-        "operationId": "CategoryService_DeleteCategory",
+        "operationId": "TicketingCategoryService_DeleteCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -1056,7 +1056,7 @@
           }
         ],
         "tags": [
-          "CategoryService"
+          "TicketingCategoryService"
         ]
       }
     },

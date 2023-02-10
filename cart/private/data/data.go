@@ -16,7 +16,6 @@ import (
 var ProviderSet = kitdi.NewSet(
 	NewData,
 	NewMigrate,
-	NewPostRepo,
 )
 
 const ConnName = "cart"

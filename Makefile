@@ -1,6 +1,6 @@
 GOPATH:=$(shell go env GOPATH)
 VERSION=$(shell git describe --tags --always)
-BUF_VERSION=v1.8.0
+BUF_VERSION=v1.14.0
 
 .PHONY: init
 # init env

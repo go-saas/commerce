@@ -30,3 +30,11 @@ other = "Write Show"
 
 [ticketing.manager]
 other = "Ticketing Management"
+[ticketing.location]
+other = "Location"
+[ticketing.activity]
+other = "Activity"
+[ticketing.show]
+other = "Show"
+[ticketing.ticket]
+other = "Ticket"

@@ -18,6 +18,12 @@ const _ = grpc.SupportPackageIsVersion7
 
 var _ BrandServiceServer = (*brandServiceClientProxy)(nil)
 
+const GrpcOperationBrandServiceListBrand = "/product.api.product.v1.BrandService/ListBrand"
+const GrpcOperationBrandServiceGetBrand = "/product.api.product.v1.BrandService/GetBrand"
+const GrpcOperationBrandServiceCreateBrand = "/product.api.product.v1.BrandService/CreateBrand"
+const GrpcOperationBrandServiceUpdateBrand = "/product.api.product.v1.BrandService/UpdateBrand"
+const GrpcOperationBrandServiceDeleteBrand = "/product.api.product.v1.BrandService/DeleteBrand"
+
 // brandServiceClientProxy is the proxy to turn BrandService client to server interface.
 type brandServiceClientProxy struct {
 	cc BrandServiceClient

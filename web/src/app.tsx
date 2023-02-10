@@ -5,10 +5,26 @@ import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history, Link } from '@umijs/max';
+import { getRequestInstance } from '@@/plugin-request/request';
+import { setDefaultAxiosFactory } from '@kit/platform-api';
 import defaultSettings from '../config/defaultSettings';
-import { errorConfig } from './requestErrorConfig';
-import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
-import React from 'react';
+import type { AxiosResponse } from 'umi';
+import {
+  authRequestInterceptor,
+  csrfRequestInterceptor,
+  csrfRespInterceptor,
+  saasRequestInterceptor,
+  authRespInterceptor,
+  bizErrorInterceptor,
+  tenantErrorInterceptor,
+  ErrorShowType,
+  FriendlyError,
+} from '@kit/core';
+import type { RequestConfig } from 'umi';
+import { message, notification } from 'antd';
+
+import 'echarts-wordcloud';
+
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
@@ -21,30 +37,9 @@ export async function getInitialState(): Promise<{
   loading?: boolean;
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
-  const fetchUserInfo = async () => {
-    try {
-      const msg = await queryCurrentUser({
-        skipErrorHandler: true,
-      });
-      return msg.data;
-    } catch (error) {
-      history.push(loginPath);
-    }
-    return undefined;
-  };
-  // 如果不是登录页面，执行
-  const { location } = history;
-  if (location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
-    return {
-      fetchUserInfo,
-      currentUser,
-      settings: defaultSettings as Partial<LayoutSettings>,
-    };
-  }
+  setDefaultAxiosFactory(getRequestInstance);
   return {
-    fetchUserInfo,
-    settings: defaultSettings as Partial<LayoutSettings>,
+    settings: defaultSettings,
   };
 }
 
@@ -52,65 +47,42 @@ export async function getInitialState(): Promise<{
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
     rightContentRender: () => <RightContent />,
+    disableContentMargin: false,
     waterMarkProps: {
       content: initialState?.currentUser?.name,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
-      const { location } = history;
-      // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
-        history.push(loginPath);
-      }
+      // const { location } = history;
+      console.log(history);
+      // // 如果没有登录，重定向到 login
+      // if (!initialState?.currentUser && location.pathname !== loginPath) {
+      //   history.push(loginPath);
+      // }
     },
-    layoutBgImgList: [
-      {
-        src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/D2LWSqNny4sAAAAAAAAAAAAAFl94AQBr',
-        left: 85,
-        bottom: 100,
-        height: '303px',
-      },
-      {
-        src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/C2TWRpJpiC0AAAAAAAAAAAAAFl94AQBr',
-        bottom: -68,
-        right: -45,
-        height: '303px',
-      },
-      {
-        src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/F6vSTbj8KpYAAAAAAAAAAAAAFl94AQBr',
-        bottom: 0,
-        left: 0,
-        width: '331px',
-      },
-    ],
-    links: isDev
-      ? [
-          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
-            <LinkOutlined />
-            <span>OpenAPI 文档</span>
-          </Link>,
-        ]
-      : [],
+    links:[],
     menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态
-    childrenRender: (children) => {
+    childrenRender: (children, props) => {
       // if (initialState?.loading) return <PageLoading />;
       return (
         <>
           {children}
-          <SettingDrawer
-            disableUrlParams
-            enableDarkTheme
-            settings={initialState?.settings}
-            onSettingChange={(settings) => {
-              setInitialState((preInitialState) => ({
-                ...preInitialState,
-                settings,
-              }));
-            }}
-          />
+          {!props.location?.pathname?.includes('/login') && (
+            <SettingDrawer
+              disableUrlParams
+              enableDarkTheme
+              settings={initialState?.settings}
+              onSettingChange={(settings) => {
+                setInitialState((preInitialState) => ({
+                  ...preInitialState,
+                  settings,
+                }));
+              }}
+            />
+          )}
         </>
       );
     },
@@ -118,11 +90,88 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   };
 };
 
-/**
- * @name request 配置，可以配置错误处理
- * 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
- * @doc https://umijs.org/docs/max/request#配置
- */
-export const request = {
-  ...errorConfig,
+function errorInterceptor() {
+  return [
+    (resp: AxiosResponse) => {
+      return resp;
+    },
+    (error: any) => {
+      console.log(error.wrap || error);
+      const { config, code, response, request } = error.wrap || error || {};
+      let showType = ErrorShowType.ERROR_MESSAGE;
+      let errorMessage = '';
+      let errorCode = code;
+
+      if ('showType' in config) {
+        showType = config.showType;
+      }
+
+      if (error instanceof FriendlyError) {
+        errorCode = error.reason;
+        errorMessage = error.message || errorCode;
+      }
+      if (response) {
+        if (!errorMessage) {
+          const status = response.status;
+          errorMessage = status.toString();
+        }
+        if (!errorCode) {
+          errorCode = errorMessage;
+        }
+      } else if (request) {
+        // 请求已经成功发起，但没有收到响应
+        // \`error.request\` 在浏览器中是 XMLHttpRequest 的实例，
+        // 而在node.js中是 http.ClientRequest 的实例
+        errorMessage = 'None response! Please retry.';
+        showType = ErrorShowType.ERROR_MESSAGE;
+      } else {
+        // 发送请求时出了点问题
+        errorMessage = 'Request error, please retry.';
+        showType = ErrorShowType.ERROR_MESSAGE;
+      }
+      switch (showType) {
+        case ErrorShowType.SILENT:
+          // do nothing
+          break;
+        case ErrorShowType.WARN_MESSAGE:
+          message.warn(errorMessage);
+          break;
+        case ErrorShowType.ERROR_MESSAGE:
+          message.error(errorMessage);
+          break;
+        case ErrorShowType.NOTIFICATION:
+          notification.open({
+            description: errorMessage,
+            message: errorCode,
+          });
+          break;
+        case ErrorShowType.REDIRECT:
+          // TODO: redirect
+          break;
+        default:
+          message.error(errorMessage);
+      }
+      return Promise.reject(new FriendlyError(code, errorCode, errorMessage));
+    },
+  ];
+}
+
+export const request: RequestConfig = {
+  baseURL: BASE_URL,
+  withCredentials: true,
+  requestInterceptors: [
+    authRequestInterceptor(),
+    csrfRequestInterceptor(),
+    saasRequestInterceptor(),
+  ],
+  responseInterceptors: [
+    csrfRespInterceptor(),
+    bizErrorInterceptor(),
+    errorInterceptor() as any,
+    authRespInterceptor(() => {
+      //redirect to login
+      history.push(loginPath);
+    }),
+    tenantErrorInterceptor(),
+  ],
 };

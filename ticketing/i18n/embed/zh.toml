@@ -30,3 +30,11 @@ other = "增加/修改/删除票"
 
 [ticketing.manager]
 other = "票务管理"
+[ticketing.location]
+other = "场地"
+[ticketing.activity]
+other = "活动"
+[ticketing.show]
+other = "演出"
+[ticketing.ticket]
+other = "票务"
