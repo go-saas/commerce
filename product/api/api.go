@@ -5,7 +5,7 @@ import (
 	"github.com/go-kratos/kratos/v2/registry"
 	grpc2 "github.com/go-kratos/kratos/v2/transport/grpc"
 	"github.com/go-kratos/kratos/v2/transport/http"
-	v1 "github.com/go-saas/commerce/product/api/post/v1"
+	v1 "github.com/go-saas/commerce/product/api/product/v1"
 	_ "github.com/go-saas/commerce/product/i18n"
 	"github.com/go-saas/kit/pkg/api"
 	"github.com/go-saas/kit/pkg/conf"
@@ -26,13 +26,13 @@ func NewHttpClient(client *conf.Client, services *conf.Services, dis registry.Di
 	return api.NewHttpClient(client, ServiceName, services, dis, opt, tokenMgr, logger, opts)
 }
 
-var GrpcProviderSet = kitdi.NewSet(NewGrpcConn, NewPostGrpcClient)
-var HttpProviderSet = kitdi.NewSet(NewHttpClient, NewPostHttpClient)
+var GrpcProviderSet = kitdi.NewSet(NewGrpcConn, NewProductGrpcClient)
+var HttpProviderSet = kitdi.NewSet(NewHttpClient, NewProductHttpClient)
 
-func NewPostGrpcClient(conn GrpcConn) v1.PostServiceClient {
-	return v1.NewPostServiceClient(conn)
+func NewProductGrpcClient(conn GrpcConn) v1.ProductServiceClient {
+	return v1.NewProductServiceClient(conn)
 }
 
-func NewPostHttpClient(http HttpClient) v1.PostServiceHTTPClient {
-	return v1.NewPostServiceHTTPClient(http)
+func NewProductHttpClient(http HttpClient) v1.ProductServiceHTTPClient {
+	return v1.NewProductServiceHTTPClient(http)
 }

@@ -7,6 +7,9 @@ import (
 
 const (
 	ResourceLocation = "ticketing.location"
+	ResourceShow     = "ticketing.show"
+	ResourceTicket   = "ticketing.ticket"
+	ResourceActivity = "ticketing.activity"
 )
 
 //go:embed permission.yaml

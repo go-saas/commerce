@@ -1,0 +1,84 @@
+services:
+  registry:
+    type: etcd
+    endpoint: http://host.docker.internal:3379
+  servers:
+    user:
+      http:
+        addr : ":29080"
+        endpoint: host.docker.internal:29080
+      grpc:
+        addr : ":29081"
+        endpoint: host.docker.internal:29081
+    saas:
+      http:
+        addr : ":29180"
+        endpoint: host.docker.internal:29180
+      grpc:
+        addr : ":29181"
+        endpoint: host.docker.internal:29181
+    sys:
+      http:
+        addr : ":29280"
+        endpoint: host.docker.internal:29280
+      grpc:
+        addr : ":29281"
+        endpoint: host.docker.internal:29281
+    realtime:
+      http:
+        addr: ":29380"
+        endpoint: host.docker.internal:29380
+      grpc:
+        addr: ":29381"
+        endpoint: host.docker.internal:29381
+
+    cart:
+      http:
+        addr: ":20080"
+        endpoint: host.docker.internal:20080
+      grpc:
+        addr: ":20081"
+        endpoint: host.docker.internal:20081
+    order:
+      http:
+        addr: ":20180"
+        endpoint: host.docker.internal:20180
+      grpc:
+        addr: ":20181"
+        endpoint: host.docker.internal:20181
+    payment:
+      http:
+        addr: ":20280"
+        endpoint: host.docker.internal:20280
+      grpc:
+        addr: ":20281"
+        endpoint: host.docker.internal:20281
+    product:
+      http:
+        addr: ":20380"
+        endpoint: host.docker.internal:20380
+      grpc:
+        addr: ":20381"
+        endpoint: host.docker.internal:20381
+    ticketing:
+      http:
+        addr: ":20480"
+        endpoint: host.docker.internal:20480
+      grpc:
+        addr: ":20481"
+        endpoint: host.docker.internal:20481
+data:
+  endpoints:
+    events:
+      default:
+        addr: host.docker.internal:9094
+        type: kafka
+    databases:
+      default:
+        debug: true
+        driver: mysql
+        source: root:youShouldChangeThis@tcp(host.docker.internal:3406)/kit?parseTime=true
+    redis:
+      default:
+        addrs: ["host.docker.internal:7379"]
+        password: youShouldChangeThis

@@ -1,14 +1,51 @@
 groups:
 
-  - name: "permission.ticketing.post.group"
+  - name: "permission.ticketing.location.group"
     def:
-      - name: "permission.ticketing.post.any"
-        namespace: "ticketing.post"
+      - name: "permission.ticketing.location.any"
+        namespace: "ticketing.location"
         action: "*"
         internal: true
       - name: "permission.permission.read"
-        namespace: "ticketing.post"
+        namespace: "ticketing.location"
         action: "read"
       - name: "permission.permission.write"
-        namespace: "ticketing.post"
+        namespace: "ticketing.location"
+        action: "write"
+  - name: "permission.ticketing.activity.group"
+    def:
+      - name: "permission.ticketing.activity.any"
+        namespace: "ticketing.activity"
+        action: "*"
+        internal: true
+      - name: "permission.permission.read"
+        namespace: "ticketing.activity"
+        action: "read"
+      - name: "permission.permission.write"
+        namespace: "ticketing.activity"
+        action: "write"
+
+  - name: "permission.ticketing.show.group"
+    def:
+      - name: "permission.ticketing.show.any"
+        namespace: "ticketing.show"
+        action: "*"
+        internal: true
+      - name: "permission.permission.read"
+        namespace: "ticketing.show"
+        action: "read"
+      - name: "permission.permission.write"
+        namespace: "ticketing.show"
+        action: "write"
+  - name: "permission.ticketing.ticket.group"
+    def:
+      - name: "permission.ticketing.ticket.any"
+        namespace: "ticketing.ticket"
+        action: "*"
+        internal: true
+      - name: "permission.permission.read"
+        namespace: "ticketing.ticket"
+        action: "read"
+      - name: "permission.permission.write"
+        namespace: "ticketing.ticket"
         action: "write"

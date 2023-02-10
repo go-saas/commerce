@@ -1,6 +1,9 @@
 package biz
 
-import kitgorm "github.com/go-saas/kit/pkg/gorm"
+import (
+	"github.com/go-saas/commerce/pkg/price"
+	kitgorm "github.com/go-saas/kit/pkg/gorm"
+)
 
 // ProductSku sku
 type ProductSku struct {
@@ -15,7 +18,7 @@ type ProductSku struct {
 	MainPic ProductMedia   `gorm:"polymorphic:Owner;polymorphicValue:product_sku"`
 	Medias  []ProductMedia `gorm:"polymorphic:Owner;polymorphicValue:product_sku"`
 
-	Price PriceInfo `gorm:"embedded;embeddedPrefix:price_"`
+	Price price.Info `gorm:"embedded;embeddedPrefix:price_"`
 
 	Stock []Stock `gorm:"polymorphic:Owner;polymorphicValue:product_sku"`
 

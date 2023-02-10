@@ -1,6 +1,32 @@
-[permission.ticketing.post.group]
-other = "Post"
-[permission.ticketing.post.read]
-other = "Read Post"
-[permission.ticketing.post.write]
-other = "Write Post"
+[permission.ticketing.location.group]
+other = "Location"
+[permission.ticketing.location.read]
+other = "Read Location"
+[permission.ticketing.location.write]
+other = "Write Location"
+
+
+[permission.ticketing.activity.group]
+other = "Activity"
+[permission.ticketing.activity.read]
+other = "Read Activity"
+[permission.ticketing.activity.write]
+other = "Write Activity"
+
+[permission.ticketing.show.group]
+other = "Show"
+[permission.ticketing.show.read]
+other = "Read Show"
+[permission.ticketing.show.write]
+other = "Write Show"
+
+
+[permission.ticketing.ticket.group]
+other = "Show"
+[permission.ticketing.ticket.read]
+other = "Read Show"
+[permission.ticketing.ticket.write]
+other = "Write Show"
+
+[ticketing.manager]
+other = "Ticketing Management"

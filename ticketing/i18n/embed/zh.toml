@@ -1,6 +1,32 @@
-[permission.ticketing.post.group]
-other = "文章"
-[permission.ticketing.post.read]
-other = "读物文章"
-[permission.ticketing.post.write]
-other = "增加/修改/删除 文章"
+[permission.ticketing.location.group]
+other = "场地"
+[permission.ticketing.location.read]
+other = "查看场地"
+[permission.ticketing.location.write]
+other = "增加/修改/删除 场地"
+
+
+[permission.ticketing.activity.group]
+other = "活动"
+[permission.ticketing.activity.read]
+other = "查看活动"
+[permission.ticketing.activity.write]
+other = "增加/修改/删除 活动"
+
+[permission.ticketing.show.group]
+other = "演出"
+[permission.ticketing.show.read]
+other = "查看演出"
+[permission.ticketing.show.write]
+other = "增加/修改/删除 演出"
+
+
+[permission.ticketing.ticket.group]
+other = "票务"
+[permission.ticketing.ticket.read]
+other = "读取票"
+[permission.ticketing.ticket.write]
+other = "增加/修改/删除票"
+
+[ticketing.manager]
+other = "票务管理"
