@@ -18,6 +18,7 @@ var ProviderSet = kitdi.NewSet(
 	NewMigrate,
 	NewLocationRepo,
 	NewHallRepo,
+	NewCategoryRepo,
 )
 
 const ConnName = "github.com/go-saas/commerce/ticketing"

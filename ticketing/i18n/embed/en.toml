@@ -28,6 +28,14 @@ other = "Read Show"
 [permission.ticketing.ticket.write]
 other = "Write Show"
 
+[permission.ticketing.category.group]
+other = "Activity Category"
+[permission.ticketing.category.read]
+other = "Read Activity Category"
+[permission.ticketing.category.write]
+other = "Write Activity Category"
+
+
 [ticketing.manager]
 other = "Ticketing Management"
 [ticketing.location]

@@ -358,6 +358,8 @@ func (m *UpdateCategory) validate(all bool) error {
 
 	// no validation rules for Name
 
+	// no validation rules for Parent
+
 	if len(errors) > 0 {
 		return UpdateCategoryMultiError(errors)
 	}
@@ -1277,6 +1279,8 @@ func (m *Category) validate(all bool) error {
 	// no validation rules for Key
 
 	// no validation rules for Name
+
+	// no validation rules for Path
 
 	if all {
 		switch v := interface{}(m.GetCreatedAt()).(type) {

@@ -20,6 +20,12 @@ other = "查看演出"
 [permission.ticketing.show.write]
 other = "增加/修改/删除 演出"
 
+[permission.ticketing.category.group]
+other = "活动分类"
+[permission.ticketing.category.read]
+other = "读"
+[permission.ticketing.category.write]
+other = "写"
 
 [permission.ticketing.ticket.group]
 other = "票务"

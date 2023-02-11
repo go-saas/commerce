@@ -22,6 +22,7 @@ require (
 	github.com/lithammer/shortuuid/v3 v3.0.7
 	github.com/samber/lo v1.36.0
 	github.com/segmentio/ksuid v1.0.4
+	github.com/spf13/afero v1.9.3
 	github.com/stretchr/testify v1.8.1
 	golang.org/x/exp v0.0.0-20221002003631-540bb7301a08
 	golang.org/x/text v0.5.0
@@ -162,7 +163,6 @@ require (
 	github.com/robfig/cron/v3 v3.0.1 // indirect
 	github.com/sirupsen/logrus v1.9.0 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
-	github.com/spf13/afero v1.9.3 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/twpayne/go-geom v1.4.4 // indirect
 	github.com/uptrace/opentelemetry-go-extra/otelgorm v0.1.16 // indirect
@@ -212,6 +212,6 @@ require (
 replace (
 	github.com/99designs/keyring => github.com/99designs/keyring v1.2.1
 	github.com/dtm-labs/client => github.com/goxiaoy/client v0.0.0-20230202163110-7dfe91ab1b7f
-	github.com/go-saas/kit => github.com/go-saas/kit v0.0.5-0.20230203162617-c06671896a04
+	github.com/go-saas/kit => github.com/go-saas/kit v0.0.5-0.20230211072427-f570e1e62216
 	github.com/hibiken/asynqmon => github.com/goxiaoy/asynqmon v0.7.2-0.20220620161318-80231130441b
 )

@@ -2770,6 +2770,9 @@
         "name": {
           "type": "string"
         },
+        "path": {
+          "type": "string"
+        },
         "createdAt": {
           "type": "string",
           "format": "date-time"
@@ -3423,6 +3426,9 @@
           ]
         },
         "name": {
+          "type": "string"
+        },
+        "parent": {
           "type": "string"
         }
       },

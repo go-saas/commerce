@@ -10,6 +10,7 @@ const (
 	ResourceShow     = "ticketing.show"
 	ResourceTicket   = "ticketing.ticket"
 	ResourceActivity = "ticketing.activity"
+	ResourceCategory = "ticketing.category"
 )
 
 //go:embed permission.yaml

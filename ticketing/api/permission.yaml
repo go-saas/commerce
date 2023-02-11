@@ -49,3 +49,18 @@ groups:
       - name: "permission.permission.write"
         namespace: "ticketing.ticket"
         action: "write"
+
+  - name: "permission.ticketing.category.group"
+    def:
+      - name: "permission.ticketing.category.any"
+        namespace: "ticketing.category"
+        action: "*"
+        internal: true
+        side: HOST_ONLY
+      - name: "permission.permission.read"
+        namespace: "ticketing.category"
+        action: "read"
+      - name: "permission.permission.write"
+        namespace: "ticketing.category"
+        action: "write"
+        side: HOST_ONLY
