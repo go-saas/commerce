@@ -7,6 +7,3 @@ lint:
 breaking:
   use:
     - FILE
-build:
-  excludes:
-    - web
