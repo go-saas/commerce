@@ -97,19 +97,6 @@ type KeyWord struct {
 	Refer string
 }
 
-// ProductCategory represents some Teaser infos for ProductCategory
-type ProductCategory struct {
-	// Key the identifier of the ProductCategory
-	Key string `gorm:"primaryKey;size:128"`
-	// The Path (root to leaf) for this ProductCategory - separated by "/"
-	Path string
-	// Name is the speaking name of the category
-	Name     string
-	ParentID *string
-	// Parent is an optional link to parent teaser
-	Parent *ProductCategory `gorm:"foreignKey:ParentID;references:key"`
-}
-
 type ProductRepo interface {
 	data.Repo[Product, string, v1.ListProductRequest]
 }

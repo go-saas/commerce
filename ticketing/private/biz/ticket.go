@@ -25,10 +25,10 @@ type Ticket struct {
 	ShowSeat   ShowSeat `gorm:"foreignKey:ShowSeatID"`
 
 	ActivityID string
-	Activity   Activity `gorm:"foreignKey:Activity"`
+	Activity   Activity `gorm:"foreignKey:ActivityID"`
 
 	ShowID string
-	Show   Show `gorm:"foreignKey:Activity"`
+	Show   Show `gorm:"foreignKey:ShowID"`
 
 	Status string
 

@@ -27,7 +27,8 @@ type Location struct {
 
 	Address lbs.AddressEntity `json:"address" gorm:"embedded"`
 
-	LegalDocs *TicketingMedia
+	LegalDocsID *string
+	LegalDocs   *TicketingMedia `gorm:"foreignKey:LegalDocsID"`
 
 	PublicContact ContactInfo `gorm:"embedded;embeddedPrefix:public_contact_"`
 

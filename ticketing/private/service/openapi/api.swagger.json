@@ -2840,7 +2840,10 @@
       "type": "object",
       "properties": {
         "key": {
-          "type": "string"
+          "type": "string",
+          "required": [
+            "key"
+          ]
         },
         "name": {
           "type": "string",
@@ -2853,6 +2856,7 @@
         }
       },
       "required": [
+        "key",
         "name"
       ]
     },

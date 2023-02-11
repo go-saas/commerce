@@ -42,6 +42,8 @@ other = "Ticketing Management"
 other = "Location"
 [ticketing.activity]
 other = "Activity"
+[ticketing.category]
+other = "Activity Category"
 [ticketing.show]
 other = "Show"
 [ticketing.ticket]

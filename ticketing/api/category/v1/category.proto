@@ -54,7 +54,7 @@ service TicketingCategoryService {
 }
 
 message CreateCategoryRequest {
-  string key=1;
+  string key=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED,(validate.rules).string.pattern="^[a-z0-9]{1,13}$"];
   string name =2 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
   string parent=3;
 }

@@ -29,7 +29,7 @@ func (c *CategoryRepo) GetDb(ctx context.Context) *gorm.DB {
 }
 
 func (c *CategoryRepo) BuildPrimaryField() string {
-	return "key"
+	return "`key`"
 }
 
 func preloadParent(maxDepth, currentDepth int) func(d *gorm.DB) *gorm.DB {
@@ -95,7 +95,7 @@ func (c *CategoryRepo) Update(ctx context.Context, id string, entity *biz.Ticket
 	}
 	for _, child := range allChildren {
 		//set new path
-		child.Path = entity.Path + "/" + strings.TrimPrefix(child.Path, oldPath)
+		child.Path = entity.Path + strings.TrimPrefix(child.Path, oldPath)
 		err = c.Repo.Update(ctx, id, child, p)
 		if err != nil {
 			return err
@@ -106,7 +106,7 @@ func (c *CategoryRepo) Update(ctx context.Context, id string, entity *biz.Ticket
 
 func (c *CategoryRepo) FindAllChildren(ctx context.Context, entity *biz.TicketingCategory) ([]*biz.TicketingCategory, error) {
 	var children []*biz.TicketingCategory
-	err := c.GetDb(ctx).Model(&biz.TicketingCategory{}).Where("path LIKE ?", entity.Path+"/").Find(&children).Error
+	err := c.GetDb(ctx).Model(&biz.TicketingCategory{}).Where("path LIKE ?%", entity.Path+"/").Find(&children).Error
 	if err != nil {
 		return nil, err
 	}
@@ -116,7 +116,7 @@ func (c *CategoryRepo) FindAllChildren(ctx context.Context, entity *biz.Ticketin
 func (c *CategoryRepo) setPath(ctx context.Context, entity *biz.TicketingCategory) error {
 	if entity.ParentID != nil {
 		var parent = &biz.TicketingCategory{}
-		err := c.GetDb(ctx).Model(&biz.TicketingCategory{}).Scopes(preloadParent(100, 0)).Where("id = ?", *entity.ParentID).Error
+		err := c.GetDb(ctx).Model(&biz.TicketingCategory{}).Scopes(preloadParent(100, 0)).Where("`key` = ?", *entity.ParentID).Find(parent).Error
 		if err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
 				return nil
@@ -128,7 +128,10 @@ func (c *CategoryRepo) setPath(ctx context.Context, entity *biz.TicketingCategor
 			key = append([]string{parent.Key}, key...)
 			parent = parent.Parent
 		}
+		key = append(key, entity.Key)
 		entity.Path = strings.Join(key, "/")
+	} else {
+		entity.Path = entity.Key
 	}
 	return nil
 }

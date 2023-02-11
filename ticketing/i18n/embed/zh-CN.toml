@@ -40,6 +40,8 @@ other = "票务管理"
 other = "场地"
 [ticketing.activity]
 other = "活动"
+[ticketing.category]
+other = "活动分类"
 [ticketing.show]
 other = "演出"
 [ticketing.ticket]

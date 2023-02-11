@@ -57,7 +57,27 @@ func (m *CreateCategoryRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Key
+	if utf8.RuneCountInString(m.GetKey()) < 1 {
+		err := CreateCategoryRequestValidationError{
+			field:  "Key",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_CreateCategoryRequest_Key_Pattern.MatchString(m.GetKey()) {
+		err := CreateCategoryRequestValidationError{
+			field:  "Key",
+			reason: "value does not match regex pattern \"^[a-z0-9]{1,13}$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	if utf8.RuneCountInString(m.GetName()) < 1 {
 		err := CreateCategoryRequestValidationError{
@@ -151,6 +171,8 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = CreateCategoryRequestValidationError{}
+
+var _CreateCategoryRequest_Key_Pattern = regexp.MustCompile("^[a-z0-9]{1,13}$")
 
 // Validate checks the field values on UpdateCategoryRequest with the rules
 // defined in the proto definition for this message. If any rules are

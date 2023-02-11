@@ -11,6 +11,11 @@ services:
     saas: {}
     realtime: {}
     dtmservice: {}
+    cart: {}
+    order: {}
+    payment: {}
+    product: {}
+    ticketing: {}
 data:
   endpoints:
     databases:

@@ -100,10 +100,15 @@ sys:
         uris: ["/v1/sys/*","/v1/oidc/*","/assets/sys/*"]
         upstream_id: sys-http
 
+      ticketing-api:
+        uris: [ "/v1/ticketing/*","/assets/ticketing/*" ]
+        upstream_id: ticketing-http
+
       user-api:
         priority: -99
         uris: ["/v1/*","/assets/user/*"]
         upstream_id: user-http
+
 
 
       web:

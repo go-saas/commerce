@@ -16,7 +16,7 @@ import (
 type GrpcConn grpc.ClientConnInterface
 type HttpClient *http.Client
 
-const ServiceName = "github.com/go-saas/commerce/ticketing"
+const ServiceName = "ticketing"
 
 func NewGrpcConn(client *conf.Client, services *conf.Services, dis registry.Discovery, opt *api.Option, tokenMgr api.TokenManager, logger log.Logger, opts []grpc2.ClientOption) (GrpcConn, func()) {
 	return api.NewGrpcConn(client, ServiceName, services, dis, opt, tokenMgr, logger, opts)

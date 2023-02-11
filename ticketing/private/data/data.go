@@ -21,7 +21,7 @@ var ProviderSet = kitdi.NewSet(
 	NewCategoryRepo,
 )
 
-const ConnName = "github.com/go-saas/commerce/ticketing"
+const ConnName = "ticketing"
 
 // Data .
 type Data struct {

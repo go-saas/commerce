@@ -4,12 +4,14 @@ import (
 	"context"
 	v12 "github.com/go-saas/commerce/ticketing/api/category/v1"
 	"github.com/go-saas/kit/pkg/data"
+	kitgorm "github.com/go-saas/kit/pkg/gorm"
 )
 
 // TicketingCategory represents some Teaser infos for TicketingCategory
 type TicketingCategory struct {
 	// Key the identifier of the TicketingCategory
 	Key string `gorm:"primaryKey;size:128"`
+	kitgorm.AuditedModel
 	// The Path (root to leaf) for this TicketingCategory - separated by "/"
 	Path string
 	// Name is the speaking name of the category

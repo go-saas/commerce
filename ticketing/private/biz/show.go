@@ -40,7 +40,7 @@ type ActivitySalesType struct {
 type ShowSeat struct {
 	kitgorm.UIDBase
 
-	Seat   Seat `gorm:"foreignKey:Seat"`
+	Seat   Seat `gorm:"foreignKey:SeatID"`
 	SeatID string
 
 	ShowID string
