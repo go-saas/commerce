@@ -467,7 +467,7 @@ func (m *TicketingMedia) validate(all bool) error {
 
 	// no validation rules for MimeType
 
-	// no validation rules for Title
+	// no validation rules for Name
 
 	// no validation rules for Url
 

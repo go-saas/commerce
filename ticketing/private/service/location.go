@@ -271,7 +271,7 @@ func (s *LocationService) upload(ctx http.Context, basePath string) error {
 			ID:       normalizedName,
 			MimeType: mime.TypeByExtension(ext),
 			Usage:    "location",
-			Title:    strings.TrimSuffix(fileName, ext),
+			Name:     strings.TrimSuffix(fileName, ext),
 		})
 		if err != nil {
 			return nil, err
@@ -375,7 +375,7 @@ func mapPbMedia2Biz(a *pb.TicketingMedia) *biz.TicketingMedia {
 		ID:       a.Id,
 		Type:     a.Type,
 		MimeType: a.MimeType,
-		Title:    a.Title,
+		Name:     a.Name,
 	}
 }
 
@@ -383,7 +383,7 @@ func mapMedia(ctx context.Context, v vfs.Blob, a *biz.TicketingMedia, b *pb.Tick
 	b.Id = a.ID
 	b.Type = a.Type
 	b.MimeType = a.MimeType
-	b.Title = a.Title
+	b.Name = a.Name
 	url, _ := v.PublicUrl(ctx, b.Id)
 	b.Url = url.URL
 }

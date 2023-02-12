@@ -137,7 +137,7 @@ message TicketingMedia{
   string id =1;
   string type=2;
   string mime_type=3;
-  string title=4;
+  string name=4;
   string url=5;
 }
 

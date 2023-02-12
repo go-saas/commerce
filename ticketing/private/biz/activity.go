@@ -41,7 +41,7 @@ type TicketingMedia struct {
 	Type      string
 	MimeType  string
 	Usage     string
-	Title     string
+	Name      string
 	Reference string
 	sortable.Embed
 }

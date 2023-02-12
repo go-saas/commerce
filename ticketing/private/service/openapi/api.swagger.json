@@ -3390,7 +3390,7 @@
         "mimeType": {
           "type": "string"
         },
-        "title": {
+        "name": {
           "type": "string"
         },
         "url": {

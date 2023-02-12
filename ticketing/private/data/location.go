@@ -30,7 +30,7 @@ func (c *LocationRepo) BuildDetailScope(withDetail bool) func(db *gorm.DB) *gorm
 	return func(db *gorm.DB) *gorm.DB {
 		db = db.Preload("Logo")
 		if withDetail {
-			db = db.Preload("Medias")
+			db = db.Preload("Medias").Preload("LegalDocs")
 		}
 		return db
 	}
@@ -61,6 +61,37 @@ func (c *LocationRepo) BuildFilterScope(q *v1.ListLocationRequest) func(db *gorm
 
 func (c *LocationRepo) DefaultSorting() []string {
 	return []string{"created_at"}
+}
+
+func (c *LocationRepo) UpdateAssociation(ctx context.Context, entity *biz.Location) error {
+	if entity.Logo != nil {
+		if err := c.GetDb(ctx).Model(entity).Association("Logo").Replace(entity.Logo); err != nil {
+			return err
+		}
+	} else {
+		if err := c.GetDb(ctx).Model(entity).Association("Logo").Clear(); err != nil {
+			return err
+		}
+	}
+	if entity.Medias != nil {
+		if err := c.GetDb(ctx).Model(entity).Association("Medias").Replace(entity.Medias); err != nil {
+			return err
+		}
+	} else {
+		if err := c.GetDb(ctx).Model(entity).Association("Medias").Clear(); err != nil {
+			return err
+		}
+	}
+	if entity.LegalDocs != nil {
+		if err := c.GetDb(ctx).Model(entity).Association("LegalDocs").Replace(entity.LegalDocs); err != nil {
+			return err
+		}
+	} else {
+		if err := c.GetDb(ctx).Model(entity).Association("LegalDocs").Clear(); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func (c *LocationRepo) ListHalls(ctx context.Context, id string) ([]biz.Hall, error) {
