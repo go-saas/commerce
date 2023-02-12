@@ -68,7 +68,34 @@ func (m *CreateLocationRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	// no validation rules for Logo
+	if all {
+		switch v := interface{}(m.GetLogo()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateLocationRequestValidationError{
+					field:  "Logo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateLocationRequestValidationError{
+					field:  "Logo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLogo()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateLocationRequestValidationError{
+				field:  "Logo",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	for idx, item := range m.GetMedias() {
 		_, _ = idx, item
@@ -166,7 +193,39 @@ func (m *CreateLocationRequest) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for LegalDocs
+	for idx, item := range m.GetLegalDocs() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, CreateLocationRequestValidationError{
+						field:  fmt.Sprintf("LegalDocs[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, CreateLocationRequestValidationError{
+						field:  fmt.Sprintf("LegalDocs[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return CreateLocationRequestValidationError{
+					field:  fmt.Sprintf("LegalDocs[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
 
 	if all {
 		switch v := interface{}(m.GetPublicContact()).(type) {
@@ -830,33 +889,38 @@ func (m *UpdateLocation) validate(all bool) error {
 		}
 	}
 
-	if all {
-		switch v := interface{}(m.GetLegalDocs()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UpdateLocationValidationError{
-					field:  "LegalDocs",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
+	for idx, item := range m.GetLegalDocs() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, UpdateLocationValidationError{
+						field:  fmt.Sprintf("LegalDocs[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, UpdateLocationValidationError{
+						field:  fmt.Sprintf("LegalDocs[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
 			}
-		case interface{ Validate() error }:
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				errors = append(errors, UpdateLocationValidationError{
-					field:  "LegalDocs",
+				return UpdateLocationValidationError{
+					field:  fmt.Sprintf("LegalDocs[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
-				})
+				}
 			}
 		}
-	} else if v, ok := interface{}(m.GetLegalDocs()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return UpdateLocationValidationError{
-				field:  "LegalDocs",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
+
 	}
 
 	if all {
@@ -1913,33 +1977,38 @@ func (m *Location) validate(all bool) error {
 		}
 	}
 
-	if all {
-		switch v := interface{}(m.GetLegalDocs()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, LocationValidationError{
-					field:  "LegalDocs",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
+	for idx, item := range m.GetLegalDocs() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, LocationValidationError{
+						field:  fmt.Sprintf("LegalDocs[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, LocationValidationError{
+						field:  fmt.Sprintf("LegalDocs[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
 			}
-		case interface{ Validate() error }:
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				errors = append(errors, LocationValidationError{
-					field:  "LegalDocs",
+				return LocationValidationError{
+					field:  fmt.Sprintf("LegalDocs[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
-				})
+				}
 			}
 		}
-	} else if v, ok := interface{}(m.GetLegalDocs()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return LocationValidationError{
-				field:  "LegalDocs",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
+
 	}
 
 	if all {

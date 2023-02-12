@@ -32,14 +32,20 @@ func NewHttpServerRegister(
 	resEncoder khttp.EncodeResponseFunc,
 	errEncoder khttp.EncodeErrorFunc,
 	vfs vfs.Blob,
-	post *LocationService,
+	location *LocationService,
 	category *TicketingCategoryService) kithttp.ServiceRegister {
 	return kithttp.ServiceRegisterFunc(func(srv *khttp.Server, middleware ...middleware.Middleware) {
-		v12.RegisterLocationServiceHTTPServer(srv, post)
+		v12.RegisterLocationServiceHTTPServer(srv, location)
 		v1.RegisterTicketingCategoryServiceHTTPServer(srv, category)
 		kithttp.MountBlob(srv, "", biz.LocationLogoPath, vfs)
 		kithttp.MountBlob(srv, "", biz.LocationMediaPath, vfs)
 		kithttp.MountBlob(srv, "", biz.LocationLegalDocumentsPath, vfs)
+
+		route := srv.Route("/")
+
+		route.POST("/v1/ticketing/location/logo", location.UploadLogo)
+		route.POST("/v1/ticketing/location/media", location.UploadMedias)
+		route.POST("/v1/ticketing/location/legal-docs", location.UploadLegalDocs)
 
 		swaggerRouter := chi.NewRouter()
 		swaggerRouter.Use(
@@ -49,9 +55,9 @@ func NewHttpServerRegister(
 	})
 }
 
-func NewGrpcServerRegister(post *LocationService, category *TicketingCategoryService) kitgrpc.ServiceRegister {
+func NewGrpcServerRegister(locationSrv *LocationService, category *TicketingCategoryService) kitgrpc.ServiceRegister {
 	return kitgrpc.ServiceRegisterFunc(func(srv *grpc.Server, middleware ...middleware.Middleware) {
-		v12.RegisterLocationServiceServer(srv, post)
+		v12.RegisterLocationServiceServer(srv, locationSrv)
 		v1.RegisterTicketingCategoryServiceServer(srv, category)
 	})
 }

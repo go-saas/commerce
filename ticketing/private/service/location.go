@@ -16,22 +16,24 @@ import (
 	"github.com/goxiaoy/vfs"
 	"github.com/samber/lo"
 	"io"
+	"mime"
 	"os"
 	"path/filepath"
 	"strings"
 )
 
 type LocationService struct {
-	repo     biz.LocationRepo
-	hallRepo biz.HallRepo
-	auth     authz.Service
-	blob     vfs.Blob
+	repo      biz.LocationRepo
+	hallRepo  biz.HallRepo
+	auth      authz.Service
+	blob      vfs.Blob
+	mediaRepo biz.TicketingMediaRepo
 }
 
 var _ pb.LocationServiceServer = (*LocationService)(nil)
 
-func NewLocationService(repo biz.LocationRepo, hallRepo biz.HallRepo, auth authz.Service, blob vfs.Blob) *LocationService {
-	return &LocationService{repo: repo, hallRepo: hallRepo, auth: auth, blob: blob}
+func NewLocationService(repo biz.LocationRepo, hallRepo biz.HallRepo, auth authz.Service, blob vfs.Blob, mediaRepo biz.TicketingMediaRepo) *LocationService {
+	return &LocationService{repo: repo, hallRepo: hallRepo, auth: auth, blob: blob, mediaRepo: mediaRepo}
 }
 
 func (s *LocationService) ListLocation(ctx context.Context, req *pb.ListLocationRequest) (*pb.ListLocationReply, error) {
@@ -228,7 +230,7 @@ func (s *LocationService) UploadMedias(ctx http.Context) error {
 	return s.upload(ctx, biz.LocationMediaPath)
 }
 
-func (s *LocationService) UploadLegaDocs(ctx http.Context) error {
+func (s *LocationService) UploadLegalDocs(ctx http.Context) error {
 	return s.upload(ctx, biz.LocationLegalDocumentsPath)
 }
 
@@ -240,7 +242,7 @@ func (s *LocationService) upload(ctx http.Context, basePath string) error {
 	}
 
 	h := ctx.Middleware(func(ctx context.Context, _ interface{}) (interface{}, error) {
-		if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceLocation, "*"), authz.UpdateAction); err != nil {
+		if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceLocation, "*"), authz.WriteAction); err != nil {
 			return nil, err
 		}
 		file, handle, err := req.FormFile("file")
@@ -262,6 +264,15 @@ func (s *LocationService) upload(ctx http.Context, basePath string) error {
 		}
 		defer f.Close()
 		_, err = io.Copy(f, file)
+		if err != nil {
+			return nil, err
+		}
+		err = s.mediaRepo.Create(ctx, &biz.TicketingMedia{
+			ID:       normalizedName,
+			MimeType: mime.TypeByExtension(ext),
+			Usage:    "location",
+			Title:    strings.TrimSuffix(fileName, ext),
+		})
 		if err != nil {
 			return nil, err
 		}
@@ -292,7 +303,9 @@ func (s *LocationService) MapBizLocation2Pb(ctx context.Context, a *biz.Location
 	b.Content = utils.Map2Structpb(a.Content)
 	addr, _ := a.Address.ToPb()
 	b.Address = addr
-	b.LegalDocs = mapBizMedia2Pb(ctx, s.blob, a.LegalDocs)
+	b.LegalDocs = lo.Map(a.LegalDocs, func(item biz.TicketingMedia, _ int) *pb.TicketingMedia {
+		return mapBizMedia2Pb(ctx, s.blob, &item)
+	})
 	b.PublicContact = &pb.ContactInfo{}
 	b.PublicContact.Phone = a.PublicContact.Phone
 	b.PublicContact.Email = a.PublicContact.Email
@@ -313,7 +326,9 @@ func (s *LocationService) MapUpdatePbLocation2Biz(a *pb.UpdateLocation, b *biz.L
 		b.Address = *addr
 	}
 
-	b.LegalDocs = mapPbMedia2Biz(a.LegalDocs)
+	b.LegalDocs = lo.Map(a.LegalDocs, func(item *pb.TicketingMedia, _ int) biz.TicketingMedia {
+		return *mapPbMedia2Biz(item)
+	})
 	if a.PublicContact != nil {
 		b.PublicContact.Phone = a.PublicContact.Phone
 		b.PublicContact.Email = a.PublicContact.Email
@@ -322,6 +337,25 @@ func (s *LocationService) MapUpdatePbLocation2Biz(a *pb.UpdateLocation, b *biz.L
 }
 func (s *LocationService) MapCreatePbLocation2Biz(a *pb.CreateLocationRequest, b *biz.Location) {
 	b.Name = a.Name
+	b.Logo = mapPbMedia2Biz(a.Logo)
+	b.Medias = lo.Map(a.Medias, func(item *pb.TicketingMedia, _ int) biz.TicketingMedia {
+		return *mapPbMedia2Biz(item)
+	})
+	b.Desc = a.Desc
+	b.ShortDesc = a.ShortDesc
+	b.Content = utils.Structpb2Map(a.Content)
+	if a.Address != nil {
+		addr, _ := lbs.NewAddressEntityFromPb(a.Address)
+		b.Address = *addr
+	}
+
+	b.LegalDocs = lo.Map(a.LegalDocs, func(item *pb.TicketingMedia, _ int) biz.TicketingMedia {
+		return *mapPbMedia2Biz(item)
+	})
+	if a.PublicContact != nil {
+		b.PublicContact.Phone = a.PublicContact.Phone
+		b.PublicContact.Email = a.PublicContact.Email
+	}
 }
 
 func mapBizMedia2Pb(ctx context.Context, v vfs.Blob, a *biz.TicketingMedia) *pb.TicketingMedia {

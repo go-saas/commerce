@@ -45,3 +45,7 @@ type TicketingMedia struct {
 	Reference string
 	sortable.Embed
 }
+
+type TicketingMediaRepo interface {
+	data.Repo[TicketingMedia, string, interface{}]
+}

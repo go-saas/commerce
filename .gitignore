@@ -36,3 +36,4 @@ bin/
 *.swp
 
 .temp/
+.assets

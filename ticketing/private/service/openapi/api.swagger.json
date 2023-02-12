@@ -2639,7 +2639,10 @@
           "$ref": "#/definitions/lbsAddress"
         },
         "legalDocs": {
-          "$ref": "#/definitions/v1TicketingMedia"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1TicketingMedia"
+          }
         },
         "publicContact": {
           "$ref": "#/definitions/v1ContactInfo"
@@ -2873,7 +2876,7 @@
           ]
         },
         "logo": {
-          "type": "string"
+          "$ref": "#/definitions/v1TicketingMedia"
         },
         "medias": {
           "type": "array",
@@ -2894,7 +2897,10 @@
           "$ref": "#/definitions/lbsAddress"
         },
         "legalDocs": {
-          "type": "string"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1TicketingMedia"
+          }
         },
         "publicContact": {
           "$ref": "#/definitions/v1ContactInfo"
@@ -3488,7 +3494,10 @@
           "$ref": "#/definitions/lbsAddress"
         },
         "legalDocs": {
-          "$ref": "#/definitions/v1TicketingMedia"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1TicketingMedia"
+          }
         },
         "publicContact": {
           "$ref": "#/definitions/v1ContactInfo"

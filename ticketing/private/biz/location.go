@@ -27,15 +27,21 @@ type Location struct {
 
 	Address lbs.AddressEntity `json:"address" gorm:"embedded"`
 
-	LegalDocsID *string
-	LegalDocs   *TicketingMedia `gorm:"foreignKey:LegalDocsID"`
+	LegalDocs []TicketingMedia `gorm:"polymorphic:Owner;polymorphicValue:location_legal_docs"`
 
 	PublicContact ContactInfo `gorm:"embedded;embeddedPrefix:public_contact_"`
 
 	Rating int `gorm:"comment:评分，1-5"`
 
 	Halls []Hall `gorm:"foreignKey:LocationID"`
+
+	Status string
 }
+
+const (
+	LocationStatusPublic = "public"
+	LocationStatusClosed = "closed"
+)
 
 type Hall struct {
 	kitgorm.UIDBase
