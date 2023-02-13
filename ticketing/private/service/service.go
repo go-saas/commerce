@@ -7,6 +7,7 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware"
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 	khttp "github.com/go-kratos/kratos/v2/transport/http"
+	v13 "github.com/go-saas/commerce/ticketing/api/activity/v1"
 	v1 "github.com/go-saas/commerce/ticketing/api/category/v1"
 	v12 "github.com/go-saas/commerce/ticketing/api/location/v1"
 	"github.com/go-saas/commerce/ticketing/private/biz"
@@ -26,6 +27,7 @@ var ProviderSet = kitdi.NewSet(
 	NewHttpServerRegister,
 	NewLocationService,
 	NewTicketingCategoryService,
+	NewActivityService,
 )
 
 func NewHttpServerRegister(
@@ -33,10 +35,12 @@ func NewHttpServerRegister(
 	errEncoder khttp.EncodeErrorFunc,
 	vfs vfs.Blob,
 	location *LocationService,
-	category *TicketingCategoryService) kithttp.ServiceRegister {
+	category *TicketingCategoryService,
+	activity *ActivityService) kithttp.ServiceRegister {
 	return kithttp.ServiceRegisterFunc(func(srv *khttp.Server, middleware ...middleware.Middleware) {
 		v12.RegisterLocationServiceHTTPServer(srv, location)
 		v1.RegisterTicketingCategoryServiceHTTPServer(srv, category)
+		v13.RegisterActivityServiceHTTPServer(srv, activity)
 		kithttp.MountBlob(srv, "", biz.LocationLogoPath, vfs)
 		kithttp.MountBlob(srv, "", biz.LocationMediaPath, vfs)
 		kithttp.MountBlob(srv, "", biz.LocationLegalDocumentsPath, vfs)
@@ -47,6 +51,8 @@ func NewHttpServerRegister(
 		route.POST("/v1/ticketing/location/media", location.UploadMedias)
 		route.POST("/v1/ticketing/location/legal-docs", location.UploadLegalDocs)
 
+		route.POST("/v1/ticketing/activity/media", activity.UploadMedias)
+
 		swaggerRouter := chi.NewRouter()
 		swaggerRouter.Use(
 			kithttp.MiddlewareConvert(errEncoder, middleware...))
@@ -55,9 +61,10 @@ func NewHttpServerRegister(
 	})
 }
 
-func NewGrpcServerRegister(locationSrv *LocationService, category *TicketingCategoryService) kitgrpc.ServiceRegister {
+func NewGrpcServerRegister(locationSrv *LocationService, category *TicketingCategoryService, activity *ActivityService) kitgrpc.ServiceRegister {
 	return kitgrpc.ServiceRegisterFunc(func(srv *grpc.Server, middleware ...middleware.Middleware) {
 		v12.RegisterLocationServiceServer(srv, locationSrv)
 		v1.RegisterTicketingCategoryServiceServer(srv, category)
+		v13.RegisterActivityServiceServer(srv, activity)
 	})
 }

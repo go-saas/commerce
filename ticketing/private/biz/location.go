@@ -2,6 +2,7 @@ package biz
 
 import (
 	"context"
+	"github.com/go-saas/commerce/pkg/sortable"
 	v1 "github.com/go-saas/commerce/ticketing/api/location/v1"
 	"github.com/go-saas/kit/pkg/data"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
@@ -64,6 +65,7 @@ type SeatGroup struct {
 	kitgorm.UIDBase
 	Name   string
 	HallID string
+	*sortable.Embed
 }
 
 type Seat struct {
@@ -85,7 +87,6 @@ type ContactInfo struct {
 type LocationRepo interface {
 	data.Repo[Location, string, v1.ListLocationRequest]
 	ListHalls(ctx context.Context, id string) ([]Hall, error)
-	CreateHall(ctx context.Context, location *Location, entity *Hall) error
 }
 
 type HallRepo interface {

@@ -40,7 +40,7 @@ func (s *TicketingCategoryService) ListCategory(ctx context.Context, req *pb.Lis
 	}
 	rItems := lo.Map(items, func(g *biz.TicketingCategory, _ int) *pb.Category {
 		b := &pb.Category{}
-		s.MapBizCategory2Pb(ctx, g, b)
+		MapBizCategory2Pb(ctx, g, b)
 		return b
 	})
 
@@ -62,7 +62,7 @@ func (s *TicketingCategoryService) GetCategory(ctx context.Context, req *pb.GetC
 		return nil, errors.NotFound("", "")
 	}
 	res := &pb.Category{}
-	s.MapBizCategory2Pb(ctx, g, res)
+	MapBizCategory2Pb(ctx, g, res)
 	return res, nil
 }
 
@@ -77,7 +77,7 @@ func (s *TicketingCategoryService) CreateCategory(ctx context.Context, req *pb.C
 		return nil, err
 	}
 	res := &pb.Category{}
-	s.MapBizCategory2Pb(ctx, e, res)
+	MapBizCategory2Pb(ctx, e, res)
 	return res, nil
 }
 func (s *TicketingCategoryService) UpdateCategory(ctx context.Context, req *pb.UpdateCategoryRequest) (*pb.Category, error) {
@@ -98,7 +98,7 @@ func (s *TicketingCategoryService) UpdateCategory(ctx context.Context, req *pb.U
 	}
 
 	res := &pb.Category{}
-	s.MapBizCategory2Pb(ctx, g, res)
+	MapBizCategory2Pb(ctx, g, res)
 	return res, nil
 }
 
@@ -121,7 +121,7 @@ func (s *TicketingCategoryService) DeleteCategory(ctx context.Context, req *pb.D
 	return &pb.DeleteCategoryReply{Key: g.Key, Name: g.Name}, nil
 }
 
-func (s *TicketingCategoryService) MapBizCategory2Pb(ctx context.Context, a *biz.TicketingCategory, b *pb.Category) {
+func MapBizCategory2Pb(ctx context.Context, a *biz.TicketingCategory, b *pb.Category) {
 	b.Key = a.Key
 	b.Name = a.Name
 	b.Path = a.Path

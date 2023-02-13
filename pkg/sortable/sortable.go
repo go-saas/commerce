@@ -27,13 +27,21 @@ func (e *Embed) SetSort(i int) {
 }
 
 // Normalize set sort by index
-func Normalize(l []Sortable) {
+func Normalize[T Sortable](l []T) {
 	if len(l) == 0 {
 		return
 	}
 	for i, sortable := range l {
 		sortable.SetSort(i)
 	}
+}
+
+func Sort[T Sortable](l *[]T) []T {
+	s := *l
+	sort.Slice(s, func(i, j int) bool {
+		return s[i].GetSort() < s[j].GetSort()
+	})
+	return s
 }
 
 func MoveFirst(opSort int, l *[]Sortable) {

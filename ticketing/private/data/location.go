@@ -96,12 +96,8 @@ func (c *LocationRepo) UpdateAssociation(ctx context.Context, entity *biz.Locati
 
 func (c *LocationRepo) ListHalls(ctx context.Context, id string) ([]biz.Hall, error) {
 	var ret []biz.Hall
-	err := c.GetDb(ctx).Model(&biz.Hall{}).Where("location_id = ?", id).Order("created_at").Find(&ret).Error
+	err := c.GetDb(ctx).Model(&biz.Hall{}).Preload("Seats").Preload("SeatGroups").Where("location_id = ?", id).Order("created_at").Find(&ret).Error
 	return ret, err
-}
-
-func (c *LocationRepo) CreateHall(ctx context.Context, location *biz.Location, entity *biz.Hall) error {
-	return c.GetDb(ctx).Model(location).Session(&gorm.Session{FullSaveAssociations: true}).Association("Halls").Append(entity)
 }
 
 type HallRepo struct {

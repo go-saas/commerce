@@ -135,6 +135,37 @@ func (m *CreateActivityRequest) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for SeatSelectable
+
+	if all {
+		switch v := interface{}(m.GetDuration()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateActivityRequestValidationError{
+					field:  "Duration",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateActivityRequestValidationError{
+					field:  "Duration",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDuration()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateActivityRequestValidationError{
+				field:  "Duration",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
 		return CreateActivityRequestMultiError(errors)
 	}
@@ -408,9 +439,11 @@ func (m *UpdateActivity) validate(all bool) error {
 
 	var errors []error
 
-	if utf8.RuneCountInString(m.GetId()) < 1 {
+	// no validation rules for Id
+
+	if utf8.RuneCountInString(m.GetName()) < 1 {
 		err := UpdateActivityValidationError{
-			field:  "Id",
+			field:  "Name",
 			reason: "value length must be at least 1 runes",
 		}
 		if !all {
@@ -419,7 +452,103 @@ func (m *UpdateActivity) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	// no validation rules for Name
+	for idx, item := range m.GetMedias() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, UpdateActivityValidationError{
+						field:  fmt.Sprintf("Medias[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, UpdateActivityValidationError{
+						field:  fmt.Sprintf("Medias[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return UpdateActivityValidationError{
+					field:  fmt.Sprintf("Medias[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for Desc
+
+	// no validation rules for ShortDesc
+
+	if all {
+		switch v := interface{}(m.GetContent()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateActivityValidationError{
+					field:  "Content",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateActivityValidationError{
+					field:  "Content",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetContent()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateActivityValidationError{
+				field:  "Content",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for SeatSelectable
+
+	if all {
+		switch v := interface{}(m.GetDuration()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateActivityValidationError{
+					field:  "Duration",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateActivityValidationError{
+					field:  "Duration",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDuration()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateActivityValidationError{
+				field:  "Duration",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return UpdateActivityMultiError(errors)
@@ -1310,14 +1439,61 @@ func (m *Activity) validate(all bool) error {
 
 	// no validation rules for Id
 
-	// no validation rules for Name
+	if utf8.RuneCountInString(m.GetName()) < 1 {
+		err := ActivityValidationError{
+			field:  "Name",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	for idx, item := range m.GetMedias() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ActivityValidationError{
+						field:  fmt.Sprintf("Medias[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ActivityValidationError{
+						field:  fmt.Sprintf("Medias[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ActivityValidationError{
+					field:  fmt.Sprintf("Medias[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for Desc
+
+	// no validation rules for ShortDesc
 
 	if all {
-		switch v := interface{}(m.GetCreatedAt()).(type) {
+		switch v := interface{}(m.GetContent()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, ActivityValidationError{
-					field:  "CreatedAt",
+					field:  "Content",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1325,16 +1501,83 @@ func (m *Activity) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, ActivityValidationError{
-					field:  "CreatedAt",
+					field:  "Content",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetCreatedAt()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetContent()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return ActivityValidationError{
-				field:  "CreatedAt",
+				field:  "Content",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	for idx, item := range m.GetCategories() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ActivityValidationError{
+						field:  fmt.Sprintf("Categories[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ActivityValidationError{
+						field:  fmt.Sprintf("Categories[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ActivityValidationError{
+					field:  fmt.Sprintf("Categories[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for Status
+
+	// no validation rules for SeatSelectable
+
+	if all {
+		switch v := interface{}(m.GetDuration()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ActivityValidationError{
+					field:  "Duration",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ActivityValidationError{
+					field:  "Duration",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDuration()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ActivityValidationError{
+				field:  "Duration",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}

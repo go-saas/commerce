@@ -9,10 +9,10 @@
       "name": "LocationService"
     },
     {
-      "name": "ActivityService"
+      "name": "TicketingCategoryService"
     },
     {
-      "name": "TicketingCategoryService"
+      "name": "ActivityService"
     },
     {
       "name": "ShowService"
@@ -2745,13 +2745,45 @@
           "type": "string"
         },
         "name": {
+          "type": "string",
+          "required": [
+            "name"
+          ]
+        },
+        "medias": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1TicketingMedia"
+          }
+        },
+        "desc": {
           "type": "string"
         },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
+        "shortDesc": {
+          "type": "string"
+        },
+        "content": {
+          "type": "object"
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Category"
+          }
+        },
+        "status": {
+          "type": "string"
+        },
+        "seatSelectable": {
+          "type": "boolean"
+        },
+        "duration": {
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "name"
+      ]
     },
     "v1ActivityFilter": {
       "type": "object",
@@ -2833,6 +2865,18 @@
         },
         "content": {
           "type": "object"
+        },
+        "categoryIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "seatSelectable": {
+          "type": "boolean"
+        },
+        "duration": {
+          "type": "string"
         }
       },
       "required": [
@@ -3402,17 +3446,44 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
+          "type": "string"
         },
         "name": {
+          "type": "string",
+          "required": [
+            "name"
+          ]
+        },
+        "medias": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1TicketingMedia"
+          }
+        },
+        "desc": {
+          "type": "string"
+        },
+        "shortDesc": {
+          "type": "string"
+        },
+        "content": {
+          "type": "object"
+        },
+        "categoryIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "seatSelectable": {
+          "type": "boolean"
+        },
+        "duration": {
           "type": "string"
         }
       },
       "required": [
-        "id"
+        "name"
       ]
     },
     "v1UpdateActivityRequest": {

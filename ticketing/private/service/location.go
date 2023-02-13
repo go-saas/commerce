@@ -163,7 +163,9 @@ func (s *LocationService) CreateLocationHall(ctx context.Context, req *pb.Create
 	}
 	hallEntity := &biz.Hall{}
 	mapPbHall2Biz(ctx, req.Hall, hallEntity)
-	err = s.repo.CreateHall(ctx, g, hallEntity)
+	id := g.ID.String()
+	hallEntity.LocationID = &id
+	err = s.hallRepo.Create(ctx, hallEntity)
 	if err != nil {
 		return nil, err
 	}
@@ -357,7 +359,6 @@ func (s *LocationService) MapCreatePbLocation2Biz(a *pb.CreateLocationRequest, b
 		b.PublicContact.Email = a.PublicContact.Email
 	}
 }
-
 func mapBizMedia2Pb(ctx context.Context, v vfs.Blob, a *biz.TicketingMedia) *pb.TicketingMedia {
 	if a == nil {
 		return nil

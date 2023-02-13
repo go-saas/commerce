@@ -2,6 +2,7 @@ package biz
 
 import (
 	"github.com/go-saas/commerce/pkg/sortable"
+	v1 "github.com/go-saas/commerce/ticketing/api/activity/v1"
 	"github.com/go-saas/kit/pkg/data"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
 	"time"
@@ -29,6 +30,7 @@ const (
 	ActivityStatusPlanned = "planned"
 	ActivityStatusOngoing = "ongoing"
 	ActivityStatusEnded   = "ended"
+	ActivityStatusDowned  = "downed"
 )
 
 type TicketingMedia struct {
@@ -43,9 +45,13 @@ type TicketingMedia struct {
 	Usage     string
 	Name      string
 	Reference string
-	sortable.Embed
+	*sortable.Embed
 }
 
 type TicketingMediaRepo interface {
 	data.Repo[TicketingMedia, string, interface{}]
+}
+
+type ActivityRepo interface {
+	data.Repo[Activity, string, v1.ListActivityRequest]
 }

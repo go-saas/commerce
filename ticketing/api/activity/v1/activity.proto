@@ -3,6 +3,7 @@ syntax = "proto3";
 package ticketing.api.activity.v1;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/struct.proto";
@@ -11,6 +12,7 @@ import "validate/validate.proto";
 import "query/operation.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 import "ticketing/api/location/v1/location.proto";
+import "ticketing/api/category/v1/category.proto";
 
 option go_package = "github.com/go-saas/commerce/ticketing/api/activity/v1;v1";
 
@@ -80,6 +82,10 @@ message CreateActivityRequest {
   string short_desc=14;
   google.protobuf.Struct content=15;
 
+  repeated string category_ids=20;
+
+  bool seat_selectable=22;
+  google.protobuf.Duration duration=23;
 }
 
 message UpdateActivityRequest {
@@ -88,8 +94,18 @@ message UpdateActivityRequest {
 }
 
 message UpdateActivity{
-  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
-  string name=2;
+  string id=1;
+  string name =10 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+
+  repeated .ticketing.api.location.v1.TicketingMedia medias=12;
+  string desc=13;
+  string short_desc=14;
+  google.protobuf.Struct content=15;
+
+  repeated string category_ids=20;
+
+  bool seat_selectable=22;
+  google.protobuf.Duration duration=23;
 }
 
 
@@ -109,6 +125,7 @@ message ActivityFilter{
   query.operation.StringFilterOperation id=1;
   query.operation.StringFilterOperation name =2;
 }
+
 message ListActivityRequest {
   int32 page_offset =1;
   int32 page_size = 2;
@@ -117,13 +134,28 @@ message ListActivityRequest {
   google.protobuf.FieldMask fields=5;
   ActivityFilter filter =6;
 }
+
 message ListActivityReply {
   int32 total_size =1;
   int32 filter_size =2;
   repeated Activity items=3;
 }
+
 message Activity{
   string id=1;
-  string name=2;
-  google.protobuf.Timestamp created_at =4;
+
+  string name =10 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+
+
+  repeated .ticketing.api.location.v1.TicketingMedia medias=12;
+  string desc=13;
+  string short_desc=14;
+  google.protobuf.Struct content=15;
+
+  repeated .ticketing.api.category.v1.Category categories=20;
+
+  string status=21;
+  bool seat_selectable=22;
+  google.protobuf.Duration duration=23;
+
 }

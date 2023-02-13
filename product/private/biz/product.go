@@ -75,7 +75,7 @@ type ProductMedia struct {
 	Usage     string
 	Name      string
 	Reference string
-	sortable.Embed
+	*sortable.Embed
 }
 
 type Badge struct {
