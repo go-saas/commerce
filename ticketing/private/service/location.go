@@ -185,7 +185,7 @@ func (s *LocationService) UpdateLocationHall(ctx context.Context, req *pb.Update
 	if err != nil {
 		return nil, err
 	}
-	if hall.LocationID != g.ID.String() {
+	if hall.LocationID == nil || *hall.LocationID != g.ID.String() {
 		return nil, errors.NotFound("", "")
 	}
 	mapPbHall2Biz(ctx, req.Hall, hall)
@@ -212,7 +212,7 @@ func (s *LocationService) DeleteLocationHall(ctx context.Context, req *pb.Delete
 	if err != nil {
 		return nil, err
 	}
-	if hall.LocationID != g.ID.String() {
+	if hall.LocationID == nil || *hall.LocationID != g.ID.String() {
 		return nil, errors.NotFound("", "")
 	}
 	err = s.hallRepo.Delete(ctx, req.HallId)

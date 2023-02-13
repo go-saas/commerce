@@ -101,7 +101,7 @@ func (c *LocationRepo) ListHalls(ctx context.Context, id string) ([]biz.Hall, er
 }
 
 func (c *LocationRepo) CreateHall(ctx context.Context, location *biz.Location, entity *biz.Hall) error {
-	return c.GetDb(ctx).Model(location).Association("Halls").Append(entity)
+	return c.GetDb(ctx).Model(location).Session(&gorm.Session{FullSaveAssociations: true}).Association("Halls").Append(entity)
 }
 
 type HallRepo struct {
@@ -116,4 +116,30 @@ func NewHallRepo(dbProvider sgorm.DbProvider, eventbus *eventbus.EventBus) biz.H
 
 func (c *HallRepo) GetDb(ctx context.Context) *gorm.DB {
 	return GetDb(ctx, c.Repo.DbProvider)
+}
+func (c *HallRepo) UpdateAssociation(ctx context.Context, entity *biz.Hall) error {
+	if entity.Seats != nil {
+		if err := c.GetDb(ctx).Model(entity).Association("Seats").Replace(entity.Seats); err != nil {
+			return err
+		}
+	} else {
+		if err := c.GetDb(ctx).Model(entity).Association("Seats").Clear(); err != nil {
+			return err
+		}
+	}
+	if entity.SeatGroups != nil {
+		if err := c.GetDb(ctx).Model(entity).Association("SeatGroups").Replace(entity.SeatGroups); err != nil {
+			return err
+		}
+	} else {
+		if err := c.GetDb(ctx).Model(entity).Association("SeatGroups").Clear(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (c *HallRepo) Delete(ctx context.Context, id string) error {
+	//just set location nil
+	return c.GetDb(ctx).Model(&biz.Hall{}).Where("id = ?", id).Update("location_id", nil).Error
 }

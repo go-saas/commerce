@@ -48,8 +48,8 @@ type Hall struct {
 	kitgorm.AuditedModel
 	Name string `json:"name"`
 
-	LocationID string
-	Location   Location
+	LocationID *string
+	Location   *Location `gorm:"foreignKey:LocationID"`
 
 	Tags string
 

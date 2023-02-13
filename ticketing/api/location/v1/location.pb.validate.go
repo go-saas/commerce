@@ -2956,6 +2956,8 @@ func (m *UpdateSeatGroup) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Id
+
 	// no validation rules for Name
 
 	for idx, item := range m.GetSeats() {
