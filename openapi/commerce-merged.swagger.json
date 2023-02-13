@@ -5037,7 +5037,7 @@
         "content": {
           "type": "object"
         },
-        "categoryIds": {
+        "categoryKeys": {
           "type": "array",
           "items": {
             "type": "string"
@@ -5997,7 +5997,7 @@
         "content": {
           "type": "object"
         },
-        "categoryIds": {
+        "categoryKeys": {
           "type": "array",
           "items": {
             "type": "string"

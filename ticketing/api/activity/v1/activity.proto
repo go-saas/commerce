@@ -82,7 +82,7 @@ message CreateActivityRequest {
   string short_desc=14;
   google.protobuf.Struct content=15;
 
-  repeated string category_ids=20;
+  repeated string category_keys=20;
 
   bool seat_selectable=22;
   google.protobuf.Duration duration=23;
@@ -102,7 +102,7 @@ message UpdateActivity{
   string short_desc=14;
   google.protobuf.Struct content=15;
 
-  repeated string category_ids=20;
+  repeated string category_keys=20;
 
   bool seat_selectable=22;
   google.protobuf.Duration duration=23;

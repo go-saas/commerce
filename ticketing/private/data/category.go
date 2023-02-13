@@ -113,9 +113,9 @@ func (c *CategoryRepo) FindAllChildren(ctx context.Context, entity *biz.Ticketin
 	return children, nil
 }
 
-func (c *CategoryRepo) FindByIds(ctx context.Context, cIds []string) ([]biz.TicketingCategory, error) {
+func (c *CategoryRepo) FindByKeys(ctx context.Context, cKeys []string) ([]biz.TicketingCategory, error) {
 	var ret []biz.TicketingCategory
-	err := c.GetDb(ctx).Model(&biz.TicketingCategory{}).Where("id IN ?", cIds).Find(&ret).Error
+	err := c.GetDb(ctx).Model(&biz.TicketingCategory{}).Where("`key` IN ?", cKeys).Find(&ret).Error
 	if err != nil {
 		return nil, err
 	}

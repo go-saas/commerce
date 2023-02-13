@@ -41,9 +41,6 @@ func NewHttpServerRegister(
 		v12.RegisterLocationServiceHTTPServer(srv, location)
 		v1.RegisterTicketingCategoryServiceHTTPServer(srv, category)
 		v13.RegisterActivityServiceHTTPServer(srv, activity)
-		kithttp.MountBlob(srv, "", biz.LocationLogoPath, vfs)
-		kithttp.MountBlob(srv, "", biz.LocationMediaPath, vfs)
-		kithttp.MountBlob(srv, "", biz.LocationLegalDocumentsPath, vfs)
 
 		route := srv.Route("/")
 
@@ -52,6 +49,11 @@ func NewHttpServerRegister(
 		route.POST("/v1/ticketing/location/legal-docs", location.UploadLegalDocs)
 
 		route.POST("/v1/ticketing/activity/media", activity.UploadMedias)
+
+		kithttp.MountBlob(srv, "", biz.LocationLogoPath, vfs)
+		kithttp.MountBlob(srv, "", biz.LocationMediaPath, vfs)
+		kithttp.MountBlob(srv, "", biz.LocationLegalDocumentsPath, vfs)
+		kithttp.MountBlob(srv, "", biz.ActivityMediaPath, vfs)
 
 		swaggerRouter := chi.NewRouter()
 		swaggerRouter.Use(

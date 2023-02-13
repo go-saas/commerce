@@ -246,8 +246,8 @@ func (s *ActivityService) MapUpdatePbActivity2Biz(ctx context.Context, a *pb.Upd
 	if a.Duration != nil {
 		b.Duration = a.Duration.AsDuration()
 	}
-	if len(a.CategoryIds) > 0 {
-		c, err := s.categoryRepo.FindByIds(ctx, a.CategoryIds)
+	if len(a.CategoryKeys) > 0 {
+		c, err := s.categoryRepo.FindByKeys(ctx, a.CategoryKeys)
 		if err != nil {
 			return err
 		}
@@ -270,8 +270,8 @@ func (s *ActivityService) MapCreatePbActivity2Biz(ctx context.Context, a *pb.Cre
 	if a.Duration != nil {
 		b.Duration = a.Duration.AsDuration()
 	}
-	if len(a.CategoryIds) > 0 {
-		c, err := s.categoryRepo.FindByIds(ctx, a.CategoryIds)
+	if len(a.CategoryKeys) > 0 {
+		c, err := s.categoryRepo.FindByKeys(ctx, a.CategoryKeys)
 		if err != nil {
 			return err
 		}

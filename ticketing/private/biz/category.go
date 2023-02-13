@@ -24,5 +24,5 @@ type TicketingCategory struct {
 type TicketingCategoryRepo interface {
 	data.Repo[TicketingCategory, string, v12.ListCategoryRequest]
 	FindAllChildren(ctx context.Context, entity *TicketingCategory) ([]*TicketingCategory, error)
-	FindByIds(ctx context.Context, cIds []string) ([]TicketingCategory, error)
+	FindByKeys(ctx context.Context, cKeys []string) ([]TicketingCategory, error)
 }
