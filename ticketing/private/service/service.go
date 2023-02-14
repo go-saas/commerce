@@ -28,6 +28,7 @@ var ProviderSet = kitdi.NewSet(
 	NewLocationService,
 	NewTicketingCategoryService,
 	NewActivityService,
+	NewShowService,
 )
 
 func NewHttpServerRegister(

@@ -24,6 +24,7 @@ const GrpcOperationLocationServiceCreateLocation = "/ticketing.api.location.v1.L
 const GrpcOperationLocationServiceUpdateLocation = "/ticketing.api.location.v1.LocationService/UpdateLocation"
 const GrpcOperationLocationServiceDeleteLocation = "/ticketing.api.location.v1.LocationService/DeleteLocation"
 const GrpcOperationLocationServiceGetLocationHalls = "/ticketing.api.location.v1.LocationService/GetLocationHalls"
+const GrpcOperationLocationServiceGetLocationHallDetail = "/ticketing.api.location.v1.LocationService/GetLocationHallDetail"
 const GrpcOperationLocationServiceCreateLocationHall = "/ticketing.api.location.v1.LocationService/CreateLocationHall"
 const GrpcOperationLocationServiceUpdateLocationHall = "/ticketing.api.location.v1.LocationService/UpdateLocationHall"
 const GrpcOperationLocationServiceDeleteLocationHall = "/ticketing.api.location.v1.LocationService/DeleteLocationHall"
@@ -54,6 +55,9 @@ func (c *locationServiceClientProxy) DeleteLocation(ctx context.Context, in *Del
 }
 func (c *locationServiceClientProxy) GetLocationHalls(ctx context.Context, in *GetLocationHallsRequest) (*GetLocationHallsReply, error) {
 	return c.cc.GetLocationHalls(ctx, in)
+}
+func (c *locationServiceClientProxy) GetLocationHallDetail(ctx context.Context, in *GetLocationHallDetailRequest) (*GetLocationHallDetailReply, error) {
+	return c.cc.GetLocationHallDetail(ctx, in)
 }
 func (c *locationServiceClientProxy) CreateLocationHall(ctx context.Context, in *CreateLocationHallRequest) (*CreateLocationHallReply, error) {
 	return c.cc.CreateLocationHall(ctx, in)

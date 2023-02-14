@@ -2614,6 +2614,262 @@ var _ interface {
 	ErrorName() string
 } = GetLocationHallsReplyValidationError{}
 
+// Validate checks the field values on GetLocationHallDetailRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetLocationHallDetailRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetLocationHallDetailRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetLocationHallDetailRequestMultiError, or nil if none found.
+func (m *GetLocationHallDetailRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetLocationHallDetailRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetLocationId()) < 1 {
+		err := GetLocationHallDetailRequestValidationError{
+			field:  "LocationId",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetHallId()) < 1 {
+		err := GetLocationHallDetailRequestValidationError{
+			field:  "HallId",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return GetLocationHallDetailRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetLocationHallDetailRequestMultiError is an error wrapping multiple
+// validation errors returned by GetLocationHallDetailRequest.ValidateAll() if
+// the designated constraints aren't met.
+type GetLocationHallDetailRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetLocationHallDetailRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetLocationHallDetailRequestMultiError) AllErrors() []error { return m }
+
+// GetLocationHallDetailRequestValidationError is the validation error returned
+// by GetLocationHallDetailRequest.Validate if the designated constraints
+// aren't met.
+type GetLocationHallDetailRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetLocationHallDetailRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetLocationHallDetailRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetLocationHallDetailRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetLocationHallDetailRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetLocationHallDetailRequestValidationError) ErrorName() string {
+	return "GetLocationHallDetailRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetLocationHallDetailRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetLocationHallDetailRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetLocationHallDetailRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetLocationHallDetailRequestValidationError{}
+
+// Validate checks the field values on GetLocationHallDetailReply with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetLocationHallDetailReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetLocationHallDetailReply with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetLocationHallDetailReplyMultiError, or nil if none found.
+func (m *GetLocationHallDetailReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetLocationHallDetailReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetHall()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetLocationHallDetailReplyValidationError{
+					field:  "Hall",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetLocationHallDetailReplyValidationError{
+					field:  "Hall",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetHall()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetLocationHallDetailReplyValidationError{
+				field:  "Hall",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetLocationHallDetailReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetLocationHallDetailReplyMultiError is an error wrapping multiple
+// validation errors returned by GetLocationHallDetailReply.ValidateAll() if
+// the designated constraints aren't met.
+type GetLocationHallDetailReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetLocationHallDetailReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetLocationHallDetailReplyMultiError) AllErrors() []error { return m }
+
+// GetLocationHallDetailReplyValidationError is the validation error returned
+// by GetLocationHallDetailReply.Validate if the designated constraints aren't met.
+type GetLocationHallDetailReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetLocationHallDetailReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetLocationHallDetailReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetLocationHallDetailReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetLocationHallDetailReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetLocationHallDetailReplyValidationError) ErrorName() string {
+	return "GetLocationHallDetailReplyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetLocationHallDetailReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetLocationHallDetailReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetLocationHallDetailReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetLocationHallDetailReplyValidationError{}
+
 // Validate checks the field values on CreateLocationHallRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.

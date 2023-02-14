@@ -9,6 +9,11 @@ import "google/api/field_behavior.proto";
 import "validate/validate.proto";
 import "query/operation.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
+
+import "ticketing/api/activity/v1/activity.proto";
+import "ticketing/api/location/v1/location.proto";
+import "pkg/price/price.proto";
+
 option go_package = "github.com/go-saas/commerce/ticketing/api/show/v1;v1";
 
 
@@ -48,30 +53,13 @@ service ShowService {
       delete: "/v1/ticketing/show/{id}"
     };
   }
-
 }
-
-message CreateShowRequest {
-  string name =1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
-}
-
-message UpdateShowRequest {
-  UpdateShow show=1 [(validate.rules).message.required=true,(google.api.field_behavior) = REQUIRED];
-  google.protobuf.FieldMask update_mask = 2;
-}
-
-message UpdateShow{
-  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
-  string name=2;
-}
-
 
 message DeleteShowRequest {
   string id=1;
 }
 message DeleteShowReply {
   string id=1;
-  string name=2;
 }
 
 message GetShowRequest {
@@ -82,6 +70,7 @@ message ShowFilter{
   query.operation.StringFilterOperation id=1;
   query.operation.StringFilterOperation name =2;
 }
+
 message ListShowRequest {
   int32 page_offset =1;
   int32 page_size = 2;
@@ -95,8 +84,85 @@ message ListShowReply {
   int32 filter_size =2;
   repeated Show items=3;
 }
+
 message Show{
   string id=1;
-  string name=2;
+
   google.protobuf.Timestamp created_at =4;
+
+  string activity_id=10;
+  .ticketing.api.activity.v1.Activity activity=11;
+
+  google.protobuf.Timestamp start_time=12;
+  google.protobuf.Timestamp end_time=13;
+
+  string location_id=20;
+  .ticketing.api.location.v1.Location location=21;
+
+  string hall_id=31;
+  .ticketing.api.location.v1.LocationHall hall=32;
+
+  repeated ShowSalesType sales_types=40;
+
+  string notice=50;
+
+  int32 sales_count=100;
+  int32 rest_count=101;
+}
+
+message ShowSalesType{
+  string id=1;
+  string name=2;
+
+  .ticketing.api.location.v1.SeatGroup seat_group=3;
+  optional string seat_group_id=4;
+
+  google.protobuf.Timestamp saleable_from=100;
+  google.protobuf.Timestamp saleable_to=101;
+  .pkg.price.InfoPb Price =102;
+
+}
+
+
+message UpdateShowSalesType{
+  string id=1;
+  string name=2;
+  string seat_group_id=4;
+  google.protobuf.Timestamp saleable_from=100;
+  google.protobuf.Timestamp saleable_to=101;
+  .pkg.price.InfoPb Price =102;
+}
+
+
+
+message CreateShowRequest {
+
+  string activity_id=10 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+  google.protobuf.Timestamp start_time=12[(validate.rules).timestamp.required=true,(google.api.field_behavior) = REQUIRED];
+  google.protobuf.Timestamp end_time=13[(validate.rules).timestamp.required=true,(google.api.field_behavior) = REQUIRED];
+
+  string location_id=20[(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+
+  string hall_id=30[(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+
+  repeated UpdateShowSalesType sales_types=40;
+
+  string notice=50;
+}
+
+message UpdateShowRequest {
+  UpdateShow show=1 [(validate.rules).message.required=true,(google.api.field_behavior) = REQUIRED];
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateShow{
+  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+
+
+  google.protobuf.Timestamp start_time=12[(validate.rules).timestamp.required=true,(google.api.field_behavior) = REQUIRED];
+  google.protobuf.Timestamp end_time=13[(validate.rules).timestamp.required=true,(google.api.field_behavior) = REQUIRED];
+
+  repeated UpdateShowSalesType sales_types=40;
+
+  string notice=50;
 }

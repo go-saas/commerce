@@ -150,6 +150,21 @@ func (s *LocationService) GetLocationHalls(ctx context.Context, req *pb.GetLocat
 	return ret, nil
 }
 
+func (s *LocationService) GetLocationHallDetail(ctx context.Context, req *pb.GetLocationHallDetailRequest) (*pb.GetLocationHallDetailReply, error) {
+	if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceLocation, req.LocationId), authz.ReadAction); err != nil {
+		return nil, err
+	}
+	hall, err := s.hallRepo.Get(ctx, req.HallId)
+	if err != nil {
+		return nil, err
+	}
+	if hall.LocationID == nil || *hall.LocationID != req.LocationId {
+		return nil, errors.NotFound("", "")
+	}
+	pbHall := mapBizHall2Pb(ctx, hall)
+	return &pb.GetLocationHallDetailReply{Hall: pbHall}, nil
+}
+
 func (s *LocationService) CreateLocationHall(ctx context.Context, req *pb.CreateLocationHallRequest) (*pb.CreateLocationHallReply, error) {
 	if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceLocation, req.Id), authz.WriteAction); err != nil {
 		return nil, err
@@ -404,4 +419,14 @@ func mapPbHall2Biz(ctx context.Context, a *pb.UpdateLocationHall, b *biz.Hall) {
 	b.Capacity = int(a.Capacity)
 	//TODO seat groups seat
 
+}
+
+func mapBizSeatGroup2Pb(ctx context.Context, a *biz.SeatGroup) *pb.SeatGroup {
+	if a == nil {
+		return nil
+	}
+	return &pb.SeatGroup{
+		Id:   a.ID.String(),
+		Name: a.Name,
+	}
 }

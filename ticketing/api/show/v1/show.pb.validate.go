@@ -35,402 +35,6 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on CreateShowRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *CreateShowRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on CreateShowRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// CreateShowRequestMultiError, or nil if none found.
-func (m *CreateShowRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *CreateShowRequest) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if utf8.RuneCountInString(m.GetName()) < 1 {
-		err := CreateShowRequestValidationError{
-			field:  "Name",
-			reason: "value length must be at least 1 runes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	if len(errors) > 0 {
-		return CreateShowRequestMultiError(errors)
-	}
-
-	return nil
-}
-
-// CreateShowRequestMultiError is an error wrapping multiple validation errors
-// returned by CreateShowRequest.ValidateAll() if the designated constraints
-// aren't met.
-type CreateShowRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m CreateShowRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m CreateShowRequestMultiError) AllErrors() []error { return m }
-
-// CreateShowRequestValidationError is the validation error returned by
-// CreateShowRequest.Validate if the designated constraints aren't met.
-type CreateShowRequestValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e CreateShowRequestValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e CreateShowRequestValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e CreateShowRequestValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e CreateShowRequestValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e CreateShowRequestValidationError) ErrorName() string {
-	return "CreateShowRequestValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e CreateShowRequestValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sCreateShowRequest.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = CreateShowRequestValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = CreateShowRequestValidationError{}
-
-// Validate checks the field values on UpdateShowRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *UpdateShowRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on UpdateShowRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// UpdateShowRequestMultiError, or nil if none found.
-func (m *UpdateShowRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *UpdateShowRequest) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if m.GetShow() == nil {
-		err := UpdateShowRequestValidationError{
-			field:  "Show",
-			reason: "value is required",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	if all {
-		switch v := interface{}(m.GetShow()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UpdateShowRequestValidationError{
-					field:  "Show",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, UpdateShowRequestValidationError{
-					field:  "Show",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetShow()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return UpdateShowRequestValidationError{
-				field:  "Show",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetUpdateMask()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UpdateShowRequestValidationError{
-					field:  "UpdateMask",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, UpdateShowRequestValidationError{
-					field:  "UpdateMask",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetUpdateMask()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return UpdateShowRequestValidationError{
-				field:  "UpdateMask",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if len(errors) > 0 {
-		return UpdateShowRequestMultiError(errors)
-	}
-
-	return nil
-}
-
-// UpdateShowRequestMultiError is an error wrapping multiple validation errors
-// returned by UpdateShowRequest.ValidateAll() if the designated constraints
-// aren't met.
-type UpdateShowRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m UpdateShowRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m UpdateShowRequestMultiError) AllErrors() []error { return m }
-
-// UpdateShowRequestValidationError is the validation error returned by
-// UpdateShowRequest.Validate if the designated constraints aren't met.
-type UpdateShowRequestValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e UpdateShowRequestValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e UpdateShowRequestValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e UpdateShowRequestValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e UpdateShowRequestValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e UpdateShowRequestValidationError) ErrorName() string {
-	return "UpdateShowRequestValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e UpdateShowRequestValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sUpdateShowRequest.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = UpdateShowRequestValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = UpdateShowRequestValidationError{}
-
-// Validate checks the field values on UpdateShow with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *UpdateShow) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on UpdateShow with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in UpdateShowMultiError, or
-// nil if none found.
-func (m *UpdateShow) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *UpdateShow) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if utf8.RuneCountInString(m.GetId()) < 1 {
-		err := UpdateShowValidationError{
-			field:  "Id",
-			reason: "value length must be at least 1 runes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	// no validation rules for Name
-
-	if len(errors) > 0 {
-		return UpdateShowMultiError(errors)
-	}
-
-	return nil
-}
-
-// UpdateShowMultiError is an error wrapping multiple validation errors
-// returned by UpdateShow.ValidateAll() if the designated constraints aren't met.
-type UpdateShowMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m UpdateShowMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m UpdateShowMultiError) AllErrors() []error { return m }
-
-// UpdateShowValidationError is the validation error returned by
-// UpdateShow.Validate if the designated constraints aren't met.
-type UpdateShowValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e UpdateShowValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e UpdateShowValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e UpdateShowValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e UpdateShowValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e UpdateShowValidationError) ErrorName() string { return "UpdateShowValidationError" }
-
-// Error satisfies the builtin error interface
-func (e UpdateShowValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sUpdateShow.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = UpdateShowValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = UpdateShowValidationError{}
-
 // Validate checks the field values on DeleteShowRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.
@@ -558,8 +162,6 @@ func (m *DeleteShowReply) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
-
-	// no validation rules for Name
 
 	if len(errors) > 0 {
 		return DeleteShowReplyMultiError(errors)
@@ -1232,8 +834,6 @@ func (m *Show) validate(all bool) error {
 
 	// no validation rules for Id
 
-	// no validation rules for Name
-
 	if all {
 		switch v := interface{}(m.GetCreatedAt()).(type) {
 		case interface{ ValidateAll() error }:
@@ -1262,6 +862,197 @@ func (m *Show) validate(all bool) error {
 			}
 		}
 	}
+
+	// no validation rules for ActivityId
+
+	if all {
+		switch v := interface{}(m.GetActivity()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ShowValidationError{
+					field:  "Activity",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ShowValidationError{
+					field:  "Activity",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetActivity()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ShowValidationError{
+				field:  "Activity",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetStartTime()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ShowValidationError{
+					field:  "StartTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ShowValidationError{
+					field:  "StartTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetStartTime()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ShowValidationError{
+				field:  "StartTime",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetEndTime()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ShowValidationError{
+					field:  "EndTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ShowValidationError{
+					field:  "EndTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetEndTime()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ShowValidationError{
+				field:  "EndTime",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for LocationId
+
+	if all {
+		switch v := interface{}(m.GetLocation()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ShowValidationError{
+					field:  "Location",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ShowValidationError{
+					field:  "Location",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLocation()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ShowValidationError{
+				field:  "Location",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for HallId
+
+	if all {
+		switch v := interface{}(m.GetHall()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ShowValidationError{
+					field:  "Hall",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ShowValidationError{
+					field:  "Hall",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetHall()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ShowValidationError{
+				field:  "Hall",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	for idx, item := range m.GetSalesTypes() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ShowValidationError{
+						field:  fmt.Sprintf("SalesTypes[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ShowValidationError{
+						field:  fmt.Sprintf("SalesTypes[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ShowValidationError{
+					field:  fmt.Sprintf("SalesTypes[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for Notice
+
+	// no validation rules for SalesCount
+
+	// no validation rules for RestCount
 
 	if len(errors) > 0 {
 		return ShowMultiError(errors)
@@ -1339,3 +1130,954 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ShowValidationError{}
+
+// Validate checks the field values on ShowSalesType with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *ShowSalesType) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ShowSalesType with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in ShowSalesTypeMultiError, or
+// nil if none found.
+func (m *ShowSalesType) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ShowSalesType) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Name
+
+	if all {
+		switch v := interface{}(m.GetSeatGroup()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ShowSalesTypeValidationError{
+					field:  "SeatGroup",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ShowSalesTypeValidationError{
+					field:  "SeatGroup",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSeatGroup()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ShowSalesTypeValidationError{
+				field:  "SeatGroup",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetSaleableFrom()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ShowSalesTypeValidationError{
+					field:  "SaleableFrom",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ShowSalesTypeValidationError{
+					field:  "SaleableFrom",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSaleableFrom()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ShowSalesTypeValidationError{
+				field:  "SaleableFrom",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetSaleableTo()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ShowSalesTypeValidationError{
+					field:  "SaleableTo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ShowSalesTypeValidationError{
+					field:  "SaleableTo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSaleableTo()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ShowSalesTypeValidationError{
+				field:  "SaleableTo",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetPrice()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ShowSalesTypeValidationError{
+					field:  "Price",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ShowSalesTypeValidationError{
+					field:  "Price",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPrice()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ShowSalesTypeValidationError{
+				field:  "Price",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if m.SeatGroupId != nil {
+		// no validation rules for SeatGroupId
+	}
+
+	if len(errors) > 0 {
+		return ShowSalesTypeMultiError(errors)
+	}
+
+	return nil
+}
+
+// ShowSalesTypeMultiError is an error wrapping multiple validation errors
+// returned by ShowSalesType.ValidateAll() if the designated constraints
+// aren't met.
+type ShowSalesTypeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ShowSalesTypeMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ShowSalesTypeMultiError) AllErrors() []error { return m }
+
+// ShowSalesTypeValidationError is the validation error returned by
+// ShowSalesType.Validate if the designated constraints aren't met.
+type ShowSalesTypeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ShowSalesTypeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ShowSalesTypeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ShowSalesTypeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ShowSalesTypeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ShowSalesTypeValidationError) ErrorName() string { return "ShowSalesTypeValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ShowSalesTypeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sShowSalesType.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ShowSalesTypeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ShowSalesTypeValidationError{}
+
+// Validate checks the field values on UpdateShowSalesType with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UpdateShowSalesType) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateShowSalesType with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateShowSalesTypeMultiError, or nil if none found.
+func (m *UpdateShowSalesType) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateShowSalesType) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Name
+
+	// no validation rules for SeatGroupId
+
+	if all {
+		switch v := interface{}(m.GetSaleableFrom()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateShowSalesTypeValidationError{
+					field:  "SaleableFrom",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateShowSalesTypeValidationError{
+					field:  "SaleableFrom",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSaleableFrom()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateShowSalesTypeValidationError{
+				field:  "SaleableFrom",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetSaleableTo()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateShowSalesTypeValidationError{
+					field:  "SaleableTo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateShowSalesTypeValidationError{
+					field:  "SaleableTo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSaleableTo()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateShowSalesTypeValidationError{
+				field:  "SaleableTo",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetPrice()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateShowSalesTypeValidationError{
+					field:  "Price",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateShowSalesTypeValidationError{
+					field:  "Price",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPrice()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateShowSalesTypeValidationError{
+				field:  "Price",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return UpdateShowSalesTypeMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateShowSalesTypeMultiError is an error wrapping multiple validation
+// errors returned by UpdateShowSalesType.ValidateAll() if the designated
+// constraints aren't met.
+type UpdateShowSalesTypeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateShowSalesTypeMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateShowSalesTypeMultiError) AllErrors() []error { return m }
+
+// UpdateShowSalesTypeValidationError is the validation error returned by
+// UpdateShowSalesType.Validate if the designated constraints aren't met.
+type UpdateShowSalesTypeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateShowSalesTypeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateShowSalesTypeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateShowSalesTypeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateShowSalesTypeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateShowSalesTypeValidationError) ErrorName() string {
+	return "UpdateShowSalesTypeValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateShowSalesTypeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateShowSalesType.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateShowSalesTypeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateShowSalesTypeValidationError{}
+
+// Validate checks the field values on CreateShowRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *CreateShowRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreateShowRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CreateShowRequestMultiError, or nil if none found.
+func (m *CreateShowRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreateShowRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetActivityId()) < 1 {
+		err := CreateShowRequestValidationError{
+			field:  "ActivityId",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetStartTime() == nil {
+		err := CreateShowRequestValidationError{
+			field:  "StartTime",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetEndTime() == nil {
+		err := CreateShowRequestValidationError{
+			field:  "EndTime",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetLocationId()) < 1 {
+		err := CreateShowRequestValidationError{
+			field:  "LocationId",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetHallId()) < 1 {
+		err := CreateShowRequestValidationError{
+			field:  "HallId",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	for idx, item := range m.GetSalesTypes() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, CreateShowRequestValidationError{
+						field:  fmt.Sprintf("SalesTypes[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, CreateShowRequestValidationError{
+						field:  fmt.Sprintf("SalesTypes[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return CreateShowRequestValidationError{
+					field:  fmt.Sprintf("SalesTypes[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for Notice
+
+	if len(errors) > 0 {
+		return CreateShowRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// CreateShowRequestMultiError is an error wrapping multiple validation errors
+// returned by CreateShowRequest.ValidateAll() if the designated constraints
+// aren't met.
+type CreateShowRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreateShowRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreateShowRequestMultiError) AllErrors() []error { return m }
+
+// CreateShowRequestValidationError is the validation error returned by
+// CreateShowRequest.Validate if the designated constraints aren't met.
+type CreateShowRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CreateShowRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CreateShowRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CreateShowRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CreateShowRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CreateShowRequestValidationError) ErrorName() string {
+	return "CreateShowRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CreateShowRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCreateShowRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CreateShowRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CreateShowRequestValidationError{}
+
+// Validate checks the field values on UpdateShowRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *UpdateShowRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateShowRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpdateShowRequestMultiError, or nil if none found.
+func (m *UpdateShowRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateShowRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetShow() == nil {
+		err := UpdateShowRequestValidationError{
+			field:  "Show",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetShow()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateShowRequestValidationError{
+					field:  "Show",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateShowRequestValidationError{
+					field:  "Show",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetShow()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateShowRequestValidationError{
+				field:  "Show",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetUpdateMask()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateShowRequestValidationError{
+					field:  "UpdateMask",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateShowRequestValidationError{
+					field:  "UpdateMask",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetUpdateMask()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateShowRequestValidationError{
+				field:  "UpdateMask",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return UpdateShowRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateShowRequestMultiError is an error wrapping multiple validation errors
+// returned by UpdateShowRequest.ValidateAll() if the designated constraints
+// aren't met.
+type UpdateShowRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateShowRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateShowRequestMultiError) AllErrors() []error { return m }
+
+// UpdateShowRequestValidationError is the validation error returned by
+// UpdateShowRequest.Validate if the designated constraints aren't met.
+type UpdateShowRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateShowRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateShowRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateShowRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateShowRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateShowRequestValidationError) ErrorName() string {
+	return "UpdateShowRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateShowRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateShowRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateShowRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateShowRequestValidationError{}
+
+// Validate checks the field values on UpdateShow with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *UpdateShow) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpdateShow with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in UpdateShowMultiError, or
+// nil if none found.
+func (m *UpdateShow) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpdateShow) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetId()) < 1 {
+		err := UpdateShowValidationError{
+			field:  "Id",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetStartTime() == nil {
+		err := UpdateShowValidationError{
+			field:  "StartTime",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetEndTime() == nil {
+		err := UpdateShowValidationError{
+			field:  "EndTime",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	for idx, item := range m.GetSalesTypes() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, UpdateShowValidationError{
+						field:  fmt.Sprintf("SalesTypes[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, UpdateShowValidationError{
+						field:  fmt.Sprintf("SalesTypes[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return UpdateShowValidationError{
+					field:  fmt.Sprintf("SalesTypes[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for Notice
+
+	if len(errors) > 0 {
+		return UpdateShowMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpdateShowMultiError is an error wrapping multiple validation errors
+// returned by UpdateShow.ValidateAll() if the designated constraints aren't met.
+type UpdateShowMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpdateShowMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpdateShowMultiError) AllErrors() []error { return m }
+
+// UpdateShowValidationError is the validation error returned by
+// UpdateShow.Validate if the designated constraints aren't met.
+type UpdateShowValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateShowValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateShowValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateShowValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateShowValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateShowValidationError) ErrorName() string { return "UpdateShowValidationError" }
+
+// Error satisfies the builtin error interface
+func (e UpdateShowValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateShow.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateShowValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateShowValidationError{}

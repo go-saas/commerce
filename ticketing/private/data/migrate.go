@@ -26,6 +26,6 @@ func migrateDb(db *gorm.DB) error {
 	return db.AutoMigrate(
 		&biz.Activity{}, &biz.TicketingMedia{}, &biz.TicketingCategory{},
 		&biz.Location{}, &biz.Hall{},
-		&biz.Show{}, &biz.SeatGroup{}, &biz.Seat{}, &biz.ShowSeat{}, &biz.ActivitySalesType{},
+		&biz.Show{}, &biz.SeatGroup{}, &biz.Seat{}, &biz.ShowSeat{}, &biz.ShowSalesType{},
 		&biz.Ticket{})
 }

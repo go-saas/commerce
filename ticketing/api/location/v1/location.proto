@@ -86,6 +86,13 @@ service LocationService {
     };
   }
 
+  rpc GetLocationHallDetail(GetLocationHallDetailRequest)returns(GetLocationHallDetailReply){
+    option (google.api.http) = {
+      get: "/v1/ticketing/location/{location_id}/hall/{hall_id}"
+    };
+  }
+
+
   rpc CreateLocationHall(CreateLocationHallRequest)returns(CreateLocationHallReply){
     option (google.api.http) = {
       post: "/v1/ticketing/location/{id}/hall"
@@ -233,12 +240,22 @@ message SeatGroup{
 message GetLocationHallsRequest{
   string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];
 }
-
 message GetLocationHallsReply{
 
   repeated LocationHall halls=1;
 
 }
+
+message GetLocationHallDetailRequest{
+  string location_id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];
+  string hall_id=2 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];
+}
+
+message GetLocationHallDetailReply{
+  LocationHall hall=1;
+}
+
+
 
 message CreateLocationHallRequest{
   string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];

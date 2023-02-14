@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"fmt"
 	v1 "github.com/go-saas/commerce/ticketing/api/activity/v1"
 	"github.com/go-saas/commerce/ticketing/private/biz"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
@@ -52,6 +53,27 @@ func (c *ActivityRepo) BuildDetailScope(withDetail bool) func(db *gorm.DB) *gorm
 	}
 }
 
+// BuildFilterScope filter
+func (c *ActivityRepo) BuildFilterScope(q *v1.ListActivityRequest) func(db *gorm.DB) *gorm.DB {
+	search := q.Search
+	filter := q.Filter
+	return func(db *gorm.DB) *gorm.DB {
+		ret := db
+
+		if search != "" {
+			ret = ret.Where("name like ?", fmt.Sprintf("%%%v%%", search))
+		}
+		if filter == nil {
+			return ret
+		}
+
+		if filter.Name != nil {
+			ret = ret.Scopes(kitgorm.BuildStringFilter("`name`", filter.Name))
+		}
+
+		return ret
+	}
+}
 func (c *ActivityRepo) UpdateAssociation(ctx context.Context, entity *biz.Activity) error {
 	if entity.Categories != nil {
 		if err := c.GetDb(ctx).Model(entity).Association("Categories").Replace(entity.Categories); err != nil {

@@ -28,6 +28,7 @@ type LocationServiceClient interface {
 	UpdateLocation(ctx context.Context, in *UpdateLocationRequest, opts ...grpc.CallOption) (*Location, error)
 	DeleteLocation(ctx context.Context, in *DeleteLocationRequest, opts ...grpc.CallOption) (*DeleteLocationReply, error)
 	GetLocationHalls(ctx context.Context, in *GetLocationHallsRequest, opts ...grpc.CallOption) (*GetLocationHallsReply, error)
+	GetLocationHallDetail(ctx context.Context, in *GetLocationHallDetailRequest, opts ...grpc.CallOption) (*GetLocationHallDetailReply, error)
 	CreateLocationHall(ctx context.Context, in *CreateLocationHallRequest, opts ...grpc.CallOption) (*CreateLocationHallReply, error)
 	UpdateLocationHall(ctx context.Context, in *UpdateLocationHallRequest, opts ...grpc.CallOption) (*UpdateLocationHallReply, error)
 	DeleteLocationHall(ctx context.Context, in *DeleteLocationHallRequest, opts ...grpc.CallOption) (*DeleteLocationHallReply, error)
@@ -95,6 +96,15 @@ func (c *locationServiceClient) GetLocationHalls(ctx context.Context, in *GetLoc
 	return out, nil
 }
 
+func (c *locationServiceClient) GetLocationHallDetail(ctx context.Context, in *GetLocationHallDetailRequest, opts ...grpc.CallOption) (*GetLocationHallDetailReply, error) {
+	out := new(GetLocationHallDetailReply)
+	err := c.cc.Invoke(ctx, "/ticketing.api.location.v1.LocationService/GetLocationHallDetail", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *locationServiceClient) CreateLocationHall(ctx context.Context, in *CreateLocationHallRequest, opts ...grpc.CallOption) (*CreateLocationHallReply, error) {
 	out := new(CreateLocationHallReply)
 	err := c.cc.Invoke(ctx, "/ticketing.api.location.v1.LocationService/CreateLocationHall", in, out, opts...)
@@ -132,6 +142,7 @@ type LocationServiceServer interface {
 	UpdateLocation(context.Context, *UpdateLocationRequest) (*Location, error)
 	DeleteLocation(context.Context, *DeleteLocationRequest) (*DeleteLocationReply, error)
 	GetLocationHalls(context.Context, *GetLocationHallsRequest) (*GetLocationHallsReply, error)
+	GetLocationHallDetail(context.Context, *GetLocationHallDetailRequest) (*GetLocationHallDetailReply, error)
 	CreateLocationHall(context.Context, *CreateLocationHallRequest) (*CreateLocationHallReply, error)
 	UpdateLocationHall(context.Context, *UpdateLocationHallRequest) (*UpdateLocationHallReply, error)
 	DeleteLocationHall(context.Context, *DeleteLocationHallRequest) (*DeleteLocationHallReply, error)
@@ -158,6 +169,9 @@ func (UnimplementedLocationServiceServer) DeleteLocation(context.Context, *Delet
 }
 func (UnimplementedLocationServiceServer) GetLocationHalls(context.Context, *GetLocationHallsRequest) (*GetLocationHallsReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetLocationHalls not implemented")
+}
+func (UnimplementedLocationServiceServer) GetLocationHallDetail(context.Context, *GetLocationHallDetailRequest) (*GetLocationHallDetailReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLocationHallDetail not implemented")
 }
 func (UnimplementedLocationServiceServer) CreateLocationHall(context.Context, *CreateLocationHallRequest) (*CreateLocationHallReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateLocationHall not implemented")
@@ -288,6 +302,24 @@ func _LocationService_GetLocationHalls_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LocationService_GetLocationHallDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLocationHallDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocationServiceServer).GetLocationHallDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ticketing.api.location.v1.LocationService/GetLocationHallDetail",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocationServiceServer).GetLocationHallDetail(ctx, req.(*GetLocationHallDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _LocationService_CreateLocationHall_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateLocationHallRequest)
 	if err := dec(in); err != nil {
@@ -372,6 +404,10 @@ var LocationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetLocationHalls",
 			Handler:    _LocationService_GetLocationHalls_Handler,
+		},
+		{
+			MethodName: "GetLocationHallDetail",
+			Handler:    _LocationService_GetLocationHallDetail_Handler,
 		},
 		{
 			MethodName: "CreateLocationHall",

@@ -30,7 +30,9 @@ type Ticket struct {
 	ShowID string
 	Show   Show `gorm:"foreignKey:ShowID"`
 
-	Status string
+	ShowSalesTypeID string
+	ShowSalesType   ShowSalesType `gorm:"foreignKey:ShowSalesTypeID"`
+	Status          string
 
 	OrderID  string      `gorm:"type:char(36);index:;"`
 	Contact  ContactInfo `gorm:"embedded;embeddedPrefix:contact_"`

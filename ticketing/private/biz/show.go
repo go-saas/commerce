@@ -2,30 +2,36 @@ package biz
 
 import (
 	"github.com/go-saas/commerce/pkg/price"
+	v1 "github.com/go-saas/commerce/ticketing/api/show/v1"
+	"github.com/go-saas/kit/pkg/data"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
 	"time"
 )
 
 type Show struct {
 	kitgorm.UIDBase
+	kitgorm.AuditedModel
 
 	ActivityID string
-	Activity   Activity `gorm:"foreignKey:ActivityID"`
+	Activity   *Activity `gorm:"foreignKey:ActivityID"`
 
 	StartTime time.Time
 	EndTime   time.Time
 
 	LocationID string
-	Location   Location `gorm:"foreignKey:LocationID"`
+	Location   *Location `gorm:"foreignKey:LocationID"`
 
-	Halls []Hall `gorm:"many2many:show_halls;"`
+	HallID string
+	Hall   *Hall `gorm:"foreignKey:HallID"`
 
-	SalesType []ActivitySalesType `gorm:"foreignKey:ShowID"`
+	SalesTypes []ShowSalesType `gorm:"foreignKey:ShowID"`
 
 	Seats []ShowSeat `gorm:"foreignKey:ShowID"`
+
+	Notice string
 }
 
-type ActivitySalesType struct {
+type ShowSalesType struct {
 	kitgorm.UIDBase
 	Name string
 
@@ -48,4 +54,8 @@ type ShowSeat struct {
 	Available bool
 
 	TicketID *string
+}
+
+type ShowRepo interface {
+	data.Repo[Show, string, v1.ListShowRequest]
 }

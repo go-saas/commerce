@@ -3597,6 +3597,42 @@
         ]
       }
     },
+    "/v1/ticketing/location/{locationId}/hall/{hallId}": {
+      "get": {
+        "operationId": "LocationService_GetLocationHallDetail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetLocationHallDetailReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "locationId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "hallId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "LocationService"
+        ]
+      }
+    },
     "/v1/ticketing/show": {
       "get": {
         "operationId": "ShowService_ListShow",
@@ -4579,6 +4615,38 @@
         }
       }
     },
+    "priceInfoPb": {
+      "type": "object",
+      "properties": {
+        "default": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "discounted": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "discountText": {
+          "type": "string"
+        },
+        "denyMoreDiscounts": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pricePricePb": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "format": "int64"
+        },
+        "currencyCode": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    },
     "productapicategoryv1Category": {
       "type": "object",
       "properties": {
@@ -5246,15 +5314,54 @@
     "v1CreateShowRequest": {
       "type": "object",
       "properties": {
-        "name": {
+        "activityId": {
           "type": "string",
           "required": [
-            "name"
+            "activity_id"
           ]
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "required": [
+            "start_time"
+          ]
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "required": [
+            "end_time"
+          ]
+        },
+        "locationId": {
+          "type": "string",
+          "required": [
+            "location_id"
+          ]
+        },
+        "hallId": {
+          "type": "string",
+          "required": [
+            "hall_id"
+          ]
+        },
+        "salesTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1UpdateShowSalesType"
+          }
+        },
+        "notice": {
+          "type": "string"
         }
       },
       "required": [
-        "name"
+        "activityId",
+        "startTime",
+        "endTime",
+        "locationId",
+        "hallId"
       ]
     },
     "v1CreateTicketRequest": {
@@ -5352,9 +5459,6 @@
       "properties": {
         "id": {
           "type": "string"
-        },
-        "name": {
-          "type": "string"
         }
       }
     },
@@ -5366,6 +5470,14 @@
         },
         "name": {
           "type": "string"
+        }
+      }
+    },
+    "v1GetLocationHallDetailReply": {
+      "type": "object",
+      "properties": {
+        "hall": {
+          "$ref": "#/definitions/v1LocationHall"
         }
       }
     },
@@ -5883,12 +5995,52 @@
         "id": {
           "type": "string"
         },
-        "name": {
-          "type": "string"
-        },
         "createdAt": {
           "type": "string",
           "format": "date-time"
+        },
+        "activityId": {
+          "type": "string"
+        },
+        "activity": {
+          "$ref": "#/definitions/v1Activity"
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "locationId": {
+          "type": "string"
+        },
+        "location": {
+          "$ref": "#/definitions/locationv1Location"
+        },
+        "hallId": {
+          "type": "string"
+        },
+        "hall": {
+          "$ref": "#/definitions/v1LocationHall"
+        },
+        "salesTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ShowSalesType"
+          }
+        },
+        "notice": {
+          "type": "string"
+        },
+        "salesCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "restCount": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },
@@ -5900,6 +6052,35 @@
         },
         "name": {
           "$ref": "#/definitions/operationStringFilterOperation"
+        }
+      }
+    },
+    "v1ShowSalesType": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "seatGroup": {
+          "$ref": "#/definitions/v1SeatGroup"
+        },
+        "seatGroupId": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "saleableFrom": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "saleableTo": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Price": {
+          "$ref": "#/definitions/priceInfoPb"
         }
       }
     },
@@ -6242,12 +6423,34 @@
             "id"
           ]
         },
-        "name": {
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "required": [
+            "start_time"
+          ]
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "required": [
+            "end_time"
+          ]
+        },
+        "salesTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1UpdateShowSalesType"
+          }
+        },
+        "notice": {
           "type": "string"
         }
       },
       "required": [
-        "id"
+        "id",
+        "startTime",
+        "endTime"
       ]
     },
     "v1UpdateShowRequest": {
@@ -6258,6 +6461,31 @@
         },
         "updateMask": {
           "type": "string"
+        }
+      }
+    },
+    "v1UpdateShowSalesType": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "seatGroupId": {
+          "type": "string"
+        },
+        "saleableFrom": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "saleableTo": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Price": {
+          "$ref": "#/definitions/priceInfoPb"
         }
       }
     },

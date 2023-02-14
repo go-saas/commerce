@@ -1,6 +1,8 @@
 package price
 
-import "time"
+import (
+	"time"
+)
 
 // Saleable embed struct for saleable item
 type Saleable struct {
@@ -18,4 +20,31 @@ type Info struct {
 	DiscountText string
 
 	DenyMoreDiscounts bool
+}
+
+func (i Info) ToInfoPb() *InfoPb {
+	return &InfoPb{
+		Default:           i.Default.ToPricePb(),
+		Discounted:        i.Discounted.ToPricePb(),
+		DiscountText:      i.DiscountText,
+		DenyMoreDiscounts: i.DenyMoreDiscounts,
+	}
+}
+
+func NewInfoFromPb(i *InfoPb) (Info, error) {
+	ret := Info{
+		DiscountText:      i.DiscountText,
+		DenyMoreDiscounts: i.DenyMoreDiscounts,
+	}
+	p, err := NewPriceFromPb(i.Default)
+	if err != nil {
+		return ret, err
+	}
+	ret.Default = p
+	p, err = NewPriceFromPb(i.Discounted)
+	if err != nil {
+		return ret, err
+	}
+	ret.Discounted = p
+	return ret, nil
 }

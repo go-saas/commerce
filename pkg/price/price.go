@@ -1,6 +1,8 @@
 package price
 
-import "github.com/bojanz/currency"
+import (
+	"github.com/bojanz/currency"
+)
 
 // Price database friendly price struct
 type Price struct {
@@ -18,7 +20,39 @@ func NewPriceFromCurrency(a currency.Amount) (Price, error) {
 	return Price{Amount: v, CurrencyCode: a.CurrencyCode()}, nil
 }
 
+func NewPrice(n, currencyCode string) (p Price, err error) {
+	amount, err := currency.NewAmount(n, currencyCode)
+	if err != nil {
+		return
+	}
+	return NewPriceFromCurrency(amount)
+}
+
+func NewPriceFromInt64(n int64, currencyCode string) (p Price, err error) {
+	amount, err := currency.NewAmountFromInt64(n, currencyCode)
+	if err != nil {
+		return
+	}
+	return NewPriceFromCurrency(amount)
+}
+
+func NewPriceFromPb(a *PricePb) (Price, error) {
+	return NewPriceFromInt64(a.Amount, a.CurrencyCode)
+}
+
 func (p Price) ToCurrency() currency.Amount {
-	v, _ := currency.NewAmountFromInt64(p.Amount, p.CurrencyCode)
+	v, err := currency.NewAmountFromInt64(p.Amount, p.CurrencyCode)
+	if err != nil {
+		panic(err)
+	}
 	return v
+}
+
+func (p Price) ToPricePb() *PricePb {
+	a := p.ToCurrency()
+	return &PricePb{
+		Amount:       p.Amount,
+		CurrencyCode: p.CurrencyCode,
+		Text:         a.String(),
+	}
 }
