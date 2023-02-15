@@ -10,6 +10,7 @@ import (
 	v13 "github.com/go-saas/commerce/ticketing/api/activity/v1"
 	v1 "github.com/go-saas/commerce/ticketing/api/category/v1"
 	v12 "github.com/go-saas/commerce/ticketing/api/location/v1"
+	v14 "github.com/go-saas/commerce/ticketing/api/show/v1"
 	"github.com/go-saas/commerce/ticketing/private/biz"
 	kitdi "github.com/go-saas/kit/pkg/di"
 	kitgrpc "github.com/go-saas/kit/pkg/server/grpc"
@@ -37,12 +38,13 @@ func NewHttpServerRegister(
 	vfs vfs.Blob,
 	location *LocationService,
 	category *TicketingCategoryService,
-	activity *ActivityService) kithttp.ServiceRegister {
+	activity *ActivityService,
+	show *ShowService) kithttp.ServiceRegister {
 	return kithttp.ServiceRegisterFunc(func(srv *khttp.Server, middleware ...middleware.Middleware) {
 		v12.RegisterLocationServiceHTTPServer(srv, location)
 		v1.RegisterTicketingCategoryServiceHTTPServer(srv, category)
 		v13.RegisterActivityServiceHTTPServer(srv, activity)
-
+		v14.RegisterShowServiceHTTPServer(srv, show)
 		route := srv.Route("/")
 
 		route.POST("/v1/ticketing/location/logo", location.UploadLogo)
@@ -64,10 +66,16 @@ func NewHttpServerRegister(
 	})
 }
 
-func NewGrpcServerRegister(locationSrv *LocationService, category *TicketingCategoryService, activity *ActivityService) kitgrpc.ServiceRegister {
+func NewGrpcServerRegister(
+	locationSrv *LocationService,
+	category *TicketingCategoryService,
+	activity *ActivityService,
+	show *ShowService,
+) kitgrpc.ServiceRegister {
 	return kitgrpc.ServiceRegisterFunc(func(srv *grpc.Server, middleware ...middleware.Middleware) {
 		v12.RegisterLocationServiceServer(srv, locationSrv)
 		v1.RegisterTicketingCategoryServiceServer(srv, category)
 		v13.RegisterActivityServiceServer(srv, activity)
+		v14.RegisterShowServiceServer(srv, show)
 	})
 }

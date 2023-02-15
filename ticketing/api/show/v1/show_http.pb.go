@@ -35,7 +35,7 @@ type ShowServiceHTTPServer interface {
 
 func RegisterShowServiceHTTPServer(s *http.Server, srv ShowServiceHTTPServer) {
 	r := s.Route("/")
-	r.POST("/v1/show/show/list", _ShowService_ListShow0_HTTP_Handler(srv))
+	r.POST("/v1/ticketing/show/list", _ShowService_ListShow0_HTTP_Handler(srv))
 	r.GET("/v1/ticketing/show", _ShowService_ListShow1_HTTP_Handler(srv))
 	r.GET("/v1/ticketing/show/{id}", _ShowService_GetShow0_HTTP_Handler(srv))
 	r.POST("/v1/ticketing/show", _ShowService_CreateShow0_HTTP_Handler(srv))

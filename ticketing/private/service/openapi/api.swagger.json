@@ -28,38 +28,6 @@
     "application/json"
   ],
   "paths": {
-    "/v1/show/show/list": {
-      "post": {
-        "operationId": "ShowService_ListShow2",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1ListShowReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1ListShowRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ShowService"
-        ]
-      }
-    },
     "/v1/ticket/ticket/list": {
       "post": {
         "operationId": "TicketService_ListTicket2",
@@ -2041,6 +2009,38 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/v1CreateShowRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ShowService"
+        ]
+      }
+    },
+    "/v1/ticketing/show/list": {
+      "post": {
+        "operationId": "ShowService_ListShow2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListShowReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListShowRequest"
             }
           }
         ],

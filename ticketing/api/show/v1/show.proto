@@ -22,7 +22,7 @@ service ShowService {
     option (google.api.http) = {
       get: "/v1/ticketing/show",
       additional_bindings:{
-        post:"/v1/show/show/list",
+        post:"/v1/ticketing/show/list",
         body:"*"
       }
     };
