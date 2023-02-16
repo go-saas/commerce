@@ -49,10 +49,15 @@ func (p Price) ToCurrency() currency.Amount {
 }
 
 func (p Price) ToPricePb() *PricePb {
+	if len(p.CurrencyCode) == 0 {
+		return nil
+	}
 	a := p.ToCurrency()
+	d, _ := currency.GetDigits(p.CurrencyCode)
 	return &PricePb{
 		Amount:       p.Amount,
 		CurrencyCode: p.CurrencyCode,
 		Text:         a.String(),
+		Digits:       int32(d),
 	}
 }

@@ -68,6 +68,10 @@ type SeatGroup struct {
 	*sortable.Embed
 }
 
+func NewSeatGroup() *SeatGroup {
+	return &SeatGroup{Embed: &sortable.Embed{}}
+}
+
 type Seat struct {
 	kitgorm.UIDBase
 	Row int

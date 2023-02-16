@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/transport/http"
+	"github.com/go-saas/commerce/pkg/sortable"
 	"github.com/go-saas/commerce/ticketing/api"
 	pb "github.com/go-saas/commerce/ticketing/api/location/v1"
 	"github.com/go-saas/commerce/ticketing/private/biz"
@@ -157,6 +158,9 @@ func (s *LocationService) GetLocationHallDetail(ctx context.Context, req *pb.Get
 	hall, err := s.hallRepo.Get(ctx, req.HallId)
 	if err != nil {
 		return nil, err
+	}
+	if hall == nil {
+		return nil, errors.NotFound("", "")
 	}
 	if hall.LocationID == nil || *hall.LocationID != req.LocationId {
 		return nil, errors.NotFound("", "")
@@ -410,6 +414,10 @@ func mapBizHall2Pb(ctx context.Context, a *biz.Hall) *pb.LocationHall {
 	b.Name = a.Name
 	b.Tags = a.Tags
 	b.Capacity = int32(a.Capacity)
+
+	b.SeatGroups = lo.Map(sortable.Sort(a.SeatGroups), func(item biz.SeatGroup, _ int) *pb.SeatGroup {
+		return mapBizSeatGroup2Pb(ctx, &item)
+	})
 	return b
 }
 
@@ -417,8 +425,20 @@ func mapPbHall2Biz(ctx context.Context, a *pb.UpdateLocationHall, b *biz.Hall) {
 	b.Name = a.Name
 	b.Tags = a.Tags
 	b.Capacity = int(a.Capacity)
-	//TODO seat groups seat
+	//TODO seat
+	b.SeatGroups = lo.Map(a.SeatGroups, func(item *pb.UpdateSeatGroup, index int) biz.SeatGroup {
+		r := biz.NewSeatGroup()
+		mapPbSeatGroup2Biz(ctx, item, r)
+		return *r
+	})
 
+}
+
+func mapPbSeatGroup2Biz(ctx context.Context, a *pb.UpdateSeatGroup, b *biz.SeatGroup) {
+	if len(a.Id) > 0 {
+		b.ID = uuid.MustParse(a.Id)
+	}
+	b.Name = a.Name
 }
 
 func mapBizSeatGroup2Pb(ctx context.Context, a *biz.SeatGroup) *pb.SeatGroup {

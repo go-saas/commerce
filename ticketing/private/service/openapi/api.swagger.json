@@ -2784,6 +2784,10 @@
         "currencyCode": {
           "type": "string"
         },
+        "digits": {
+          "type": "integer",
+          "format": "int32"
+        },
         "text": {
           "type": "string"
         }
@@ -3572,7 +3576,7 @@
           "type": "string",
           "format": "date-time"
         },
-        "Price": {
+        "price": {
           "$ref": "#/definitions/priceInfoPb"
         }
       }
@@ -3891,7 +3895,7 @@
           "type": "string",
           "format": "date-time"
         },
-        "Price": {
+        "price": {
           "$ref": "#/definitions/priceInfoPb"
         }
       }

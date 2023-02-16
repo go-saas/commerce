@@ -36,15 +36,19 @@ func NewInfoFromPb(i *InfoPb) (Info, error) {
 		DiscountText:      i.DiscountText,
 		DenyMoreDiscounts: i.DenyMoreDiscounts,
 	}
-	p, err := NewPriceFromPb(i.Default)
-	if err != nil {
-		return ret, err
+	if i.Default != nil && len(i.Default.CurrencyCode) > 0 {
+		p, err := NewPriceFromPb(i.Default)
+		if err != nil {
+			return ret, err
+		}
+		ret.Default = p
 	}
-	ret.Default = p
-	p, err = NewPriceFromPb(i.Discounted)
-	if err != nil {
-		return ret, err
+	if i.Discounted != nil && len(i.Discounted.CurrencyCode) > 0 {
+		p, err := NewPriceFromPb(i.Discounted)
+		if err != nil {
+			return ret, err
+		}
+		ret.Discounted = p
 	}
-	ret.Discounted = p
 	return ret, nil
 }

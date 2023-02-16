@@ -119,7 +119,7 @@ message ShowSalesType{
 
   google.protobuf.Timestamp saleable_from=100;
   google.protobuf.Timestamp saleable_to=101;
-  .pkg.price.InfoPb Price =102;
+  .pkg.price.InfoPb price =102;
 
 }
 
@@ -130,7 +130,7 @@ message UpdateShowSalesType{
   string seat_group_id=4;
   google.protobuf.Timestamp saleable_from=100;
   google.protobuf.Timestamp saleable_to=101;
-  .pkg.price.InfoPb Price =102;
+  .pkg.price.InfoPb price =102;
 }
 
 

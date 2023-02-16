@@ -6,7 +6,8 @@ option go_package = "github.com/go-saas/commerce/pkg/price;price";
 message PricePb{
   int64 amount=1;
   string currency_code=2;
-  string text=3;
+  int32 digits=3;
+  string text=4;
 }
 
 message InfoPb{

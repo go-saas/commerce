@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"fmt"
+	"github.com/go-saas/commerce/pkg/sortable"
 	v1 "github.com/go-saas/commerce/ticketing/api/location/v1"
 	"github.com/go-saas/commerce/ticketing/private/biz"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
@@ -124,6 +125,7 @@ func (c *HallRepo) UpdateAssociation(ctx context.Context, entity *biz.Hall) erro
 		}
 	}
 	if entity.SeatGroups != nil {
+		sortable.Normalize(entity.SeatGroups)
 		if err := c.GetDb(ctx).Model(entity).Association("SeatGroups").Replace(entity.SeatGroups); err != nil {
 			return err
 		}
@@ -133,6 +135,14 @@ func (c *HallRepo) UpdateAssociation(ctx context.Context, entity *biz.Hall) erro
 		}
 	}
 	return nil
+}
+
+// BuildDetailScope preload relations
+func (c *HallRepo) BuildDetailScope(withDetail bool) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		db = db.Preload("Seats").Preload("SeatGroups")
+		return db
+	}
 }
 
 func (c *HallRepo) Delete(ctx context.Context, id string) error {

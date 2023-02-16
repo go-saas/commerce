@@ -36,8 +36,7 @@ func Normalize[T Sortable](l []T) {
 	}
 }
 
-func Sort[T Sortable](l *[]T) []T {
-	s := *l
+func Sort[T Sortable](s []T) []T {
 	sort.Slice(s, func(i, j int) bool {
 		return s[i].GetSort() < s[j].GetSort()
 	})

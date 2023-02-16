@@ -33,7 +33,7 @@ func (c *ShowRepo) BuildDetailScope(withDetail bool) func(db *gorm.DB) *gorm.DB 
 	return func(db *gorm.DB) *gorm.DB {
 		db = db.Preload("Activity").Preload("Location").Preload("Hall")
 		if withDetail {
-			db = db.Preload("SalesType").Preload("Seats")
+			db = db.Preload("SalesTypes").Preload("Seats")
 		}
 		return db
 	}

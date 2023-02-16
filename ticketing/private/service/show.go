@@ -207,12 +207,13 @@ func mapPbShowSalesType2Biz(ctx context.Context, a *pb.UpdateShowSalesType, b *b
 
 	b.SaleableFrom = utils.Timepb2Time(a.SaleableFrom)
 	b.SaleableTo = utils.Timepb2Time(a.SaleableTo)
-
-	p, err := price.NewInfoFromPb(a.Price)
-	if err != nil {
-		return err
+	if a.Price != nil {
+		p, err := price.NewInfoFromPb(a.Price)
+		if err != nil {
+			return err
+		}
+		b.Price = p
 	}
-	b.Price = p
 	return nil
 }
 

@@ -60,6 +60,8 @@ func (m *PricePb) validate(all bool) error {
 
 	// no validation rules for CurrencyCode
 
+	// no validation rules for Digits
+
 	// no validation rules for Text
 
 	if len(errors) > 0 {
