@@ -62,7 +62,7 @@ func (c *ShowRepo) BuildDetailScope(withDetail bool) func(db *gorm.DB) *gorm.DB 
 
 func (c *ShowRepo) UpdateAssociation(ctx context.Context, entity *biz.Show) error {
 	if entity.SalesTypes != nil {
-		if err := c.GetDb(ctx).Model(entity).Association("SalesTypes").Replace(entity.SalesTypes); err != nil {
+		if err := c.GetDb(ctx).Model(entity).Session(&gorm.Session{FullSaveAssociations: true}).Association("SalesTypes").Replace(entity.SalesTypes); err != nil {
 			return err
 		}
 	} else {

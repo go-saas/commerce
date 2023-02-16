@@ -76,7 +76,7 @@ func (c *ActivityRepo) BuildFilterScope(q *v1.ListActivityRequest) func(db *gorm
 }
 func (c *ActivityRepo) UpdateAssociation(ctx context.Context, entity *biz.Activity) error {
 	if entity.Categories != nil {
-		if err := c.GetDb(ctx).Model(entity).Association("Categories").Replace(entity.Categories); err != nil {
+		if err := c.GetDb(ctx).Model(entity).Session(&gorm.Session{FullSaveAssociations: true}).Association("Categories").Replace(entity.Categories); err != nil {
 			return err
 		}
 	} else {
@@ -85,7 +85,7 @@ func (c *ActivityRepo) UpdateAssociation(ctx context.Context, entity *biz.Activi
 		}
 	}
 	if entity.Medias != nil {
-		if err := c.GetDb(ctx).Model(entity).Association("Medias").Replace(entity.Medias); err != nil {
+		if err := c.GetDb(ctx).Model(entity).Session(&gorm.Session{FullSaveAssociations: true}).Association("Medias").Replace(entity.Medias); err != nil {
 			return err
 		}
 	} else {

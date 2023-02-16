@@ -66,7 +66,7 @@ func (c *LocationRepo) DefaultSorting() []string {
 
 func (c *LocationRepo) UpdateAssociation(ctx context.Context, entity *biz.Location) error {
 	if entity.Logo != nil {
-		if err := c.GetDb(ctx).Model(entity).Association("Logo").Replace(entity.Logo); err != nil {
+		if err := c.GetDb(ctx).Model(entity).Session(&gorm.Session{FullSaveAssociations: true}).Association("Logo").Replace(entity.Logo); err != nil {
 			return err
 		}
 	} else {
@@ -75,7 +75,7 @@ func (c *LocationRepo) UpdateAssociation(ctx context.Context, entity *biz.Locati
 		}
 	}
 	if entity.Medias != nil {
-		if err := c.GetDb(ctx).Model(entity).Association("Medias").Replace(entity.Medias); err != nil {
+		if err := c.GetDb(ctx).Model(entity).Session(&gorm.Session{FullSaveAssociations: true}).Association("Medias").Replace(entity.Medias); err != nil {
 			return err
 		}
 	} else {
@@ -84,7 +84,7 @@ func (c *LocationRepo) UpdateAssociation(ctx context.Context, entity *biz.Locati
 		}
 	}
 	if entity.LegalDocs != nil {
-		if err := c.GetDb(ctx).Model(entity).Association("LegalDocs").Replace(entity.LegalDocs); err != nil {
+		if err := c.GetDb(ctx).Model(entity).Session(&gorm.Session{FullSaveAssociations: true}).Association("LegalDocs").Replace(entity.LegalDocs); err != nil {
 			return err
 		}
 	} else {
@@ -116,7 +116,7 @@ func (c *HallRepo) GetDb(ctx context.Context) *gorm.DB {
 }
 func (c *HallRepo) UpdateAssociation(ctx context.Context, entity *biz.Hall) error {
 	if entity.Seats != nil {
-		if err := c.GetDb(ctx).Model(entity).Association("Seats").Replace(entity.Seats); err != nil {
+		if err := c.GetDb(ctx).Model(entity).Session(&gorm.Session{FullSaveAssociations: true}).Association("Seats").Replace(entity.Seats); err != nil {
 			return err
 		}
 	} else {
@@ -126,7 +126,7 @@ func (c *HallRepo) UpdateAssociation(ctx context.Context, entity *biz.Hall) erro
 	}
 	if entity.SeatGroups != nil {
 		sortable.Normalize(entity.SeatGroups)
-		if err := c.GetDb(ctx).Model(entity).Association("SeatGroups").Replace(entity.SeatGroups); err != nil {
+		if err := c.GetDb(ctx).Model(entity).Session(&gorm.Session{FullSaveAssociations: true}).Association("SeatGroups").Replace(entity.SeatGroups); err != nil {
 			return err
 		}
 	} else {
