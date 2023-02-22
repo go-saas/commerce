@@ -60,7 +60,7 @@ require (
 	github.com/danieljoos/wincred v1.1.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
-	github.com/dtm-labs/client v1.18.7 // indirect
+	github.com/dtm-labs/dtm v1.17.0 // indirect
 	github.com/dtm-labs/dtmdriver v0.0.6 // indirect
 	github.com/dtm-labs/dtmdriver-kratos v0.0.9 // indirect
 	github.com/dtm-labs/logger v0.0.2 // indirect
@@ -212,6 +212,7 @@ require (
 replace (
 	github.com/99designs/keyring => github.com/99designs/keyring v1.2.1
 	github.com/dtm-labs/client => github.com/goxiaoy/client v0.0.0-20230202163110-7dfe91ab1b7f
-	github.com/go-saas/kit => github.com/go-saas/kit v0.0.5-0.20230211072427-f570e1e62216
+	github.com/dtm-labs/dtm => github.com/goxiaoy/dtm v0.0.0-20230212053702-b57b19825025
+	github.com/go-saas/kit => github.com/go-saas/kit v0.0.5-0.20230221074829-af474d7bf23a
 	github.com/hibiken/asynqmon => github.com/goxiaoy/asynqmon v0.7.2-0.20220620161318-80231130441b
 )

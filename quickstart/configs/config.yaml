@@ -1,6 +1,5 @@
 app:
   host_display_name: GO SAAS COMMERCE
-  host_logo: /logo.svg
 services:
   registry:
     type: etcd

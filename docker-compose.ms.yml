@@ -1,0 +1,80 @@
+version: '3.7'
+services:
+
+  apisix:
+    image: ${DOCKER_REGISTRY}go-saas-kit-apisix:${DOCKER_TAG:-latest}
+    volumes:
+      - ./quickstart/configs/apisix/apisix_conf/config.yaml:/usr/local/apisix/conf/config.yaml:ro
+      - ./quickstart/configs:/data/conf
+    depends_on:
+      - user
+      - saas
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  user:
+    image: ${DOCKER_REGISTRY}go-saas-commerce-user:${DOCKER_TAG:-latest}
+    depends_on:
+      - mysqld
+      - redis
+    volumes:
+      - ./quickstart/configs:/data/conf
+      - ./quickstart/.assets:/app/.assets
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./user/Dockerfile
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  saas:
+    image: ${DOCKER_REGISTRY}go-saas-kit-saas:${DOCKER_TAG:-latest}
+    depends_on:
+      - user
+    volumes:
+      - ./quickstart/configs:/data/conf
+      - ./quickstart/.assets:/app/.assets
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  realtime:
+    image: ${DOCKER_REGISTRY}go-saas-kit-realtime:${DOCKER_TAG:-latest}
+    depends_on:
+      - user
+    volumes:
+      - ./quickstart/configs:/data/conf
+      - ./quickstart/.assets:/app/.assets
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  sys:
+    image: ${DOCKER_REGISTRY}go-saas-commerce-sys:${DOCKER_TAG:-latest}
+    depends_on:
+      - user
+      - saas
+    volumes:
+      - ./quickstart/configs:/data/conf
+      - ./quickstart/.assets:/app/.assets
+    command: ["./sys", "-conf", "/data/conf"]
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./sys/Dockerfile
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+  ticketing:
+    image: ${DOCKER_REGISTRY}go-saas-commerce-ticketing:${DOCKER_TAG:-latest}
+    volumes:
+      - ./quickstart/configs:/data/conf
+      - ./quickstart/.assets:/app/.assets
+
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./ticketing/Dockerfile
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
