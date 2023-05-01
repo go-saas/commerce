@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"fmt"
 	v1 "github.com/go-saas/commerce/ticketing/api/show/v1"
 	"github.com/go-saas/commerce/ticketing/private/biz"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
@@ -39,26 +40,29 @@ func (c *ShowRepo) BuildDetailScope(withDetail bool) func(db *gorm.DB) *gorm.DB 
 	}
 }
 
-//// BuildFilterScope filter
-//func (c *ShowRepo) BuildFilterScope(q *v1.ListShowRequest) func(db *gorm.DB) *gorm.DB {
-//	search := q.Search
-//	filter := q.Filter
-//	return func(db *gorm.DB) *gorm.DB {
-//		ret := db
-//
-//		if search != "" {
-//			ret = ret.Where("name like ?", fmt.Sprintf("%%%v%%", search))
-//		}
-//		if filter == nil {
-//			return ret
-//		}
-//
-//		if filter.Name != nil {
-//			ret = ret.Scopes(kitgorm.BuildStringFilter("`name`", filter.Name))
-//		}
-//		return ret
-//	}
-//}
+// BuildFilterScope filter
+func (c *ShowRepo) BuildFilterScope(q *v1.ListShowRequest) func(db *gorm.DB) *gorm.DB {
+	search := q.Search
+	filter := q.Filter
+	return func(db *gorm.DB) *gorm.DB {
+		ret := db
+
+		if search != "" {
+			ret = ret.Where("name like ?", fmt.Sprintf("%%%v%%", search))
+		}
+		if filter == nil {
+			return ret
+		}
+
+		if filter.Name != nil {
+			ret = ret.Scopes(kitgorm.BuildStringFilter("`name`", filter.Name))
+		}
+		if filter.IsRecommend != nil {
+			ret = ret.Scopes(kitgorm.BuildStringFilter("`is_recommend`", filter.Name))
+		}
+		return ret
+	}
+}
 
 func (c *ShowRepo) UpdateAssociation(ctx context.Context, entity *biz.Show) error {
 	if entity.SalesTypes != nil {

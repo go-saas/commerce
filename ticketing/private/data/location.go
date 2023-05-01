@@ -3,10 +3,10 @@ package data
 import (
 	"context"
 	"fmt"
-	"github.com/go-saas/commerce/pkg/sortable"
 	v1 "github.com/go-saas/commerce/ticketing/api/location/v1"
 	"github.com/go-saas/commerce/ticketing/private/biz"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
+	"github.com/go-saas/kit/pkg/sortable"
 	sgorm "github.com/go-saas/saas/gorm"
 	"github.com/goxiaoy/go-eventbus"
 	"gorm.io/gorm"

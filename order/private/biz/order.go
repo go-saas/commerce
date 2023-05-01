@@ -2,9 +2,9 @@ package biz
 
 import (
 	v1 "github.com/go-saas/commerce/order/api/order/v1"
-	"github.com/go-saas/commerce/pkg/price"
 	"github.com/go-saas/kit/pkg/data"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
+	"github.com/go-saas/kit/pkg/price"
 	"github.com/go-saas/lbs"
 	"github.com/segmentio/ksuid"
 	"gorm.io/gorm"
@@ -24,8 +24,8 @@ type Order struct {
 	PayWay      string
 	PayWayExtra data.JSONMap
 
-	ShippingAddr *lbs.AddressEntity `gorm:"embedded;embeddedPrefix:shipping_addr_"`
-	BillingAddr  lbs.AddressEntity  `gorm:"embedded;embeddedPrefix:billing_addr_"`
+	ShippingAddr lbs.AddressEntity `gorm:"embedded;embeddedPrefix:shipping_addr_"`
+	BillingAddr  lbs.AddressEntity `gorm:"embedded;embeddedPrefix:billing_addr_"`
 
 	CustomerID string `gorm:"type:char(36);index:,;comment:一般等于用户ID"`
 

@@ -68,6 +68,35 @@ func (m *CreateActivityRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	if all {
+		switch v := interface{}(m.GetMainPic()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateActivityRequestValidationError{
+					field:  "MainPic",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateActivityRequestValidationError{
+					field:  "MainPic",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetMainPic()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateActivityRequestValidationError{
+				field:  "MainPic",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	for idx, item := range m.GetMedias() {
 		_, _ = idx, item
 
@@ -450,6 +479,35 @@ func (m *UpdateActivity) validate(all bool) error {
 			return err
 		}
 		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetMainPic()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateActivityValidationError{
+					field:  "MainPic",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateActivityValidationError{
+					field:  "MainPic",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetMainPic()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateActivityValidationError{
+				field:  "MainPic",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
 	}
 
 	for idx, item := range m.GetMedias() {
@@ -1448,6 +1506,35 @@ func (m *Activity) validate(all bool) error {
 			return err
 		}
 		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetMainPic()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ActivityValidationError{
+					field:  "MainPic",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ActivityValidationError{
+					field:  "MainPic",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetMainPic()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ActivityValidationError{
+				field:  "MainPic",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
 	}
 
 	for idx, item := range m.GetMedias() {

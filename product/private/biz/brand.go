@@ -1,8 +1,8 @@
 package biz
 
 import (
-	"github.com/go-saas/commerce/pkg/multilingual"
 	"github.com/go-saas/kit/pkg/gorm"
+	"github.com/go-saas/kit/pkg/multilingual"
 	"github.com/samber/lo"
 )
 

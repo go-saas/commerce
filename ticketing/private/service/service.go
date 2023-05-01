@@ -8,9 +8,11 @@ import (
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 	khttp "github.com/go-kratos/kratos/v2/transport/http"
 	v13 "github.com/go-saas/commerce/ticketing/api/activity/v1"
+	v16 "github.com/go-saas/commerce/ticketing/api/banner/v1"
 	v1 "github.com/go-saas/commerce/ticketing/api/category/v1"
 	v12 "github.com/go-saas/commerce/ticketing/api/location/v1"
 	v14 "github.com/go-saas/commerce/ticketing/api/show/v1"
+	v15 "github.com/go-saas/commerce/ticketing/api/ticket/v1"
 	"github.com/go-saas/commerce/ticketing/private/biz"
 	kitdi "github.com/go-saas/kit/pkg/di"
 	kitgrpc "github.com/go-saas/kit/pkg/server/grpc"
@@ -30,6 +32,9 @@ var ProviderSet = kitdi.NewSet(
 	NewTicketingCategoryService,
 	NewActivityService,
 	NewShowService,
+	NewTicketServiceService,
+	NewTicketingBannerServiceService,
+	NewUploadService,
 )
 
 func NewHttpServerRegister(
@@ -39,12 +44,22 @@ func NewHttpServerRegister(
 	location *LocationService,
 	category *TicketingCategoryService,
 	activity *ActivityService,
-	show *ShowService) kithttp.ServiceRegister {
+	show *ShowService,
+	ticket *TicketServiceService,
+	banner *TicketingBannerServiceService,
+) kithttp.ServiceRegister {
 	return kithttp.ServiceRegisterFunc(func(srv *khttp.Server, middleware ...middleware.Middleware) {
 		v12.RegisterLocationServiceHTTPServer(srv, location)
 		v1.RegisterTicketingCategoryServiceHTTPServer(srv, category)
 		v13.RegisterActivityServiceHTTPServer(srv, activity)
 		v14.RegisterShowServiceHTTPServer(srv, show)
+		v14.RegisterShowAppServiceHTTPServer(srv, show)
+
+		v15.RegisterTicketServiceHTTPServer(srv, ticket)
+		v15.RegisterTicketAppServiceHTTPServer(srv, ticket)
+
+		v16.RegisterTicketingBannerServiceHTTPServer(srv, banner)
+		v16.RegisterTicketingAppBannerServiceHTTPServer(srv, banner)
 		route := srv.Route("/")
 
 		route.POST("/v1/ticketing/location/logo", location.UploadLogo)
@@ -52,6 +67,7 @@ func NewHttpServerRegister(
 		route.POST("/v1/ticketing/location/legal-docs", location.UploadLegalDocs)
 
 		route.POST("/v1/ticketing/activity/media", activity.UploadMedias)
+		route.POST("/v1/ticketing/banner/media", banner.UploadMedias)
 
 		kithttp.MountBlob(srv, "", biz.LocationLogoPath, vfs)
 		kithttp.MountBlob(srv, "", biz.LocationMediaPath, vfs)
@@ -71,11 +87,21 @@ func NewGrpcServerRegister(
 	category *TicketingCategoryService,
 	activity *ActivityService,
 	show *ShowService,
+	ticket *TicketServiceService,
+	banner *TicketingBannerServiceService,
 ) kitgrpc.ServiceRegister {
 	return kitgrpc.ServiceRegisterFunc(func(srv *grpc.Server, middleware ...middleware.Middleware) {
 		v12.RegisterLocationServiceServer(srv, locationSrv)
 		v1.RegisterTicketingCategoryServiceServer(srv, category)
 		v13.RegisterActivityServiceServer(srv, activity)
+
 		v14.RegisterShowServiceServer(srv, show)
+		v14.RegisterShowAppServiceServer(srv, show)
+
+		v15.RegisterTicketServiceServer(srv, ticket)
+		v15.RegisterTicketAppServiceServer(srv, ticket)
+
+		v16.RegisterTicketingBannerServiceServer(srv, banner)
+		v16.RegisterTicketingAppBannerServiceServer(srv, banner)
 	})
 }

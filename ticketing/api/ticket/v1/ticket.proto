@@ -81,7 +81,9 @@ message GetTicketRequest {
 message TicketFilter{
   query.operation.StringFilterOperation id=1;
   query.operation.StringFilterOperation name =2;
+
 }
+
 message ListTicketRequest {
   int32 page_offset =1;
   int32 page_size = 2;
@@ -89,12 +91,21 @@ message ListTicketRequest {
   repeated string sort =4;
   google.protobuf.FieldMask fields=5;
   TicketFilter filter =6;
+
+  string after_page_token =10;
+  string before_page_token =11;
+
 }
+
 message ListTicketReply {
   int32 total_size =1;
   int32 filter_size =2;
   repeated Ticket items=3;
+
+  optional string next_after_page_token=4;
+  optional string next_before_page_token=5;
 }
+
 message Ticket{
   string id=1;
   string name=2;

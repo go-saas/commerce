@@ -1,7 +1,8 @@
 package biz
 
 import (
-	"github.com/go-saas/commerce/pkg/price"
+	"github.com/go-saas/kit/pkg/data"
+	"github.com/go-saas/kit/pkg/price"
 	"github.com/lithammer/shortuuid/v3"
 	"gorm.io/gorm"
 )
@@ -27,6 +28,8 @@ type OrderItem struct {
 	ProductId   ProductWithSnapshotID `gorm:"embedded;"`
 
 	OrderID string
+
+	BizPayload data.JSONMap
 }
 
 type ProductWithSnapshotID struct {

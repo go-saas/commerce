@@ -15,10 +15,22 @@
       "name": "ActivityService"
     },
     {
+      "name": "TicketingBannerService"
+    },
+    {
+      "name": "TicketingAppBannerService"
+    },
+    {
       "name": "ShowService"
     },
     {
+      "name": "ShowAppService"
+    },
+    {
       "name": "TicketService"
+    },
+    {
+      "name": "TicketAppService"
     }
   ],
   "consumes": [
@@ -28,6 +40,38 @@
     "application/json"
   ],
   "paths": {
+    "/v1/ticket/my-ticket/list": {
+      "post": {
+        "operationId": "TicketAppService_ListMyTicket2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListTicketReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListTicketRequest"
+            }
+          }
+        ],
+        "tags": [
+          "usage-app"
+        ]
+      }
+    },
     "/v1/ticket/ticket/list": {
       "post": {
         "operationId": "TicketService_ListTicket2",
@@ -495,6 +539,708 @@
         ],
         "tags": [
           "ActivityService"
+        ]
+      }
+    },
+    "/v1/ticketing/app/banner": {
+      "get": {
+        "operationId": "TicketingAppBannerService_ListAppBanner",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListAppBannerReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "usage-app"
+        ]
+      }
+    },
+    "/v1/ticketing/app/show": {
+      "get": {
+        "operationId": "ShowAppService_AppListShow",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListShowReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageOffset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.id.$eq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.id.$neq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.id.$contains",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.id.$starts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.id.$nstarts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.id.$ends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.id.$nends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.id.$in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.id.$nin",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.id.$null",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.id.$nnull",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.id.$empty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.id.$nempty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.id.$like",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.name.$eq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.name.$neq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.name.$contains",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.name.$starts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.name.$nstarts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.name.$ends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.name.$nends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.name.$in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.name.$nin",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.name.$null",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.name.$nnull",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.name.$empty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.name.$nempty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.name.$like",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.isRecommend.$eq",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.isRecommend.$neq",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.isRecommend.$null",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.isRecommend.$nnull",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "tags": [
+          "usage-app"
+        ]
+      }
+    },
+    "/v1/ticketing/app/show/list": {
+      "post": {
+        "operationId": "ShowAppService_AppListShow2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListShowReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListShowRequest"
+            }
+          }
+        ],
+        "tags": [
+          "usage-app"
+        ]
+      }
+    },
+    "/v1/ticketing/app/show/order": {
+      "post": {
+        "operationId": "ShowAppService_PlaceShowOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1PlaceShowOrderReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1PlaceShowOrderRequest"
+            }
+          }
+        ],
+        "tags": [
+          "usage-app"
+        ]
+      }
+    },
+    "/v1/ticketing/app/show/{id}": {
+      "get": {
+        "operationId": "ShowAppService_AppGetShow",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1Show"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "usage-app"
+        ]
+      }
+    },
+    "/v1/ticketing/banner": {
+      "get": {
+        "operationId": "TicketingBannerService_ListBanner",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListBannerReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageOffset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.status.$eq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.status.$neq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.status.$contains",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.status.$starts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.status.$nstarts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.status.$ends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.status.$nends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.status.$in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.status.$nin",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.status.$null",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.status.$nnull",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.status.$empty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.status.$nempty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.status.$like",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "side-host"
+        ]
+      },
+      "post": {
+        "operationId": "TicketingBannerService_CreateBanner",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1Banner"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateBannerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "side-host"
+        ]
+      }
+    },
+    "/v1/ticketing/banner/list": {
+      "post": {
+        "operationId": "TicketingBannerService_ListBanner2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListBannerReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListBannerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "side-host"
+        ]
+      }
+    },
+    "/v1/ticketing/banner/{banner.id}": {
+      "put": {
+        "operationId": "TicketingBannerService_UpdateBanner",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1Banner"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "banner.id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateBannerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "side-host"
+        ]
+      },
+      "patch": {
+        "operationId": "TicketingBannerService_UpdateBanner2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1Banner"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "banner.id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateBannerRequest"
+            }
+          }
+        ],
+        "tags": [
+          "side-host"
+        ]
+      }
+    },
+    "/v1/ticketing/banner/{id}": {
+      "delete": {
+        "operationId": "TicketingBannerService_DeleteBanner",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DeleteBannerReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "side-host"
         ]
       }
     },
@@ -1743,6 +2489,262 @@
         ]
       }
     },
+    "/v1/ticketing/my-ticket": {
+      "get": {
+        "operationId": "TicketAppService_ListMyTicket",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListTicketReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageOffset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.id.$eq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.id.$neq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.id.$contains",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.id.$starts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.id.$nstarts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.id.$ends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.id.$nends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.id.$in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.id.$nin",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.id.$null",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.id.$nnull",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.id.$empty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.id.$nempty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.id.$like",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.name.$eq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.name.$neq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.name.$contains",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.name.$starts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.name.$nstarts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.name.$ends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.name.$nends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.name.$in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.name.$nin",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.name.$null",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.name.$nnull",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.name.$empty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.name.$nempty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.name.$like",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "afterPageToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "beforePageToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "usage-app"
+        ]
+      }
+    },
     "/v1/ticketing/show": {
       "get": {
         "operationId": "ShowService_ListShow",
@@ -1980,6 +2982,30 @@
             "in": "query",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "filter.isRecommend.$eq",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.isRecommend.$neq",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.isRecommend.$null",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.isRecommend.$nnull",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
           }
         ],
         "tags": [
@@ -2104,6 +3130,49 @@
         ],
         "tags": [
           "ShowService"
+        ]
+      }
+    },
+    "/v1/ticketing/show/{id}/recommend": {
+      "put": {
+        "operationId": "ShowService_RecommendShow",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1RecommendShowReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "isRecommend": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "side-host"
         ]
       }
     },
@@ -2418,6 +3487,18 @@
             "in": "query",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "afterPageToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "beforePageToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -2692,6 +3773,27 @@
         "name"
       ]
     },
+    "operationBooleanFilterOperators": {
+      "type": "object",
+      "properties": {
+        "$eq": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "$neq": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "$null": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "$nnull": {
+          "type": "boolean",
+          "x-nullable": true
+        }
+      }
+    },
     "operationStringFilterOperation": {
       "type": "object",
       "properties": {
@@ -2822,6 +3924,9 @@
             "name"
           ]
         },
+        "mainPic": {
+          "$ref": "#/definitions/v1TicketingMedia"
+        },
         "medias": {
           "type": "array",
           "items": {
@@ -2864,6 +3969,34 @@
           "$ref": "#/definitions/operationStringFilterOperation"
         },
         "name": {
+          "$ref": "#/definitions/operationStringFilterOperation"
+        }
+      }
+    },
+    "v1Banner": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "refType": {
+          "type": "string"
+        },
+        "refId": {
+          "type": "string"
+        },
+        "mainPic": {
+          "$ref": "#/definitions/v1TicketingMedia"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "v1BannerFilter": {
+      "type": "object",
+      "properties": {
+        "status": {
           "$ref": "#/definitions/operationStringFilterOperation"
         }
       }
@@ -2923,6 +4056,9 @@
             "name"
           ]
         },
+        "mainPic": {
+          "$ref": "#/definitions/v1TicketingMedia"
+        },
         "medias": {
           "type": "array",
           "items": {
@@ -2953,6 +4089,30 @@
       },
       "required": [
         "name"
+      ]
+    },
+    "v1CreateBannerRequest": {
+      "type": "object",
+      "properties": {
+        "refType": {
+          "type": "string",
+          "required": [
+            "ref_type"
+          ]
+        },
+        "refId": {
+          "type": "string",
+          "required": [
+            "ref_id"
+          ]
+        },
+        "mainPic": {
+          "$ref": "#/definitions/v1TicketingMedia"
+        }
+      },
+      "required": [
+        "refType",
+        "refId"
       ]
     },
     "v1CreateCategoryRequest": {
@@ -3069,6 +4229,9 @@
         },
         "notice": {
           "type": "string"
+        },
+        "mainPic": {
+          "$ref": "#/definitions/v1TicketingMedia"
         }
       },
       "required": [
@@ -3100,6 +4263,14 @@
           "type": "string"
         },
         "name": {
+          "type": "string"
+        }
+      }
+    },
+    "v1DeleteBannerReply": {
+      "type": "object",
+      "properties": {
+        "id": {
           "type": "string"
         }
       }
@@ -3229,6 +4400,64 @@
         },
         "filter": {
           "$ref": "#/definitions/v1ActivityFilter"
+        }
+      }
+    },
+    "v1ListAppBannerReply": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Banner"
+          }
+        }
+      }
+    },
+    "v1ListBannerReply": {
+      "type": "object",
+      "properties": {
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "filterSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Banner"
+          }
+        }
+      }
+    },
+    "v1ListBannerRequest": {
+      "type": "object",
+      "properties": {
+        "pageOffset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "search": {
+          "type": "string"
+        },
+        "sort": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fields": {
+          "type": "string"
+        },
+        "filter": {
+          "$ref": "#/definitions/v1BannerFilter"
         }
       }
     },
@@ -3389,6 +4618,14 @@
           "items": {
             "$ref": "#/definitions/v1Ticket"
           }
+        },
+        "nextAfterPageToken": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "nextBeforePageToken": {
+          "type": "string",
+          "x-nullable": true
         }
       }
     },
@@ -3417,6 +4654,12 @@
         },
         "filter": {
           "$ref": "#/definitions/v1TicketFilter"
+        },
+        "afterPageToken": {
+          "type": "string"
+        },
+        "beforePageToken": {
+          "type": "string"
         }
       }
     },
@@ -3452,6 +4695,52 @@
           "items": {
             "$ref": "#/definitions/v1SeatGroup"
           }
+        }
+      }
+    },
+    "v1OrderSalesType": {
+      "type": "object",
+      "properties": {
+        "showSalesTypeId": {
+          "type": "string"
+        },
+        "showSeatId": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "qty": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "v1PlaceShowOrderReply": {
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1PlaceShowOrderRequest": {
+      "type": "object",
+      "properties": {
+        "showId": {
+          "type": "string"
+        },
+        "salesType": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1OrderSalesType"
+          }
+        }
+      }
+    },
+    "v1RecommendShowReply": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
         }
       }
     },
@@ -3531,6 +4820,12 @@
         "notice": {
           "type": "string"
         },
+        "isRecommend": {
+          "type": "boolean"
+        },
+        "mainPic": {
+          "$ref": "#/definitions/v1TicketingMedia"
+        },
         "salesCount": {
           "type": "integer",
           "format": "int32"
@@ -3549,6 +4844,9 @@
         },
         "name": {
           "$ref": "#/definitions/operationStringFilterOperation"
+        },
+        "isRecommend": {
+          "$ref": "#/definitions/operationBooleanFilterOperators"
         }
       }
     },
@@ -3639,6 +4937,9 @@
             "name"
           ]
         },
+        "mainPic": {
+          "$ref": "#/definitions/v1TicketingMedia"
+        },
         "medias": {
           "type": "array",
           "items": {
@@ -3676,6 +4977,55 @@
       "properties": {
         "activity": {
           "$ref": "#/definitions/v1UpdateActivity"
+        },
+        "updateMask": {
+          "type": "string"
+        }
+      }
+    },
+    "v1UpdateBanner": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "required": [
+            "id"
+          ]
+        },
+        "refType": {
+          "type": "string",
+          "required": [
+            "ref_type"
+          ]
+        },
+        "refId": {
+          "type": "string",
+          "required": [
+            "ref_id"
+          ]
+        },
+        "mainPic": {
+          "$ref": "#/definitions/v1TicketingMedia"
+        },
+        "status": {
+          "type": "string",
+          "required": [
+            "status"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "refType",
+        "refId",
+        "status"
+      ]
+    },
+    "v1UpdateBannerRequest": {
+      "type": "object",
+      "properties": {
+        "banner": {
+          "$ref": "#/definitions/v1UpdateBanner"
         },
         "updateMask": {
           "type": "string"
@@ -3856,6 +5206,9 @@
         },
         "notice": {
           "type": "string"
+        },
+        "mainPic": {
+          "$ref": "#/definitions/v1TicketingMedia"
         }
       },
       "required": [

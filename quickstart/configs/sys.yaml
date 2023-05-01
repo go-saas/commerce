@@ -11,6 +11,10 @@ sys:
         nodes:
           "web:8080": 1
         type: roundrobin
+      commerce-web:
+        nodes:
+          "commerce-web:8080": 1
+        type: roundrobin
 
       jaeger:
         nodes:
@@ -109,7 +113,10 @@ sys:
         uris: ["/v1/*","/assets/user/*"]
         upstream_id: user-http
 
-
+      commerce-web:
+        priority: -99
+        uris: ["/_commerce/*"]
+        upstream_id: commerce-web
 
       web:
         priority: -100

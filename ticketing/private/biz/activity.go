@@ -1,10 +1,10 @@
 package biz
 
 import (
-	"github.com/go-saas/commerce/pkg/sortable"
 	v1 "github.com/go-saas/commerce/ticketing/api/activity/v1"
 	"github.com/go-saas/kit/pkg/data"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
+	"github.com/go-saas/kit/pkg/sortable"
 	"time"
 )
 
@@ -12,11 +12,15 @@ type Activity struct {
 	kitgorm.UIDBase
 	kitgorm.AuditedModel
 
-	Name       string
-	Desc       string
-	ShortDesc  string
-	Content    data.JSONMap
-	Medias     []TicketingMedia `gorm:"polymorphic:Owner;polymorphicValue:activity"`
+	Name      string
+	Desc      string
+	ShortDesc string
+	Content   data.JSONMap
+
+	MainPic   *TicketingMedia `gorm:"foreignKey:MainPicID"`
+	MainPicID string
+	Medias    []TicketingMedia `gorm:"polymorphic:Owner;polymorphicValue:activity"`
+
 	Type       string
 	Categories []TicketingCategory `gorm:"many2many:activity_categories;"`
 	Status     string

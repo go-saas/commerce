@@ -3,13 +3,13 @@ package service
 import (
 	"context"
 	"github.com/go-kratos/kratos/v2/errors"
-	"github.com/go-saas/commerce/pkg/price"
 	"github.com/go-saas/commerce/ticketing/api"
 	v13 "github.com/go-saas/commerce/ticketing/api/activity/v1"
 	v1 "github.com/go-saas/commerce/ticketing/api/location/v1"
 	pb "github.com/go-saas/commerce/ticketing/api/show/v1"
 	"github.com/go-saas/commerce/ticketing/private/biz"
 	"github.com/go-saas/kit/pkg/authz/authz"
+	"github.com/go-saas/kit/pkg/price"
 	"github.com/go-saas/kit/pkg/utils"
 	"github.com/google/uuid"
 	"github.com/goxiaoy/vfs"
@@ -153,6 +153,68 @@ func (s *ShowService) DeleteShow(ctx context.Context, req *pb.DeleteShowRequest)
 		return nil, err
 	}
 	return &pb.DeleteShowReply{Id: g.ID.String()}, nil
+}
+
+func (s *ShowService) RecommendShow(ctx context.Context, req *pb.RecommendShowRequest) (*pb.RecommendShowReply, error) {
+	if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceShow, req.Id), api.ActionShowRecommend); err != nil {
+		return nil, err
+	}
+	g, err := s.repo.Get(ctx, req.Id)
+	if err != nil {
+		return nil, err
+	}
+	if g == nil {
+		return nil, errors.NotFound("", "")
+	}
+	g.IsRecommend = req.IsRecommend
+	err = s.repo.Update(ctx, req.Id, g, nil)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.RecommendShowReply{Id: req.Id}, nil
+}
+
+func (s *ShowService) AppListShow(ctx context.Context, req *pb.ListShowRequest) (*pb.ListShowReply, error) {
+
+	ret := &pb.ListShowReply{}
+
+	totalCount, filterCount, err := s.repo.Count(ctx, req)
+	ret.TotalSize = int32(totalCount)
+	ret.FilterSize = int32(filterCount)
+
+	if err != nil {
+		return ret, err
+	}
+	items, err := s.repo.List(ctx, req)
+	if err != nil {
+		return ret, err
+	}
+	rItems := lo.Map(items, func(g *biz.Show, _ int) *pb.Show {
+		b := &pb.Show{}
+		s.MapBizShow2Pb(ctx, g, b)
+		return b
+	})
+
+	ret.Items = rItems
+	return ret, nil
+}
+
+func (s *ShowService) AppGetShow(ctx context.Context, req *pb.GetShowRequest) (*pb.Show, error) {
+	g, err := s.repo.Get(ctx, req.GetId())
+	if err != nil {
+		return nil, err
+	}
+	if g == nil {
+		return nil, errors.NotFound("", "")
+	}
+	res := &pb.Show{}
+	s.MapBizShow2Pb(ctx, g, res)
+	return res, nil
+}
+
+func (s *ShowService) PlaceShowOrder(ctx context.Context, request *pb.PlaceShowOrderRequest) (*pb.PlaceShowOrderReply, error) {
+	//TODO implement me
+	panic("implement me")
 }
 
 func (s *ShowService) MapBizShow2Pb(ctx context.Context, a *biz.Show, b *pb.Show) {

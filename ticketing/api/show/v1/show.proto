@@ -12,7 +12,7 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 
 import "ticketing/api/activity/v1/activity.proto";
 import "ticketing/api/location/v1/location.proto";
-import "pkg/price/price.proto";
+import "price/price.proto";
 
 option go_package = "github.com/go-saas/commerce/ticketing/api/show/v1;v1";
 
@@ -53,6 +53,26 @@ service ShowService {
       delete: "/v1/ticketing/show/{id}"
     };
   }
+
+  rpc RecommendShow (RecommendShowRequest) returns (RecommendShowReply){
+    option (google.api.http) = {
+      put: "/v1/ticketing/show/{id}/recommend"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["side-host"];
+    };
+  }
+
+}
+
+message RecommendShowRequest{
+  string id=1;
+  bool is_recommend=2;
+}
+
+message RecommendShowReply{
+  string id=1;
 }
 
 message DeleteShowRequest {
@@ -69,6 +89,7 @@ message GetShowRequest {
 message ShowFilter{
   query.operation.StringFilterOperation id=1;
   query.operation.StringFilterOperation name =2;
+  query.operation.BooleanFilterOperators is_recommend=3;
 }
 
 message ListShowRequest {
@@ -106,8 +127,15 @@ message Show{
 
   string notice=50;
 
+
+  bool is_recommend=51;
+
+  .ticketing.api.location.v1.TicketingMedia main_pic = 52;
+
   int32 sales_count=100;
   int32 rest_count=101;
+
+
 }
 
 message ShowSalesType{
@@ -119,7 +147,7 @@ message ShowSalesType{
 
   google.protobuf.Timestamp saleable_from=100;
   google.protobuf.Timestamp saleable_to=101;
-  .pkg.price.InfoPb price =102;
+  price.InfoPb price =102;
 
 }
 
@@ -130,7 +158,7 @@ message UpdateShowSalesType{
   string seat_group_id=4;
   google.protobuf.Timestamp saleable_from=100;
   google.protobuf.Timestamp saleable_to=101;
-  .pkg.price.InfoPb price =102;
+  price.InfoPb price =102;
 }
 
 
@@ -148,6 +176,8 @@ message CreateShowRequest {
   repeated UpdateShowSalesType sales_types=40;
 
   string notice=50;
+
+  .ticketing.api.location.v1.TicketingMedia main_pic = 52;
 }
 
 message UpdateShowRequest {
@@ -165,4 +195,6 @@ message UpdateShow{
   repeated UpdateShowSalesType sales_types=40;
 
   string notice=50;
+
+  .ticketing.api.location.v1.TicketingMedia main_pic = 52;
 }

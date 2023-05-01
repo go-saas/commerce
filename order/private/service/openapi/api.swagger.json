@@ -7,6 +7,9 @@
   "tags": [
     {
       "name": "OrderService"
+    },
+    {
+      "name": "OrderInternalService"
     }
   ],
   "consumes": [
@@ -474,6 +477,40 @@
         }
       }
     },
+    "lbsAddress": {
+      "type": "object",
+      "properties": {
+        "country": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string",
+          "title": "State or province"
+        },
+        "city": {
+          "type": "string"
+        },
+        "zipCode": {
+          "type": "string"
+        },
+        "line1": {
+          "type": "string"
+        },
+        "line2": {
+          "type": "string"
+        },
+        "line3": {
+          "type": "string"
+        },
+        "geo": {
+          "type": "object",
+          "title": "Geo geojson"
+        }
+      }
+    },
     "operationStringFilterOperation": {
       "type": "object",
       "properties": {
@@ -539,6 +576,25 @@
         }
       }
     },
+    "pricePricePb": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "format": "int64"
+        },
+        "currencyCode": {
+          "type": "string"
+        },
+        "digits": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -547,6 +603,14 @@
         }
       },
       "additionalProperties": {}
+    },
+    "protobufNullValue": {
+      "type": "string",
+      "enum": [
+        "NULL_VALUE"
+      ],
+      "default": "NULL_VALUE",
+      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\n The JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
     },
     "v1CreateOrderRequest": {
       "type": "object",

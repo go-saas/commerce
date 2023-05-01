@@ -1,10 +1,10 @@
 package biz
 
 import (
-	"github.com/go-saas/commerce/pkg/price"
 	v1 "github.com/go-saas/commerce/ticketing/api/show/v1"
 	"github.com/go-saas/kit/pkg/data"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
+	"github.com/go-saas/kit/pkg/price"
 	"time"
 )
 
@@ -21,6 +21,9 @@ type Show struct {
 	LocationID string
 	Location   *Location `gorm:"foreignKey:LocationID"`
 
+	MainPic   *TicketingMedia `gorm:"foreignKey:MainPicID"`
+	MainPicID string
+
 	HallID string
 	Hall   *Hall `gorm:"foreignKey:HallID"`
 
@@ -29,6 +32,8 @@ type Show struct {
 	Seats []ShowSeat `gorm:"foreignKey:ShowID"`
 
 	Notice string
+
+	IsRecommend bool
 }
 
 type ShowSalesType struct {

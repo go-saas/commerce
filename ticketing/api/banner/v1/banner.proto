@@ -1,0 +1,134 @@
+syntax = "proto3";
+
+package ticketing.api.banner.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/struct.proto";
+import "google/api/field_behavior.proto";
+import "validate/validate.proto";
+import "query/operation.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "ticketing/api/location/v1/location.proto";
+
+option go_package = "github.com/go-saas/commerce/ticketing/api/banner/v1;v1";
+
+
+service TicketingBannerService {
+  rpc ListBanner (ListBannerRequest) returns (ListBannerReply){
+    option (google.api.http) = {
+      get: "/v1/ticketing/banner",
+      additional_bindings:{
+        post:"/v1/ticketing/banner/list",
+        body:"*"
+      }
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["side-host"];
+    };
+  }
+  rpc CreateBanner (CreateBannerRequest) returns (Banner){
+    option (google.api.http) = {
+      post: "/v1/ticketing/banner",
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["side-host"];
+    };
+  }
+
+  rpc UpdateBanner (UpdateBannerRequest) returns (Banner){
+    option (google.api.http) = {
+      put: "/v1/ticketing/banner/{banner.id}",
+      body: "*"
+      additional_bindings{
+        patch: "/v1/ticketing/banner/{banner.id}",
+        body: "*"
+      }
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["side-host"];
+    };
+  }
+
+  rpc DeleteBanner (DeleteBannerRequest) returns (DeleteBannerReply){
+    option (google.api.http) = {
+      delete: "/v1/ticketing/banner/{id}"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["side-host"];
+    };
+  }
+}
+
+service TicketingAppBannerService{
+  rpc ListAppBanner (ListAppBannerRequest) returns (ListAppBannerReply){
+    option (google.api.http) = {
+      get: "/v1/ticketing/app/banner",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["usage-app"];
+    };
+  }
+}
+
+message ListAppBannerRequest{
+
+}
+
+message ListAppBannerReply{
+  repeated Banner items=3;
+}
+
+
+message CreateBannerRequest {
+  string ref_type=2 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+  string ref_id=3 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+  .ticketing.api.location.v1.TicketingMedia main_pic = 4 [(validate.rules).message.required=true,(google.api.field_behavior) = REQUIRED];
+}
+
+message UpdateBannerRequest {
+  UpdateBanner banner=1 [(validate.rules).message.required=true,(google.api.field_behavior) = REQUIRED];
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateBanner{
+  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+  string ref_type=2 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+  string ref_id=3 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+  .ticketing.api.location.v1.TicketingMedia main_pic = 4 [(validate.rules).message.required=true,(google.api.field_behavior) = REQUIRED];
+  string status=5 [(validate.rules).string={in:["UNPUBLISHED","PUBLISHED"],min_len:1},(google.api.field_behavior) = REQUIRED];;
+}
+
+message DeleteBannerRequest {
+  string id=1;
+}
+message DeleteBannerReply {
+  string id=1;
+}
+
+message BannerFilter{
+  query.operation.StringFilterOperation status=1;
+}
+
+message ListBannerRequest {
+  int32 page_offset =1;
+  int32 page_size = 2;
+  string search = 3;
+  repeated string sort =4;
+  google.protobuf.FieldMask fields=5;
+  BannerFilter filter =6;
+}
+message ListBannerReply {
+  int32 total_size =1;
+  int32 filter_size =2;
+  repeated Banner items=3;
+}
+message Banner{
+  string id=1;
+  string ref_type=2;
+  string ref_id=3;
+  .ticketing.api.location.v1.TicketingMedia main_pic = 4;
+  string status=5;
+}

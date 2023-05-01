@@ -23,6 +23,7 @@ const GrpcOperationShowServiceGetShow = "/ticketing.api.show.v1.ShowService/GetS
 const GrpcOperationShowServiceCreateShow = "/ticketing.api.show.v1.ShowService/CreateShow"
 const GrpcOperationShowServiceUpdateShow = "/ticketing.api.show.v1.ShowService/UpdateShow"
 const GrpcOperationShowServiceDeleteShow = "/ticketing.api.show.v1.ShowService/DeleteShow"
+const GrpcOperationShowServiceRecommendShow = "/ticketing.api.show.v1.ShowService/RecommendShow"
 
 // showServiceClientProxy is the proxy to turn ShowService client to server interface.
 type showServiceClientProxy struct {
@@ -47,4 +48,7 @@ func (c *showServiceClientProxy) UpdateShow(ctx context.Context, in *UpdateShowR
 }
 func (c *showServiceClientProxy) DeleteShow(ctx context.Context, in *DeleteShowRequest) (*DeleteShowReply, error) {
 	return c.cc.DeleteShow(ctx, in)
+}
+func (c *showServiceClientProxy) RecommendShow(ctx context.Context, in *RecommendShowRequest) (*RecommendShowReply, error) {
+	return c.cc.RecommendShow(ctx, in)
 }

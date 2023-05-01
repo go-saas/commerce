@@ -22,6 +22,7 @@ var ProviderSet = kitdi.NewSet(
 	NewTicketingMediaRepo,
 	NewActivityRepo,
 	NewShowRepo,
+	NewBannerRepo,
 )
 
 const ConnName = "ticketing"

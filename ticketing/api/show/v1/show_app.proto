@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package ticketing.api.show.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/field_behavior.proto";
+import "validate/validate.proto";
+import "query/operation.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+import "ticketing/api/activity/v1/activity.proto";
+import "ticketing/api/location/v1/location.proto";
+import "price/price.proto";
+import "ticketing/api/show/v1/show.proto";
+option go_package = "github.com/go-saas/commerce/ticketing/api/show/v1;v1";
+
+service ShowAppService {
+
+  rpc AppListShow (ListShowRequest) returns (ListShowReply){
+    option (google.api.http) = {
+      get: "/v1/ticketing/app/show",
+      additional_bindings:{
+        post:"/v1/ticketing/app/show/list",
+        body:"*"
+      }
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["usage-app"];
+    };
+  }
+  rpc AppGetShow (GetShowRequest) returns (Show){
+    option (google.api.http) = {
+      get: "/v1/ticketing/app/show/{id}"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["usage-app"];
+    };
+  }
+
+  rpc PlaceShowOrder(PlaceShowOrderRequest)returns(PlaceShowOrderReply){
+    option (google.api.http) = {
+      post: "/v1/ticketing/app/show/order"
+      body:"*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["usage-app"];
+    };
+  }
+
+}
+
+message PlaceShowOrderRequest{
+  string show_id=1;
+
+  repeated OrderSalesType sales_type=2;
+}
+
+message OrderSalesType{
+  string show_sales_type_id=1;
+  optional string show_seat_id=2;
+  int32 qty=3;
+}
+
+message PlaceShowOrderReply{
+  string order_id=1;
+}

@@ -3,7 +3,6 @@ module github.com/go-saas/commerce
 go 1.19
 
 require (
-	github.com/bojanz/currency v1.0.6
 	github.com/envoyproxy/protoc-gen-validate v0.9.1
 	github.com/flowchartsman/swaggerui v0.0.0-20221017034628-909ed4f3701b
 	github.com/go-chi/chi/v5 v5.0.8
@@ -24,8 +23,6 @@ require (
 	github.com/segmentio/ksuid v1.0.4
 	github.com/spf13/afero v1.9.3
 	github.com/stretchr/testify v1.8.1
-	golang.org/x/exp v0.0.0-20221002003631-540bb7301a08
-	golang.org/x/text v0.5.0
 	google.golang.org/genproto v0.0.0-20221207170731-23e4bf6bdc37
 	google.golang.org/grpc v1.51.0
 	google.golang.org/protobuf v1.28.1
@@ -49,12 +46,13 @@ require (
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/aws/aws-sdk-go v1.44.189 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
+	github.com/bojanz/currency v1.1.2 // indirect
 	github.com/bradfitz/gomemcache v0.0.0-20220106215444-fb4bf637b56d // indirect
 	github.com/casbin/casbin/v2 v2.55.1 // indirect
 	github.com/casbin/gorm-adapter/v3 v3.12.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.1.3 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
-	github.com/cockroachdb/apd/v3 v3.1.1 // indirect
+	github.com/cockroachdb/apd/v3 v3.1.2 // indirect
 	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/coreos/go-systemd/v22 v22.4.0 // indirect
 	github.com/danieljoos/wincred v1.1.2 // indirect
@@ -188,11 +186,13 @@ require (
 	go.uber.org/multierr v1.8.0 // indirect
 	go.uber.org/zap v1.23.0 // indirect
 	golang.org/x/crypto v0.0.0-20221005025214-4161e89ecf1b // indirect
+	golang.org/x/exp v0.0.0-20221002003631-540bb7301a08 // indirect
 	golang.org/x/net v0.2.0 // indirect
 	golang.org/x/oauth2 v0.2.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.2.0 // indirect
 	golang.org/x/term v0.2.0 // indirect
+	golang.org/x/text v0.5.0 // indirect
 	golang.org/x/time v0.0.0-20220922220347-f3bd1da661af // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
@@ -213,6 +213,6 @@ replace (
 	github.com/99designs/keyring => github.com/99designs/keyring v1.2.1
 	github.com/dtm-labs/client => github.com/goxiaoy/client v0.0.0-20230202163110-7dfe91ab1b7f
 	github.com/dtm-labs/dtm => github.com/goxiaoy/dtm v0.0.0-20230212053702-b57b19825025
-	github.com/go-saas/kit => github.com/go-saas/kit v0.0.5-0.20230221074829-af474d7bf23a
+	github.com/go-saas/kit => github.com/go-saas/kit v0.0.5-0.20230501051129-1ab18c2ec69f
 	github.com/hibiken/asynqmon => github.com/goxiaoy/asynqmon v0.7.2-0.20220620161318-80231130441b
 )

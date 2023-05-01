@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package order.api.order.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/field_behavior.proto";
+import "validate/validate.proto";
+import "query/operation.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "order/api/order/v1/order.proto";
+import "price/price.proto";
+import "lbs/address.proto";
+option go_package = "github.com/go-saas/commerce/order/api/order/v1;v1";
+
+service OrderInternalService {
+  rpc CreateInternalOrder (CreateInternalOrderRequest) returns (Order){
+  }
+}
+
+message CreateInternalOrderRequest{
+  price.PricePb total_price=1;
+  .lbs.Address shipping_addr=16;
+  .lbs.Address billing_addr=17;
+
+}
+
+

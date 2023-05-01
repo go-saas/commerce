@@ -1,11 +1,11 @@
 package biz
 
 import (
-	"github.com/go-saas/commerce/pkg/price"
-	"github.com/go-saas/commerce/pkg/sortable"
 	v1 "github.com/go-saas/commerce/product/api/product/v1"
 	"github.com/go-saas/kit/pkg/data"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
+	"github.com/go-saas/kit/pkg/price"
+	"github.com/go-saas/kit/pkg/sortable"
 	"github.com/go-saas/saas/gorm"
 	concurrency "github.com/goxiaoy/gorm-concurrency"
 	"time"

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package ticketing.api.ticket.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/field_behavior.proto";
+import "validate/validate.proto";
+import "query/operation.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+import "ticketing/api/ticket/v1/ticket.proto";
+
+option go_package = "github.com/go-saas/commerce/ticketing/api/ticket/v1;v1";
+
+service TicketAppService {
+  rpc ListMyTicket (ListTicketRequest) returns (ListTicketReply){
+    option (google.api.http) = {
+      get: "/v1/ticketing/my-ticket",
+      additional_bindings:{
+        post:"/v1/ticket/my-ticket/list",
+        body:"*"
+      }
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["usage-app"];
+    };
+  }
+}

@@ -995,6 +995,10 @@ func (m *ListTicketRequest) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for AfterPageToken
+
+	// no validation rules for BeforePageToken
+
 	if len(errors) > 0 {
 		return ListTicketRequestMultiError(errors)
 	}
@@ -1133,6 +1137,14 @@ func (m *ListTicketReply) validate(all bool) error {
 			}
 		}
 
+	}
+
+	if m.NextAfterPageToken != nil {
+		// no validation rules for NextAfterPageToken
+	}
+
+	if m.NextBeforePageToken != nil {
+		// no validation rules for NextBeforePageToken
 	}
 
 	if len(errors) > 0 {

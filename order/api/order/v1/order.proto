@@ -108,11 +108,13 @@ message ListOrderRequest {
   google.protobuf.FieldMask fields=5;
   OrderFilter filter =6;
 }
+
 message ListOrderReply {
   int32 total_size =1;
   int32 filter_size =2;
   repeated Order items=3;
 }
+
 message Order{
   string id=1;
   string name=2;

@@ -2,10 +2,10 @@ package biz
 
 import (
 	"context"
-	"github.com/go-saas/commerce/pkg/sortable"
 	v1 "github.com/go-saas/commerce/ticketing/api/location/v1"
 	"github.com/go-saas/kit/pkg/data"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
+	"github.com/go-saas/kit/pkg/sortable"
 	"github.com/go-saas/lbs"
 	sgorm "github.com/go-saas/saas/gorm"
 )
@@ -19,6 +19,9 @@ type Location struct {
 
 	LogoID *string         `json:"logo"`
 	Logo   *TicketingMedia `gorm:"foreignKey:LogoID"`
+
+	MainPic   *TicketingMedia `gorm:"foreignKey:MainPicID"`
+	MainPicID string
 
 	Medias []TicketingMedia `gorm:"polymorphic:Owner;polymorphicValue:location"`
 

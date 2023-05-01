@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/go-saas/commerce/ticketing/api"
@@ -11,17 +10,10 @@ import (
 	v1 "github.com/go-saas/commerce/ticketing/api/location/v1"
 	"github.com/go-saas/commerce/ticketing/private/biz"
 	"github.com/go-saas/kit/pkg/authz/authz"
-	"github.com/go-saas/kit/pkg/blob"
 	"github.com/go-saas/kit/pkg/utils"
-	"github.com/google/uuid"
 	"github.com/goxiaoy/vfs"
 	"github.com/samber/lo"
 	"google.golang.org/protobuf/types/known/durationpb"
-	"io"
-	"mime"
-	"os"
-	"path/filepath"
-	"strings"
 )
 
 type ActivityService struct {
@@ -31,11 +23,13 @@ type ActivityService struct {
 	blob         vfs.Blob
 	mediaRepo    biz.TicketingMediaRepo
 	categoryRepo biz.TicketingCategoryRepo
+	*UploadService
 }
 
 var _ pb.ActivityServiceServer = (*ActivityService)(nil)
 
 func NewActivityService(
+	upload *UploadService,
 	repo biz.ActivityRepo,
 	hallRepo biz.HallRepo,
 	auth authz.Service,
@@ -43,7 +37,7 @@ func NewActivityService(
 	mediaRepo biz.TicketingMediaRepo,
 	categoryRepo biz.TicketingCategoryRepo,
 ) *ActivityService {
-	return &ActivityService{repo: repo, hallRepo: hallRepo, auth: auth, blob: blob, mediaRepo: mediaRepo, categoryRepo: categoryRepo}
+	return &ActivityService{repo: repo, hallRepo: hallRepo, auth: auth, blob: blob, mediaRepo: mediaRepo, categoryRepo: categoryRepo, UploadService: upload}
 }
 
 func (s *ActivityService) ListActivity(ctx context.Context, req *pb.ListActivityRequest) (*pb.ListActivityReply, error) {
@@ -151,64 +145,10 @@ func (s *ActivityService) DeleteActivity(ctx context.Context, req *pb.DeleteActi
 }
 
 func (s *ActivityService) UploadMedias(ctx http.Context) error {
+	if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceActivity, "*"), authz.WriteAction); err != nil {
+		return err
+	}
 	return s.upload(ctx, biz.ActivityMediaPath)
-}
-
-func (s *ActivityService) upload(ctx http.Context, basePath string) error {
-	req := ctx.Request()
-	//TODO do not know why should read form file first ...
-	if _, _, err := req.FormFile("file"); err != nil {
-		return err
-	}
-
-	h := ctx.Middleware(func(ctx context.Context, _ interface{}) (interface{}, error) {
-		if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceActivity, "*"), authz.WriteAction); err != nil {
-			return nil, err
-		}
-		file, handle, err := req.FormFile("file")
-		if err != nil {
-			return nil, err
-		}
-		defer file.Close()
-		fileName := handle.Filename
-		ext := filepath.Ext(fileName)
-		normalizedName := fmt.Sprintf("%s/%s%s", basePath, uuid.New().String(), ext)
-
-		err = s.blob.MkdirAll(basePath, 0755)
-		if err != nil {
-			return nil, err
-		}
-		f, err := s.blob.OpenFile(normalizedName, os.O_WRONLY|os.O_CREATE, 0o666)
-		if err != nil {
-			return nil, err
-		}
-		defer f.Close()
-		_, err = io.Copy(f, file)
-		if err != nil {
-			return nil, err
-		}
-		err = s.mediaRepo.Create(ctx, &biz.TicketingMedia{
-			ID:       normalizedName,
-			MimeType: mime.TypeByExtension(ext),
-			Usage:    "activity",
-			Name:     strings.TrimSuffix(fileName, ext),
-		})
-		if err != nil {
-			return nil, err
-		}
-
-		url, _ := s.blob.PublicUrl(ctx, normalizedName)
-		return &blob.BlobFile{
-			Id:   normalizedName,
-			Name: strings.TrimSuffix(fileName, ext),
-			Url:  url.URL,
-		}, nil
-	})
-	out, err := h(ctx, nil)
-	if err != nil {
-		return err
-	}
-	return ctx.Result(201, out)
 }
 
 func (s *ActivityService) MapBizActivity2Pb(ctx context.Context, a *biz.Activity, b *pb.Activity) {

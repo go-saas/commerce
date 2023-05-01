@@ -2,25 +2,18 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/transport/http"
-	"github.com/go-saas/commerce/pkg/sortable"
 	"github.com/go-saas/commerce/ticketing/api"
 	pb "github.com/go-saas/commerce/ticketing/api/location/v1"
 	"github.com/go-saas/commerce/ticketing/private/biz"
 	"github.com/go-saas/kit/pkg/authz/authz"
-	"github.com/go-saas/kit/pkg/blob"
+	"github.com/go-saas/kit/pkg/sortable"
 	"github.com/go-saas/kit/pkg/utils"
 	"github.com/go-saas/lbs"
 	"github.com/google/uuid"
 	"github.com/goxiaoy/vfs"
 	"github.com/samber/lo"
-	"io"
-	"mime"
-	"os"
-	"path/filepath"
-	"strings"
 )
 
 type LocationService struct {
@@ -29,12 +22,13 @@ type LocationService struct {
 	auth      authz.Service
 	blob      vfs.Blob
 	mediaRepo biz.TicketingMediaRepo
+	*UploadService
 }
 
 var _ pb.LocationServiceServer = (*LocationService)(nil)
 
-func NewLocationService(repo biz.LocationRepo, hallRepo biz.HallRepo, auth authz.Service, blob vfs.Blob, mediaRepo biz.TicketingMediaRepo) *LocationService {
-	return &LocationService{repo: repo, hallRepo: hallRepo, auth: auth, blob: blob, mediaRepo: mediaRepo}
+func NewLocationService(repo biz.LocationRepo, hallRepo biz.HallRepo, auth authz.Service, blob vfs.Blob, mediaRepo biz.TicketingMediaRepo, upload *UploadService) *LocationService {
+	return &LocationService{repo: repo, hallRepo: hallRepo, auth: auth, blob: blob, mediaRepo: mediaRepo, UploadService: upload}
 }
 
 func (s *LocationService) ListLocation(ctx context.Context, req *pb.ListLocationRequest) (*pb.ListLocationReply, error) {
@@ -244,72 +238,24 @@ func (s *LocationService) DeleteLocationHall(ctx context.Context, req *pb.Delete
 }
 
 func (s *LocationService) UploadLogo(ctx http.Context) error {
+	if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceLocation, "*"), authz.WriteAction); err != nil {
+		return err
+	}
 	return s.upload(ctx, biz.LocationLogoPath)
 }
 
 func (s *LocationService) UploadMedias(ctx http.Context) error {
+	if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceLocation, "*"), authz.WriteAction); err != nil {
+		return err
+	}
 	return s.upload(ctx, biz.LocationMediaPath)
 }
 
 func (s *LocationService) UploadLegalDocs(ctx http.Context) error {
+	if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceLocation, "*"), authz.WriteAction); err != nil {
+		return err
+	}
 	return s.upload(ctx, biz.LocationLegalDocumentsPath)
-}
-
-func (s *LocationService) upload(ctx http.Context, basePath string) error {
-	req := ctx.Request()
-	//TODO do not know why should read form file first ...
-	if _, _, err := req.FormFile("file"); err != nil {
-		return err
-	}
-
-	h := ctx.Middleware(func(ctx context.Context, _ interface{}) (interface{}, error) {
-		if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceLocation, "*"), authz.WriteAction); err != nil {
-			return nil, err
-		}
-		file, handle, err := req.FormFile("file")
-		if err != nil {
-			return nil, err
-		}
-		defer file.Close()
-		fileName := handle.Filename
-		ext := filepath.Ext(fileName)
-		normalizedName := fmt.Sprintf("%s/%s%s", basePath, uuid.New().String(), ext)
-
-		err = s.blob.MkdirAll(basePath, 0755)
-		if err != nil {
-			return nil, err
-		}
-		f, err := s.blob.OpenFile(normalizedName, os.O_WRONLY|os.O_CREATE, 0o666)
-		if err != nil {
-			return nil, err
-		}
-		defer f.Close()
-		_, err = io.Copy(f, file)
-		if err != nil {
-			return nil, err
-		}
-		err = s.mediaRepo.Create(ctx, &biz.TicketingMedia{
-			ID:       normalizedName,
-			MimeType: mime.TypeByExtension(ext),
-			Usage:    "location",
-			Name:     strings.TrimSuffix(fileName, ext),
-		})
-		if err != nil {
-			return nil, err
-		}
-
-		url, _ := s.blob.PublicUrl(ctx, normalizedName)
-		return &blob.BlobFile{
-			Id:   normalizedName,
-			Name: strings.TrimSuffix(fileName, ext),
-			Url:  url.URL,
-		}, nil
-	})
-	out, err := h(ctx, nil)
-	if err != nil {
-		return err
-	}
-	return ctx.Result(201, out)
 }
 
 func (s *LocationService) MapBizLocation2Pb(ctx context.Context, a *biz.Location, b *pb.Location) {

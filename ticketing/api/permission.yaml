@@ -37,6 +37,10 @@ groups:
       - name: "permission.permission.write"
         namespace: "ticketing.show"
         action: "write"
+      - name: "permission.permission.recommend"
+        namespace: "ticketing.show"
+        action: "recommend"
+        side: HOST_ONLY
   - name: "permission.ticketing.ticket.group"
     def:
       - name: "permission.ticketing.ticket.any"
@@ -64,3 +68,17 @@ groups:
         namespace: "ticketing.category"
         action: "write"
         side: HOST_ONLY
+
+  - name: "permission.ticketing.banner.group"
+    side: HOST_ONLY
+    def:
+      - name: "permission.ticketing.banner.any"
+        namespace: "ticketing.banner"
+        action: "*"
+        internal: true
+      - name: "permission.permission.read"
+        namespace: "ticketing.banner"
+        action: "read"
+      - name: "permission.permission.write"
+        namespace: "ticketing.banner"
+        action: "write"
