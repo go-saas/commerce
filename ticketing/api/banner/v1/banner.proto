@@ -24,17 +24,12 @@ service TicketingBannerService {
         body:"*"
       }
     };
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      tags: ["side-host"];
-    };
+
   }
   rpc CreateBanner (CreateBannerRequest) returns (Banner){
     option (google.api.http) = {
       post: "/v1/ticketing/banner",
       body: "*"
-    };
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      tags: ["side-host"];
     };
   }
 
@@ -47,17 +42,11 @@ service TicketingBannerService {
         body: "*"
       }
     };
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      tags: ["side-host"];
-    };
   }
 
   rpc DeleteBanner (DeleteBannerRequest) returns (DeleteBannerReply){
     option (google.api.http) = {
       delete: "/v1/ticketing/banner/{id}"
-    };
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      tags: ["side-host"];
     };
   }
 }
@@ -68,7 +57,7 @@ service TicketingAppBannerService{
       get: "/v1/ticketing/app/banner",
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      tags: ["usage-app"];
+      tags: ["TicketingAppBannerService","UsageApp"];
     };
   }
 }

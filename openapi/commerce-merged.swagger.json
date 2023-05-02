@@ -1929,7 +1929,8 @@
           }
         ],
         "tags": [
-          "usage-app"
+          "TicketAppService",
+          "UsageApp"
         ]
       }
     },
@@ -2421,7 +2422,8 @@
           }
         },
         "tags": [
-          "usage-app"
+          "TicketingAppBannerService",
+          "UsageApp"
         ]
       }
     },
@@ -2689,7 +2691,8 @@
           }
         ],
         "tags": [
-          "usage-app"
+          "ShowAppService",
+          "UsageApp"
         ]
       }
     },
@@ -2721,7 +2724,8 @@
           }
         ],
         "tags": [
-          "usage-app"
+          "ShowAppService",
+          "UsageApp"
         ]
       }
     },
@@ -2753,7 +2757,8 @@
           }
         ],
         "tags": [
-          "usage-app"
+          "ShowAppService",
+          "UsageApp"
         ]
       }
     },
@@ -2783,7 +2788,8 @@
           }
         ],
         "tags": [
-          "usage-app"
+          "ShowAppService",
+          "UsageApp"
         ]
       }
     },
@@ -2935,7 +2941,7 @@
           }
         ],
         "tags": [
-          "side-host"
+          "TicketingBannerService"
         ]
       },
       "post": {
@@ -2965,7 +2971,7 @@
           }
         ],
         "tags": [
-          "side-host"
+          "TicketingBannerService"
         ]
       }
     },
@@ -2997,7 +3003,7 @@
           }
         ],
         "tags": [
-          "side-host"
+          "TicketingBannerService"
         ]
       }
     },
@@ -3035,7 +3041,7 @@
           }
         ],
         "tags": [
-          "side-host"
+          "TicketingBannerService"
         ]
       },
       "patch": {
@@ -3071,7 +3077,7 @@
           }
         ],
         "tags": [
-          "side-host"
+          "TicketingBannerService"
         ]
       }
     },
@@ -3101,7 +3107,7 @@
           }
         ],
         "tags": [
-          "side-host"
+          "TicketingBannerService"
         ]
       }
     },
@@ -4602,7 +4608,8 @@
           }
         ],
         "tags": [
-          "usage-app"
+          "TicketAppService",
+          "UsageApp"
         ]
       }
     },
@@ -5033,7 +5040,7 @@
           }
         ],
         "tags": [
-          "side-host"
+          "ShowService"
         ]
       }
     },

@@ -59,9 +59,6 @@ service ShowService {
       put: "/v1/ticketing/show/{id}/recommend"
       body: "*"
     };
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      tags: ["side-host"];
-    };
   }
 
 }

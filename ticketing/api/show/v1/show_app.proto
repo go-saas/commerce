@@ -27,7 +27,7 @@ service ShowAppService {
       }
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      tags: ["usage-app"];
+      tags: ["ShowAppService","UsageApp"];
     };
   }
   rpc AppGetShow (GetShowRequest) returns (Show){
@@ -35,7 +35,7 @@ service ShowAppService {
       get: "/v1/ticketing/app/show/{id}"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      tags: ["usage-app"];
+      tags: ["ShowAppService","UsageApp"];
     };
   }
 
@@ -45,7 +45,7 @@ service ShowAppService {
       body:"*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      tags: ["usage-app"];
+      tags: ["ShowAppService","UsageApp"];
     };
   }
 
