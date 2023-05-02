@@ -74,7 +74,8 @@ func NewHttpServerRegister(
 		kithttp.MountBlob(srv, "", biz.LocationMediaPath, vfs)
 		kithttp.MountBlob(srv, "", biz.LocationLegalDocumentsPath, vfs)
 		kithttp.MountBlob(srv, "", biz.ActivityMediaPath, vfs)
-
+		kithttp.MountBlob(srv, "", biz.BannerMediaPath, vfs)
+		kithttp.MountBlob(srv, "", biz.ShowMediaPath, vfs)
 		swaggerRouter := chi.NewRouter()
 		swaggerRouter.Use(
 			kithttp.MiddlewareConvert(errEncoder, middleware...))
