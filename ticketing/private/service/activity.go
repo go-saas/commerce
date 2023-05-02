@@ -170,6 +170,7 @@ func (s *ActivityService) MapBizActivity2Pb(ctx context.Context, a *biz.Activity
 		MapBizCategory2Pb(ctx, &item, r)
 		return r
 	})
+	b.MainPic = mapBizMedia2Pb(ctx, s.blob, a.MainPic)
 }
 
 func (s *ActivityService) MapUpdatePbActivity2Biz(ctx context.Context, a *pb.UpdateActivity, b *biz.Activity) error {
@@ -193,6 +194,8 @@ func (s *ActivityService) MapUpdatePbActivity2Biz(ctx context.Context, a *pb.Upd
 		}
 		b.Categories = c
 	}
+
+	b.MainPic = mapPbMedia2Biz(a.MainPic)
 	return nil
 
 }
@@ -217,5 +220,6 @@ func (s *ActivityService) MapCreatePbActivity2Biz(ctx context.Context, a *pb.Cre
 		}
 		b.Categories = c
 	}
+	b.MainPic = mapPbMedia2Biz(a.MainPic)
 	return nil
 }

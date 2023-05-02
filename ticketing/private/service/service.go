@@ -68,6 +68,7 @@ func NewHttpServerRegister(
 
 		route.POST("/v1/ticketing/activity/media", activity.UploadMedias)
 		route.POST("/v1/ticketing/banner/media", banner.UploadMedias)
+		route.POST("/v1/ticketing/show/media", show.UploadMedias)
 
 		kithttp.MountBlob(srv, "", biz.LocationLogoPath, vfs)
 		kithttp.MountBlob(srv, "", biz.LocationMediaPath, vfs)

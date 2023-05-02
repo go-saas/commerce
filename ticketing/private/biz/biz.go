@@ -13,5 +13,6 @@ const (
 	LocationLegalDocumentsPath = "ticketing/location/l"
 
 	ActivityMediaPath = "ticketing/activity/m"
+	ShowMediaPath     = "ticketing/show/m"
 	BannerMediaPath   = "ticketing/banner"
 )

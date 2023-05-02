@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"github.com/go-kratos/kratos/v2/errors"
+	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/go-saas/commerce/ticketing/api"
 	v13 "github.com/go-saas/commerce/ticketing/api/activity/v1"
 	v1 "github.com/go-saas/commerce/ticketing/api/location/v1"
@@ -25,6 +26,7 @@ type ShowService struct {
 	categoryRepo biz.TicketingCategoryRepo
 	activitySrv  *ActivityService
 	locationSrv  *LocationService
+	*UploadService
 }
 
 var _ pb.ShowServiceServer = (*ShowService)(nil)
@@ -38,16 +40,18 @@ func NewShowService(
 	categoryRepo biz.TicketingCategoryRepo,
 	activitySrv *ActivityService,
 	locationSrv *LocationService,
+	upload *UploadService,
 ) *ShowService {
 	return &ShowService{
-		repo:         repo,
-		hallRepo:     hallRepo,
-		auth:         auth,
-		blob:         blob,
-		mediaRepo:    mediaRepo,
-		categoryRepo: categoryRepo,
-		activitySrv:  activitySrv,
-		locationSrv:  locationSrv,
+		repo:          repo,
+		hallRepo:      hallRepo,
+		auth:          auth,
+		blob:          blob,
+		mediaRepo:     mediaRepo,
+		categoryRepo:  categoryRepo,
+		activitySrv:   activitySrv,
+		locationSrv:   locationSrv,
+		UploadService: upload,
 	}
 }
 
@@ -174,6 +178,13 @@ func (s *ShowService) RecommendShow(ctx context.Context, req *pb.RecommendShowRe
 	return &pb.RecommendShowReply{Id: req.Id}, nil
 }
 
+func (s *ShowService) UploadMedias(ctx http.Context) error {
+	return s.upload(ctx, biz.ShowMediaPath, func(ctx context.Context) error {
+		_, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceShow, "*"), authz.WriteAction)
+		return err
+	})
+}
+
 func (s *ShowService) AppListShow(ctx context.Context, req *pb.ListShowRequest) (*pb.ListShowReply, error) {
 
 	ret := &pb.ListShowReply{}
@@ -227,7 +238,7 @@ func (s *ShowService) MapBizShow2Pb(ctx context.Context, a *biz.Show, b *pb.Show
 		b.Activity = &v13.Activity{}
 		s.activitySrv.MapBizActivity2Pb(ctx, a.Activity, b.Activity)
 	}
-
+	b.MainPic = mapBizMedia2Pb(ctx, s.blob, a.MainPic)
 	b.StartTime = utils.Time2Timepb(&a.StartTime)
 	b.EndTime = utils.Time2Timepb(&a.EndTime)
 
@@ -296,6 +307,7 @@ func (s *ShowService) MapUpdatePbShow2Biz(ctx context.Context, a *pb.UpdateShow,
 		sts = append(sts, r)
 	}
 	b.SalesTypes = sts
+	b.MainPic = mapPbMedia2Biz(a.MainPic)
 	return nil
 
 }
@@ -318,5 +330,6 @@ func (s *ShowService) MapCreatePbShow2Biz(ctx context.Context, a *pb.CreateShowR
 		sts = append(sts, r)
 	}
 	b.SalesTypes = sts
+	b.MainPic = mapPbMedia2Biz(a.MainPic)
 	return nil
 }
