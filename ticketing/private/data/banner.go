@@ -25,6 +25,14 @@ func (c *BannerRepo) GetDb(ctx context.Context) *gorm.DB {
 	return GetDb(ctx, c.Repo.DbProvider)
 }
 
+// BuildDetailScope preload relations
+func (c *BannerRepo) BuildDetailScope(withDetail bool) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		db = db.Preload("MainPic")
+		return db
+	}
+}
+
 func (c *BannerRepo) BuildFilterScope(q *v12.ListBannerRequest) func(db *gorm.DB) *gorm.DB {
 	search := q.Search
 	filter := q.Filter

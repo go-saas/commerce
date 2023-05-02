@@ -32,7 +32,7 @@ func (c *ShowRepo) DefaultSorting() []string {
 // BuildDetailScope preload relations
 func (c *ShowRepo) BuildDetailScope(withDetail bool) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		db = db.Preload("Activity").Preload("Location").Preload("Hall")
+		db = db.Preload("Activity").Preload("Location").Preload("Hall").Preload("MainPic")
 		if withDetail {
 			db = db.Preload("SalesTypes").Preload("Seats")
 		}

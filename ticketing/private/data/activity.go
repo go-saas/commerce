@@ -45,7 +45,7 @@ func (c *ActivityRepo) DefaultSorting() []string {
 // BuildDetailScope preload relations
 func (c *ActivityRepo) BuildDetailScope(withDetail bool) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		db = db.Preload("Categories")
+		db = db.Preload("Categories").Preload("MainPic")
 		if withDetail {
 			db = db.Preload("Medias")
 		}
