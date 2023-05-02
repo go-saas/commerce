@@ -238,24 +238,26 @@ func (s *LocationService) DeleteLocationHall(ctx context.Context, req *pb.Delete
 }
 
 func (s *LocationService) UploadLogo(ctx http.Context) error {
-	if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceLocation, "*"), authz.WriteAction); err != nil {
+	return s.upload(ctx, biz.LocationLogoPath, func(ctx context.Context) error {
+		_, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceLocation, "*"), authz.WriteAction)
 		return err
-	}
-	return s.upload(ctx, biz.LocationLogoPath)
+	})
 }
 
 func (s *LocationService) UploadMedias(ctx http.Context) error {
-	if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceLocation, "*"), authz.WriteAction); err != nil {
+
+	return s.upload(ctx, biz.LocationMediaPath, func(ctx context.Context) error {
+		_, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceLocation, "*"), authz.WriteAction)
 		return err
-	}
-	return s.upload(ctx, biz.LocationMediaPath)
+	})
 }
 
 func (s *LocationService) UploadLegalDocs(ctx http.Context) error {
-	if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceLocation, "*"), authz.WriteAction); err != nil {
+
+	return s.upload(ctx, biz.LocationLegalDocumentsPath, func(ctx context.Context) error {
+		_, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceLocation, "*"), authz.WriteAction)
 		return err
-	}
-	return s.upload(ctx, biz.LocationLegalDocumentsPath)
+	})
 }
 
 func (s *LocationService) MapBizLocation2Pb(ctx context.Context, a *biz.Location, b *pb.Location) {

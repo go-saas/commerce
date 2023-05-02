@@ -133,8 +133,8 @@ func (s *TicketingBannerServiceService) MapUpdatePbBanner2Biz(a *pb.UpdateBanner
 }
 
 func (s *TicketingBannerServiceService) UploadMedias(ctx http.Context) error {
-	if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceBanner, "*"), authz.WriteAction); err != nil {
+	return s.upload(ctx, biz.BannerMediaPath, func(ctx context.Context) error {
+		_, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceBanner, "*"), authz.WriteAction)
 		return err
-	}
-	return s.upload(ctx, biz.BannerMediaPath)
+	})
 }

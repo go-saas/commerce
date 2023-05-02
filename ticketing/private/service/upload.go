@@ -24,7 +24,7 @@ func NewUploadService(mediaRepo biz.TicketingMediaRepo, blob vfs.Blob) *UploadSe
 	return &UploadService{mediaRepo: mediaRepo, blob: blob}
 }
 
-func (s *UploadService) upload(ctx http.Context, basePath string) error {
+func (s *UploadService) upload(ctx http.Context, basePath string, beforeUpload func(ctx context.Context) error) error {
 	req := ctx.Request()
 	//TODO do not know why should read form file first ...
 	if _, _, err := req.FormFile("file"); err != nil {
@@ -32,7 +32,12 @@ func (s *UploadService) upload(ctx http.Context, basePath string) error {
 	}
 
 	h := ctx.Middleware(func(ctx context.Context, _ interface{}) (interface{}, error) {
-
+		if beforeUpload != nil {
+			err := beforeUpload(ctx)
+			if err != nil {
+				return nil, err
+			}
+		}
 		file, handle, err := req.FormFile("file")
 		if err != nil {
 			return nil, err

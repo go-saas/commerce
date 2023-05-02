@@ -145,10 +145,10 @@ func (s *ActivityService) DeleteActivity(ctx context.Context, req *pb.DeleteActi
 }
 
 func (s *ActivityService) UploadMedias(ctx http.Context) error {
-	if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceActivity, "*"), authz.WriteAction); err != nil {
+	return s.upload(ctx, biz.ActivityMediaPath, func(ctx context.Context) error {
+		_, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceActivity, "*"), authz.WriteAction)
 		return err
-	}
-	return s.upload(ctx, biz.ActivityMediaPath)
+	})
 }
 
 func (s *ActivityService) MapBizActivity2Pb(ctx context.Context, a *biz.Activity, b *pb.Activity) {
