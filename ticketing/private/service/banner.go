@@ -8,8 +8,10 @@ import (
 	pb "github.com/go-saas/commerce/ticketing/api/banner/v1"
 	"github.com/go-saas/commerce/ticketing/private/biz"
 	"github.com/go-saas/kit/pkg/authz/authz"
+	"github.com/go-saas/kit/pkg/query"
 	"github.com/goxiaoy/vfs"
 	"github.com/samber/lo"
+	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 type TicketingBannerServiceService struct {
@@ -54,7 +56,23 @@ func (s *TicketingBannerServiceService) ListBanner(ctx context.Context, req *pb.
 }
 
 func (s *TicketingBannerServiceService) ListAppBanner(ctx context.Context, req *pb.ListAppBannerRequest) (*pb.ListAppBannerReply, error) {
-	return &pb.ListAppBannerReply{}, nil
+	f := &pb.ListBannerRequest{
+		PageSize: -1,
+		Filter:   &pb.BannerFilter{Status: &query.StringFilterOperation{Eq: &wrapperspb.StringValue{Value: "PUBLISHED"}}},
+	}
+	items, err := s.repo.List(ctx, f)
+	ret := &pb.ListAppBannerReply{}
+	if err != nil {
+		return ret, err
+	}
+	rItems := lo.Map(items, func(g *biz.Banner, _ int) *pb.Banner {
+		b := &pb.Banner{}
+		MapBizBanner2Pb(ctx, s.blob, g, b)
+		return b
+	})
+
+	ret.Items = rItems
+	return ret, nil
 }
 
 func (s *TicketingBannerServiceService) CreateBanner(ctx context.Context, req *pb.CreateBannerRequest) (*pb.Banner, error) {
