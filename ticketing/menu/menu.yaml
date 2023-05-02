@@ -12,6 +12,15 @@ menus:
     meta:
     priority: 300
     children:
+      - name: "ticketing.banner"
+        icon: "ant-design:api-outlined"
+        path: "banner"
+        title: "ticketing.banner"
+        component: "MICROAPP"
+        requirement:
+          - namespace: "ticketing.banner"
+            resource: "*"
+            action: "read"
       - name: "ticketing.show"
         icon: "ant-design:api-outlined"
         path: "show"

@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"github.com/go-saas/commerce/order/private/biz"
+	kitgorm "github.com/go-saas/kit/pkg/gorm"
 	"github.com/go-saas/saas/seed"
 	"gorm.io/gorm"
 )
@@ -17,6 +18,8 @@ func NewMigrate(data *Data) *Migrate {
 	}
 }
 func (m *Migrate) Seed(ctx context.Context, sCtx *seed.Context) error {
+	//make sure database exists
+	ctx = kitgorm.NewDbGuardianContext(ctx)
 	db := GetDb(ctx, m.data.DbProvider)
 	return migrateDb(db)
 }

@@ -1,7 +1,7 @@
 services:
   registry:
     type: etcd
-    endpoint: http://host.docker.internal:3379
+    endpoint: http://localhost:3379
   servers:
     user:
       http:
@@ -71,14 +71,14 @@ data:
   endpoints:
     events:
       default:
-        addr: host.docker.internal:9094
+        addr: localhost:9094
         type: kafka
     databases:
       default:
         debug: true
         driver: mysql
-        source: root:youShouldChangeThis@tcp(host.docker.internal:3406)/kit?parseTime=true
+        source: root:youShouldChangeThis@tcp(localhost:3406)/kit?parseTime=true
     redis:
       default:
-        addrs: ["host.docker.internal:7379"]
+        addrs: ["localhost:7379"]
         password: youShouldChangeThis
