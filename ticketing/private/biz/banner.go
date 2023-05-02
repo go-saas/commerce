@@ -14,7 +14,7 @@ type Banner struct {
 	Status  string `gorm:"type:char(36);index:,;comment:UNPUBLISHED,PUBLISHED"`
 
 	MainPic   *TicketingMedia `gorm:"foreignKey:MainPicID"`
-	MainPicID string
+	MainPicID *string
 }
 
 func NewBanner() *Banner {

@@ -18,7 +18,7 @@ type Activity struct {
 	Content   data.JSONMap
 
 	MainPic   *TicketingMedia `gorm:"foreignKey:MainPicID"`
-	MainPicID string
+	MainPicID *string
 	Medias    []TicketingMedia `gorm:"polymorphic:Owner;polymorphicValue:activity"`
 
 	Type       string

@@ -43,7 +43,7 @@ data:
         group: realtime-golang
   vfs:
     -
-      public_url: http://localhost/assets
+      public_url: http://saas.nihaosaoya.com:8080/assets
       mount_path: "/"
       os:
         dir: ".assets"

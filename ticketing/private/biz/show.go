@@ -22,7 +22,7 @@ type Show struct {
 	Location   *Location `gorm:"foreignKey:LocationID"`
 
 	MainPic   *TicketingMedia `gorm:"foreignKey:MainPicID"`
-	MainPicID string
+	MainPicID *string
 
 	HallID string
 	Hall   *Hall `gorm:"foreignKey:HallID"`

@@ -21,7 +21,7 @@ type Location struct {
 	Logo   *TicketingMedia `gorm:"foreignKey:LogoID"`
 
 	MainPic   *TicketingMedia `gorm:"foreignKey:MainPicID"`
-	MainPicID string
+	MainPicID *string
 
 	Medias []TicketingMedia `gorm:"polymorphic:Owner;polymorphicValue:location"`
 
