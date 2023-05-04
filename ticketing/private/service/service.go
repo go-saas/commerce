@@ -50,7 +50,10 @@ func NewHttpServerRegister(
 ) kithttp.ServiceRegister {
 	return kithttp.ServiceRegisterFunc(func(srv *khttp.Server, middleware ...middleware.Middleware) {
 		v12.RegisterLocationServiceHTTPServer(srv, location)
+
 		v1.RegisterTicketingCategoryServiceHTTPServer(srv, category)
+		v1.RegisterTicketingCategoryAppServiceHTTPServer(srv, category)
+
 		v13.RegisterActivityServiceHTTPServer(srv, activity)
 		v14.RegisterShowServiceHTTPServer(srv, show)
 		v14.RegisterShowAppServiceHTTPServer(srv, show)
@@ -95,6 +98,8 @@ func NewGrpcServerRegister(
 	return kitgrpc.ServiceRegisterFunc(func(srv *grpc.Server, middleware ...middleware.Middleware) {
 		v12.RegisterLocationServiceServer(srv, locationSrv)
 		v1.RegisterTicketingCategoryServiceServer(srv, category)
+		v1.RegisterTicketingCategoryAppServiceServer(srv, category)
+
 		v13.RegisterActivityServiceServer(srv, activity)
 
 		v14.RegisterShowServiceServer(srv, show)

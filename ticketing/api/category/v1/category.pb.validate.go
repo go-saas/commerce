@@ -35,6 +35,244 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on ListAppCategoryRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListAppCategoryRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListAppCategoryRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListAppCategoryRequestMultiError, or nil if none found.
+func (m *ListAppCategoryRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListAppCategoryRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return ListAppCategoryRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListAppCategoryRequestMultiError is an error wrapping multiple validation
+// errors returned by ListAppCategoryRequest.ValidateAll() if the designated
+// constraints aren't met.
+type ListAppCategoryRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListAppCategoryRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListAppCategoryRequestMultiError) AllErrors() []error { return m }
+
+// ListAppCategoryRequestValidationError is the validation error returned by
+// ListAppCategoryRequest.Validate if the designated constraints aren't met.
+type ListAppCategoryRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListAppCategoryRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListAppCategoryRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListAppCategoryRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListAppCategoryRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListAppCategoryRequestValidationError) ErrorName() string {
+	return "ListAppCategoryRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListAppCategoryRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListAppCategoryRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListAppCategoryRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListAppCategoryRequestValidationError{}
+
+// Validate checks the field values on ListAppCategoryReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListAppCategoryReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListAppCategoryReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListAppCategoryReplyMultiError, or nil if none found.
+func (m *ListAppCategoryReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListAppCategoryReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetItems() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ListAppCategoryReplyValidationError{
+						field:  fmt.Sprintf("Items[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ListAppCategoryReplyValidationError{
+						field:  fmt.Sprintf("Items[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ListAppCategoryReplyValidationError{
+					field:  fmt.Sprintf("Items[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return ListAppCategoryReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListAppCategoryReplyMultiError is an error wrapping multiple validation
+// errors returned by ListAppCategoryReply.ValidateAll() if the designated
+// constraints aren't met.
+type ListAppCategoryReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListAppCategoryReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListAppCategoryReplyMultiError) AllErrors() []error { return m }
+
+// ListAppCategoryReplyValidationError is the validation error returned by
+// ListAppCategoryReply.Validate if the designated constraints aren't met.
+type ListAppCategoryReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListAppCategoryReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListAppCategoryReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListAppCategoryReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListAppCategoryReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListAppCategoryReplyValidationError) ErrorName() string {
+	return "ListAppCategoryReplyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListAppCategoryReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListAppCategoryReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListAppCategoryReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListAppCategoryReplyValidationError{}
+
 // Validate checks the field values on CreateCategoryRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.

@@ -27,10 +27,9 @@ var ProviderSet = kitdi.NewSet(
 func NewHttpServerRegister(
 	resEncoder khttp.EncodeResponseFunc,
 	errEncoder khttp.EncodeErrorFunc,
-	post *OrderService) kithttp.ServiceRegister {
+	order *OrderService) kithttp.ServiceRegister {
 	return kithttp.ServiceRegisterFunc(func(srv *khttp.Server, middleware ...middleware.Middleware) {
-		v12.RegisterOrderServiceHTTPServer(srv, post)
-
+		v12.RegisterOrderServiceHTTPServer(srv, order)
 		swaggerRouter := chi.NewRouter()
 		swaggerRouter.Use(
 			kithttp.MiddlewareConvert(errEncoder, middleware...))
@@ -39,8 +38,9 @@ func NewHttpServerRegister(
 	})
 }
 
-func NewGrpcServerRegister(post *OrderService) kitgrpc.ServiceRegister {
+func NewGrpcServerRegister(order *OrderService) kitgrpc.ServiceRegister {
 	return kitgrpc.ServiceRegisterFunc(func(srv *grpc.Server, middleware ...middleware.Middleware) {
-		v12.RegisterOrderServiceServer(srv, post)
+		v12.RegisterOrderServiceServer(srv, order)
+		v12.RegisterOrderInternalServiceServer(srv, order)
 	})
 }

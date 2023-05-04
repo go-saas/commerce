@@ -1,11 +1,15 @@
 package biz
 
 import (
+	"fmt"
+	"github.com/bojanz/currency"
+	"github.com/cockroachdb/apd/v3"
 	v1 "github.com/go-saas/commerce/order/api/order/v1"
 	"github.com/go-saas/kit/pkg/data"
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
 	"github.com/go-saas/kit/pkg/price"
 	"github.com/go-saas/lbs"
+	"github.com/lithammer/shortuuid/v3"
 	"github.com/segmentio/ksuid"
 	"gorm.io/gorm"
 	"time"
@@ -17,10 +21,19 @@ type Order struct {
 
 	Status string
 
-	TotalPrice price.Price `gorm:"embedded;embeddedPrefix:total_price_"`
+	TotalPrice        price.Price `gorm:"embedded;embeddedPrefix:total_price_"`
+	TotalPriceInclTax price.Price `gorm:"embedded;embeddedPrefix:total_price_incl_tax_"`
 
-	PaidPrice   price.Price `gorm:"embedded;embeddedPrefix:paid_price_"`
-	PaidTime    *time.Time
+	Discount price.Price `gorm:"embedded;embeddedPrefix:discount_"`
+
+	OriginalPrice        price.Price `gorm:"embedded;embeddedPrefix:original_price_;comment:TotalPrice+Discount"`
+	OriginalPriceInclTax price.Price `gorm:"embedded;embeddedPrefix:original_price_incl_tax_"`
+
+	PaidPrice price.Price `gorm:"embedded;embeddedPrefix:paid_price_"`
+	PaidTime  *time.Time
+
+	PayBefore *time.Time
+
 	PayWay      string
 	PayWayExtra data.JSONMap
 
@@ -32,6 +45,239 @@ type Order struct {
 	Extra data.JSONMap
 
 	Items []OrderItem `gorm:"foreignKey:OrderID;references:ID"`
+}
+
+const (
+	OrderStatusUnpaid   string = "UNPAID"
+	OrderStatusPaid     string = "PAID"
+	OrderStatusRefunded string = "REFUNDED"
+	OrderStatusExpired  string = "EXPIRED"
+)
+
+var (
+	ErrOrderItemsRequired = fmt.Errorf("order items required")
+)
+
+func NewOrder(taxRate apd.Decimal, items []OrderItem) (*Order, error) {
+	if len(items) == 0 {
+		return nil, ErrOrderItemsRequired
+	}
+	i := &Order{Items: items, Status: OrderStatusUnpaid}
+
+	var totalPrice currency.Amount
+	var originalPrice currency.Amount
+	var err error
+	for i, item := range i.Items {
+		if i == 0 {
+			totalPrice = item.RowTotal.ToCurrency()
+			rowOriginalPrice, err := item.OriginalPrice.ToCurrency().Mul(string(item.Qty))
+			if err != nil {
+				return nil, err
+			}
+			originalPrice = rowOriginalPrice
+		} else {
+			totalPrice, err = totalPrice.Add(item.RowTotal.ToCurrency())
+			if err != nil {
+				return nil, err
+			}
+			rowOriginalPrice, err := item.OriginalPrice.ToCurrency().Mul(string(item.Qty))
+			if err != nil {
+				return nil, err
+			}
+			originalPrice, err = originalPrice.Add(rowOriginalPrice)
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
+	i.TotalPrice, err = price.NewPriceFromCurrency(totalPrice)
+	if err != nil {
+		return nil, err
+	}
+	_, i.TotalPriceInclTax, err = calWithTax(i.TotalPrice, taxRate)
+	if err != nil {
+		return nil, err
+	}
+	i.OriginalPrice, err = price.NewPriceFromCurrency(originalPrice)
+	if err != nil {
+		return nil, err
+	}
+	_, i.OriginalPriceInclTax, err = calWithTax(i.OriginalPrice, taxRate)
+	if err != nil {
+		return nil, err
+	}
+	discount, err := originalPrice.Sub(totalPrice)
+	if err != nil {
+		return nil, err
+	}
+	i.Discount, err = price.NewPriceFromCurrency(discount)
+	if err != nil {
+		return nil, err
+	}
+	return i, nil
+}
+
+type OrderItem struct {
+	ID string `gorm:"type:char(36)" json:"id"`
+
+	Qty int32
+
+	Price        price.Price `gorm:"embedded;embeddedPrefix:price_"`
+	Tax          price.Price `gorm:"embedded;embeddedPrefix:tax_"`
+	PriceInclTax price.Price `gorm:"embedded;embeddedPrefix:price_incl_tax_;comment:SinglePrice+SingleTax"`
+
+	RowTotal        price.Price `gorm:"embedded;embeddedPrefix:row_total_"`
+	RowTotalTax     price.Price `gorm:"embedded;embeddedPrefix:row_total_tax"`
+	RowTotalInclTax price.Price `gorm:"embedded;embeddedPrefix:row_total_incl_tax_;comment:SinglePriceInclTax*Qty,RowTotal+RowTax"`
+
+	OriginalPrice        price.Price `gorm:"embedded;embeddedPrefix:original_price_"`
+	OriginalPriceTax     price.Price `gorm:"embedded;embeddedPrefix:original_price_tax_"`
+	OriginalPriceInclTax price.Price `gorm:"embedded;embeddedPrefix:original_price_incl_tax_"`
+
+	RowDiscount price.Price `gorm:"embedded;embeddedPrefix:row_discount_"`
+
+	Product OrderProduct `gorm:"embedded;"`
+
+	OrderID string
+
+	IsGiveaway bool `gorm:"comment:是否赠品"`
+
+	BizPayload data.JSONMap
+}
+
+func NewOrderItemFromRowDiscount(
+	product OrderProduct,
+	qty int32,
+	taxRate apd.Decimal,
+	rowDiscount price.Price,
+	originalPrice price.Price,
+	isGiveaway bool,
+) (*OrderItem, error) {
+
+	i := &OrderItem{
+		Qty:           qty,
+		RowDiscount:   rowDiscount,
+		OriginalPrice: originalPrice,
+		Product:       product,
+		IsGiveaway:    isGiveaway,
+	}
+
+	avgDiscount, err := i.RowDiscount.ToCurrency().Div(string(i.Qty))
+	if err != nil {
+		return nil, err
+	}
+
+	pricee, err := i.OriginalPrice.ToCurrency().Sub(avgDiscount)
+	if err != nil {
+		return nil, err
+	}
+
+	i.Price, err = price.NewPriceFromCurrency(pricee)
+	if err != nil {
+		return nil, err
+	}
+
+	err = i.Cal(taxRate)
+
+	return i, err
+}
+
+func NewOrderItemFromPriceAndOriginalPrice(
+	product OrderProduct,
+	qty int32,
+	taxRate apd.Decimal,
+	pricee price.Price,
+	originalPrice price.Price,
+	isGiveaway bool,
+) (*OrderItem, error) {
+	i := &OrderItem{
+		Qty:           qty,
+		Price:         pricee,
+		OriginalPrice: originalPrice,
+		Product:       product,
+		IsGiveaway:    isGiveaway,
+	}
+
+	singleDiscount, err := i.OriginalPrice.ToCurrency().Sub(i.Price.ToCurrency())
+	if err != nil {
+		return nil, err
+	}
+	rowDiscount, err := singleDiscount.Mul(string(i.Qty))
+	if err != nil {
+		return nil, err
+	}
+	i.RowDiscount, err = price.NewPriceFromCurrency(rowDiscount)
+	if err != nil {
+		return nil, err
+	}
+
+	err = i.Cal(taxRate)
+
+	return i, err
+}
+
+func (i *OrderItem) Cal(taxRate apd.Decimal) (err error) {
+
+	i.Tax, i.PriceInclTax, err = calWithTax(i.Price, taxRate)
+
+	if err != nil {
+		return err
+	}
+
+	rowTotal, err := i.Price.ToCurrency().Mul(string(i.Qty))
+	if err != nil {
+		return err
+	}
+	i.RowTotal, err = price.NewPriceFromCurrency(rowTotal)
+	if err != nil {
+		return err
+	}
+
+	i.RowTotalTax, i.RowTotalInclTax, err = calWithTax(i.RowTotal, taxRate)
+	if err != nil {
+		return err
+	}
+
+	i.OriginalPriceTax, i.OriginalPriceInclTax, err = calWithTax(i.OriginalPrice, taxRate)
+	if err != nil {
+		return err
+	}
+	return
+}
+
+func calWithTax(p price.Price, taxRate apd.Decimal) (tax price.Price, priceInclTax price.Price, err error) {
+	pp := p.ToCurrency()
+	taxx, err := pp.Mul(taxRate.String())
+	if err != nil {
+		return
+	}
+	tax, err = price.NewPriceFromCurrency(taxx)
+	if err != nil {
+		return
+	}
+	priceInclTaxx, err := pp.Add(taxx)
+	if err != nil {
+		return
+	}
+	priceInclTax, err = price.NewPriceFromCurrency(priceInclTaxx)
+	return
+}
+
+func (i *OrderItem) BeforeCreate(tx *gorm.DB) error {
+	if len(i.ID) == 0 {
+		i.ID = shortuuid.New()
+	}
+	return nil
+}
+
+type OrderProduct struct {
+	ProductName     string
+	ProductMainPic  string
+	ProductID       string `gorm:"type:char(36);index:,"`
+	ProductVersion  string `gorm:"type:char(36);index:,"`
+	ProductType     string `gorm:"size:128;index:,"`
+	ProductSkuID    string `gorm:"type:char(36);index:,"`
+	ProductSkuTitle string
 }
 
 type OrderRepo interface {

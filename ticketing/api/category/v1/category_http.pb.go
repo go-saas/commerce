@@ -269,3 +269,78 @@ func (c *TicketingCategoryServiceHTTPClientImpl) UpdateCategory(ctx context.Cont
 	}
 	return &out, err
 }
+
+const OperationTicketingCategoryAppServiceListAppCategory = "/ticketing.api.category.v1.TicketingCategoryAppService/ListAppCategory"
+
+type TicketingCategoryAppServiceHTTPServer interface {
+	ListAppCategory(context.Context, *ListAppCategoryRequest) (*ListAppCategoryReply, error)
+}
+
+func RegisterTicketingCategoryAppServiceHTTPServer(s *http.Server, srv TicketingCategoryAppServiceHTTPServer) {
+	r := s.Route("/")
+	r.POST("/v1/ticketing/app/category/list", _TicketingCategoryAppService_ListAppCategory0_HTTP_Handler(srv))
+	r.GET("/v1/ticketing/app/category", _TicketingCategoryAppService_ListAppCategory1_HTTP_Handler(srv))
+}
+
+func _TicketingCategoryAppService_ListAppCategory0_HTTP_Handler(srv TicketingCategoryAppServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListAppCategoryRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTicketingCategoryAppServiceListAppCategory)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListAppCategory(ctx, req.(*ListAppCategoryRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListAppCategoryReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _TicketingCategoryAppService_ListAppCategory1_HTTP_Handler(srv TicketingCategoryAppServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListAppCategoryRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTicketingCategoryAppServiceListAppCategory)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListAppCategory(ctx, req.(*ListAppCategoryRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListAppCategoryReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+type TicketingCategoryAppServiceHTTPClient interface {
+	ListAppCategory(ctx context.Context, req *ListAppCategoryRequest, opts ...http.CallOption) (rsp *ListAppCategoryReply, err error)
+}
+
+type TicketingCategoryAppServiceHTTPClientImpl struct {
+	cc *http.Client
+}
+
+func NewTicketingCategoryAppServiceHTTPClient(client *http.Client) TicketingCategoryAppServiceHTTPClient {
+	return &TicketingCategoryAppServiceHTTPClientImpl{client}
+}
+
+func (c *TicketingCategoryAppServiceHTTPClientImpl) ListAppCategory(ctx context.Context, in *ListAppCategoryRequest, opts ...http.CallOption) (*ListAppCategoryReply, error) {
+	var out ListAppCategoryReply
+	pattern := "/v1/ticketing/app/category"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationTicketingCategoryAppServiceListAppCategory))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}

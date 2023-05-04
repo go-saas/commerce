@@ -3,11 +3,14 @@ syntax = "proto3";
 package order.api.order.v1;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/api/field_behavior.proto";
 import "validate/validate.proto";
 import "query/operation.proto";
+import "lbs/address.proto";
+import "price/price.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 option go_package = "github.com/go-saas/commerce/order/api/order/v1;v1";
 
@@ -117,6 +120,57 @@ message ListOrderReply {
 
 message Order{
   string id=1;
-  string name=2;
+
   google.protobuf.Timestamp created_at =4;
+
+  string status=10;
+
+  price.PricePb total_price=20;
+  price.PricePb total_price_incl_tax=21;
+  price.PricePb discount =22;
+
+  price.PricePb original_price=24;
+  price.PricePb original_price_incl_tax=25;
+
+  price.PricePb paid_price=26;
+  google.protobuf.Timestamp paid_time=27;
+  google.protobuf.Timestamp pay_before=28;
+  string  pay_way=29;
+
+  lbs.Address shipping_addr =50;
+  lbs.Address billing_addr =51;
+
+  string customer_id=60;
+
+  repeated OrderItem items=100;
+}
+
+message OrderItem{
+  string id=1;
+  int32 qty=2;
+  price.PricePb price=10;
+  price.PricePb tax=11;
+  price.PricePb price_incl_tax=12;
+
+  price.PricePb row_total = 20;
+  price.PricePb row_total_tax = 21;
+  price.PricePb row_total_incl_tax=22;
+
+  price.PricePb original_price=30;
+
+  price.PricePb row_discount=50;
+
+  OrderProduct product=100;
+  bool is_giveaway=101;
+
+}
+
+message OrderProduct{
+  string name=1;
+  string main_pic=2;
+  string id=3;
+  string version=4;
+  string type=5;
+  string sku_id=6;
+  string sku_title=7;
 }

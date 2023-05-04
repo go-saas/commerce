@@ -11,6 +11,7 @@ import (
 	"github.com/go-kratos/kratos/v2/registry"
 	"github.com/go-kratos/kratos/v2/transport"
 	"github.com/go-kratos/kratos/v2/transport/grpc"
+	orderapi "github.com/go-saas/commerce/order/api"
 	"github.com/go-saas/commerce/ticketing/api"
 	"github.com/go-saas/commerce/ticketing/private/biz"
 	"github.com/go-saas/commerce/ticketing/private/conf"
@@ -144,6 +145,7 @@ func main() {
 		authz.ProviderSet, kitserver.DefaultProviderSet, jwt.ProviderSet, kapi.DefaultProviderSet, kdal.DefaultProviderSet,
 		uapi.GrpcProviderSet,
 		sapi.GrpcProviderSet,
+		orderapi.GrpcProviderSet,
 		server.ProviderSet, data.ProviderSet, biz.ProviderSet, service.ProviderSet, kitdi.NewSet(newApp))
 	if err != nil {
 		panic(err)

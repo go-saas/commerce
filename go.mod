@@ -3,6 +3,8 @@ module github.com/go-saas/commerce
 go 1.19
 
 require (
+	github.com/bojanz/currency v1.1.2
+	github.com/cockroachdb/apd v1.1.0
 	github.com/envoyproxy/protoc-gen-validate v0.9.1
 	github.com/flowchartsman/swaggerui v0.0.0-20221017034628-909ed4f3701b
 	github.com/go-chi/chi/v5 v5.0.8
@@ -46,7 +48,6 @@ require (
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/aws/aws-sdk-go v1.44.189 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/bojanz/currency v1.1.2 // indirect
 	github.com/bradfitz/gomemcache v0.0.0-20220106215444-fb4bf637b56d // indirect
 	github.com/casbin/casbin/v2 v2.55.1 // indirect
 	github.com/casbin/gorm-adapter/v3 v3.12.1 // indirect
@@ -213,6 +214,6 @@ replace (
 	github.com/99designs/keyring => github.com/99designs/keyring v1.2.1
 	github.com/dtm-labs/client => github.com/goxiaoy/client v0.0.0-20230202163110-7dfe91ab1b7f
 	github.com/dtm-labs/dtm => github.com/goxiaoy/dtm v0.0.0-20230212053702-b57b19825025
-	github.com/go-saas/kit => github.com/go-saas/kit v0.0.5-0.20230501051129-1ab18c2ec69f
+	github.com/go-saas/kit => github.com/go-saas/kit v0.0.5-0.20230504085006-77a65542ea93
 	github.com/hibiken/asynqmon => github.com/goxiaoy/asynqmon v0.7.2-0.20220620161318-80231130441b
 )

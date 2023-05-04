@@ -27,6 +27,9 @@
       "name": "TicketingCategoryService"
     },
     {
+      "name": "TicketingCategoryAppService"
+    },
+    {
       "name": "ActivityService"
     },
     {
@@ -2427,9 +2430,65 @@
         ]
       }
     },
+    "/v1/ticketing/app/category": {
+      "get": {
+        "operationId": "TicketingCategoryAppService_ListAppCategory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListAppCategoryReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "TicketingCategoryAppService",
+          "UsageApp"
+        ]
+      }
+    },
+    "/v1/ticketing/app/category/list": {
+      "post": {
+        "operationId": "TicketingCategoryAppService_ListAppCategory2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListAppCategoryReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListAppCategoryRequest"
+            }
+          }
+        ],
+        "tags": [
+          "TicketingCategoryAppService",
+          "UsageApp"
+        ]
+      }
+    },
     "/v1/ticketing/app/show": {
       "get": {
-        "operationId": "ShowAppService_AppListShow",
+        "operationId": "ShowAppService_ListAppShow",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -2698,7 +2757,7 @@
     },
     "/v1/ticketing/app/show/list": {
       "post": {
-        "operationId": "ShowAppService_AppListShow2",
+        "operationId": "ShowAppService_ListAppShow2",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -2764,7 +2823,7 @@
     },
     "/v1/ticketing/app/show/{id}": {
       "get": {
-        "operationId": "ShowAppService_AppGetShow",
+        "operationId": "ShowAppService_GetAppShow",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -6322,6 +6381,27 @@
         "code"
       ]
     },
+    "v1CreateInternalOrderItem": {
+      "type": "object",
+      "properties": {
+        "qty": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "price": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "originalPrice": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "isGiveaway": {
+          "type": "boolean"
+        },
+        "product": {
+          "$ref": "#/definitions/v1OrderProduct"
+        }
+      }
+    },
     "v1CreateLocationHallReply": {
       "type": "object"
     },
@@ -6749,6 +6829,20 @@
         }
       }
     },
+    "v1ListAppCategoryReply": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ticketingapicategoryv1Category"
+          }
+        }
+      }
+    },
+    "v1ListAppCategoryRequest": {
+      "type": "object"
+    },
     "v1ListBannerReply": {
       "type": "object",
       "properties": {
@@ -7147,12 +7241,56 @@
         "id": {
           "type": "string"
         },
-        "name": {
-          "type": "string"
-        },
         "createdAt": {
           "type": "string",
           "format": "date-time"
+        },
+        "status": {
+          "type": "string"
+        },
+        "totalPrice": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "totalPriceInclTax": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "discount": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "originalPrice": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "originalPriceInclTax": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "paidPrice": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "paidTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "payBefore": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "payWay": {
+          "type": "string"
+        },
+        "shippingAddr": {
+          "$ref": "#/definitions/lbsAddress"
+        },
+        "billingAddr": {
+          "$ref": "#/definitions/lbsAddress"
+        },
+        "customerId": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1OrderItem"
+          }
         }
       }
     },
@@ -7167,11 +7305,82 @@
         }
       }
     },
+    "v1OrderItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "qty": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "price": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "tax": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "priceInclTax": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "rowTotal": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "rowTotalTax": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "rowTotalInclTax": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "originalPrice": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "rowDiscount": {
+          "$ref": "#/definitions/pricePricePb"
+        },
+        "product": {
+          "$ref": "#/definitions/v1OrderProduct"
+        },
+        "isGiveaway": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1OrderProduct": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "mainPic": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "skuId": {
+          "type": "string"
+        },
+        "skuTitle": {
+          "type": "string"
+        }
+      }
+    },
     "v1OrderSalesType": {
       "type": "object",
       "properties": {
         "showSalesTypeId": {
-          "type": "string"
+          "type": "string",
+          "required": [
+            "show_sales_type_id"
+          ]
         },
         "showSeatId": {
           "type": "string",
@@ -7179,9 +7388,16 @@
         },
         "qty": {
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "required": [
+            "qty"
+          ]
         }
-      }
+      },
+      "required": [
+        "showSalesTypeId",
+        "qty"
+      ]
     },
     "v1PlaceShowOrderReply": {
       "type": "object",
@@ -7195,15 +7411,25 @@
       "type": "object",
       "properties": {
         "showId": {
-          "type": "string"
+          "type": "string",
+          "required": [
+            "show_id"
+          ]
         },
         "salesType": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/v1OrderSalesType"
-          }
+          },
+          "required": [
+            "sales_type"
+          ]
         }
-      }
+      },
+      "required": [
+        "showId",
+        "salesType"
+      ]
     },
     "v1Price": {
       "type": "object",

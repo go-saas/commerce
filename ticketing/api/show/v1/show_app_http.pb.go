@@ -19,33 +19,33 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationShowAppServiceAppGetShow = "/ticketing.api.show.v1.ShowAppService/AppGetShow"
-const OperationShowAppServiceAppListShow = "/ticketing.api.show.v1.ShowAppService/AppListShow"
+const OperationShowAppServiceGetAppShow = "/ticketing.api.show.v1.ShowAppService/GetAppShow"
+const OperationShowAppServiceListAppShow = "/ticketing.api.show.v1.ShowAppService/ListAppShow"
 const OperationShowAppServicePlaceShowOrder = "/ticketing.api.show.v1.ShowAppService/PlaceShowOrder"
 
 type ShowAppServiceHTTPServer interface {
-	AppGetShow(context.Context, *GetShowRequest) (*Show, error)
-	AppListShow(context.Context, *ListShowRequest) (*ListShowReply, error)
+	GetAppShow(context.Context, *GetShowRequest) (*Show, error)
+	ListAppShow(context.Context, *ListShowRequest) (*ListShowReply, error)
 	PlaceShowOrder(context.Context, *PlaceShowOrderRequest) (*PlaceShowOrderReply, error)
 }
 
 func RegisterShowAppServiceHTTPServer(s *http.Server, srv ShowAppServiceHTTPServer) {
 	r := s.Route("/")
-	r.POST("/v1/ticketing/app/show/list", _ShowAppService_AppListShow0_HTTP_Handler(srv))
-	r.GET("/v1/ticketing/app/show", _ShowAppService_AppListShow1_HTTP_Handler(srv))
-	r.GET("/v1/ticketing/app/show/{id}", _ShowAppService_AppGetShow0_HTTP_Handler(srv))
+	r.POST("/v1/ticketing/app/show/list", _ShowAppService_ListAppShow0_HTTP_Handler(srv))
+	r.GET("/v1/ticketing/app/show", _ShowAppService_ListAppShow1_HTTP_Handler(srv))
+	r.GET("/v1/ticketing/app/show/{id}", _ShowAppService_GetAppShow0_HTTP_Handler(srv))
 	r.POST("/v1/ticketing/app/show/order", _ShowAppService_PlaceShowOrder0_HTTP_Handler(srv))
 }
 
-func _ShowAppService_AppListShow0_HTTP_Handler(srv ShowAppServiceHTTPServer) func(ctx http.Context) error {
+func _ShowAppService_ListAppShow0_HTTP_Handler(srv ShowAppServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in ListShowRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationShowAppServiceAppListShow)
+		http.SetOperation(ctx, OperationShowAppServiceListAppShow)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.AppListShow(ctx, req.(*ListShowRequest))
+			return srv.ListAppShow(ctx, req.(*ListShowRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -56,15 +56,15 @@ func _ShowAppService_AppListShow0_HTTP_Handler(srv ShowAppServiceHTTPServer) fun
 	}
 }
 
-func _ShowAppService_AppListShow1_HTTP_Handler(srv ShowAppServiceHTTPServer) func(ctx http.Context) error {
+func _ShowAppService_ListAppShow1_HTTP_Handler(srv ShowAppServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in ListShowRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationShowAppServiceAppListShow)
+		http.SetOperation(ctx, OperationShowAppServiceListAppShow)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.AppListShow(ctx, req.(*ListShowRequest))
+			return srv.ListAppShow(ctx, req.(*ListShowRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -75,7 +75,7 @@ func _ShowAppService_AppListShow1_HTTP_Handler(srv ShowAppServiceHTTPServer) fun
 	}
 }
 
-func _ShowAppService_AppGetShow0_HTTP_Handler(srv ShowAppServiceHTTPServer) func(ctx http.Context) error {
+func _ShowAppService_GetAppShow0_HTTP_Handler(srv ShowAppServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in GetShowRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -84,9 +84,9 @@ func _ShowAppService_AppGetShow0_HTTP_Handler(srv ShowAppServiceHTTPServer) func
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationShowAppServiceAppGetShow)
+		http.SetOperation(ctx, OperationShowAppServiceGetAppShow)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.AppGetShow(ctx, req.(*GetShowRequest))
+			return srv.GetAppShow(ctx, req.(*GetShowRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -117,8 +117,8 @@ func _ShowAppService_PlaceShowOrder0_HTTP_Handler(srv ShowAppServiceHTTPServer) 
 }
 
 type ShowAppServiceHTTPClient interface {
-	AppGetShow(ctx context.Context, req *GetShowRequest, opts ...http.CallOption) (rsp *Show, err error)
-	AppListShow(ctx context.Context, req *ListShowRequest, opts ...http.CallOption) (rsp *ListShowReply, err error)
+	GetAppShow(ctx context.Context, req *GetShowRequest, opts ...http.CallOption) (rsp *Show, err error)
+	ListAppShow(ctx context.Context, req *ListShowRequest, opts ...http.CallOption) (rsp *ListShowReply, err error)
 	PlaceShowOrder(ctx context.Context, req *PlaceShowOrderRequest, opts ...http.CallOption) (rsp *PlaceShowOrderReply, err error)
 }
 
@@ -130,11 +130,11 @@ func NewShowAppServiceHTTPClient(client *http.Client) ShowAppServiceHTTPClient {
 	return &ShowAppServiceHTTPClientImpl{client}
 }
 
-func (c *ShowAppServiceHTTPClientImpl) AppGetShow(ctx context.Context, in *GetShowRequest, opts ...http.CallOption) (*Show, error) {
+func (c *ShowAppServiceHTTPClientImpl) GetAppShow(ctx context.Context, in *GetShowRequest, opts ...http.CallOption) (*Show, error) {
 	var out Show
 	pattern := "/v1/ticketing/app/show/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationShowAppServiceAppGetShow))
+	opts = append(opts, http.Operation(OperationShowAppServiceGetAppShow))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -143,11 +143,11 @@ func (c *ShowAppServiceHTTPClientImpl) AppGetShow(ctx context.Context, in *GetSh
 	return &out, err
 }
 
-func (c *ShowAppServiceHTTPClientImpl) AppListShow(ctx context.Context, in *ListShowRequest, opts ...http.CallOption) (*ListShowReply, error) {
+func (c *ShowAppServiceHTTPClientImpl) ListAppShow(ctx context.Context, in *ListShowRequest, opts ...http.CallOption) (*ListShowReply, error) {
 	var out ListShowReply
 	pattern := "/v1/ticketing/app/show"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationShowAppServiceAppListShow))
+	opts = append(opts, http.Operation(OperationShowAppServiceListAppShow))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {

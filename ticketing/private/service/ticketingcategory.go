@@ -16,6 +16,9 @@ type TicketingCategoryService struct {
 	auth authz.Service
 }
 
+var _ pb.TicketingCategoryServiceServer = (*TicketingCategoryService)(nil)
+var _ pb.TicketingCategoryAppServiceServer = (*TicketingCategoryService)(nil)
+
 func NewTicketingCategoryService(repo biz.TicketingCategoryRepo,
 	auth authz.Service) *TicketingCategoryService {
 	return &TicketingCategoryService{repo: repo, auth: auth}
@@ -44,6 +47,23 @@ func (s *TicketingCategoryService) ListCategory(ctx context.Context, req *pb.Lis
 		return b
 	})
 
+	ret.Items = rItems
+	return ret, nil
+}
+
+func (s *TicketingCategoryService) ListAppCategory(ctx context.Context, request *pb.ListAppCategoryRequest) (*pb.ListAppCategoryReply, error) {
+	ret := &pb.ListAppCategoryReply{}
+	items, err := s.repo.List(ctx, &pb.ListCategoryRequest{
+		PageSize: -1,
+	})
+	if err != nil {
+		return ret, err
+	}
+	rItems := lo.Map(items, func(g *biz.TicketingCategory, _ int) *pb.Category {
+		b := &pb.Category{}
+		MapBizCategory2Pb(ctx, g, b)
+		return b
+	})
 	ret.Items = rItems
 	return ret, nil
 }

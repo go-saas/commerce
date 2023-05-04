@@ -4,12 +4,15 @@ import (
 	"context"
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/transport/http"
+	v12 "github.com/go-saas/commerce/order/api/order/v1"
 	"github.com/go-saas/commerce/ticketing/api"
 	v13 "github.com/go-saas/commerce/ticketing/api/activity/v1"
 	v1 "github.com/go-saas/commerce/ticketing/api/location/v1"
 	pb "github.com/go-saas/commerce/ticketing/api/show/v1"
 	"github.com/go-saas/commerce/ticketing/private/biz"
+	"github.com/go-saas/kit/pkg/authn"
 	"github.com/go-saas/kit/pkg/authz/authz"
+	"github.com/go-saas/kit/pkg/localize"
 	"github.com/go-saas/kit/pkg/price"
 	"github.com/go-saas/kit/pkg/utils"
 	"github.com/google/uuid"
@@ -27,6 +30,7 @@ type ShowService struct {
 	activitySrv  *ActivityService
 	locationSrv  *LocationService
 	*UploadService
+	orderSrv v12.OrderInternalServiceServer
 }
 
 var _ pb.ShowServiceServer = (*ShowService)(nil)
@@ -41,6 +45,7 @@ func NewShowService(
 	activitySrv *ActivityService,
 	locationSrv *LocationService,
 	upload *UploadService,
+	orderSrv v12.OrderInternalServiceServer,
 ) *ShowService {
 	return &ShowService{
 		repo:          repo,
@@ -52,6 +57,7 @@ func NewShowService(
 		activitySrv:   activitySrv,
 		locationSrv:   locationSrv,
 		UploadService: upload,
+		orderSrv:      orderSrv,
 	}
 }
 
@@ -185,7 +191,7 @@ func (s *ShowService) UploadMedias(ctx http.Context) error {
 	})
 }
 
-func (s *ShowService) AppListShow(ctx context.Context, req *pb.ListShowRequest) (*pb.ListShowReply, error) {
+func (s *ShowService) ListAppShow(ctx context.Context, req *pb.ListShowRequest) (*pb.ListShowReply, error) {
 
 	ret := &pb.ListShowReply{}
 
@@ -210,7 +216,7 @@ func (s *ShowService) AppListShow(ctx context.Context, req *pb.ListShowRequest) 
 	return ret, nil
 }
 
-func (s *ShowService) AppGetShow(ctx context.Context, req *pb.GetShowRequest) (*pb.Show, error) {
+func (s *ShowService) GetAppShow(ctx context.Context, req *pb.GetShowRequest) (*pb.Show, error) {
 	g, err := s.repo.Get(ctx, req.GetId())
 	if err != nil {
 		return nil, err
@@ -223,9 +229,50 @@ func (s *ShowService) AppGetShow(ctx context.Context, req *pb.GetShowRequest) (*
 	return res, nil
 }
 
-func (s *ShowService) PlaceShowOrder(ctx context.Context, request *pb.PlaceShowOrderRequest) (*pb.PlaceShowOrderReply, error) {
-	//TODO implement me
-	panic("implement me")
+func (s *ShowService) PlaceShowOrder(ctx context.Context, req *pb.PlaceShowOrderRequest) (*pb.PlaceShowOrderReply, error) {
+	userInfo, err := authn.ErrIfUnauthenticated(ctx)
+	if err != nil {
+		return nil, err
+	}
+	g, err := s.repo.Get(ctx, req.ShowId)
+	if err != nil {
+		return nil, err
+	}
+	if g == nil {
+		return nil, errors.NotFound("", "")
+	}
+
+	createOrderReq := &v12.CreateInternalOrderRequest{
+		ShippingAddr: nil,
+		BillingAddr:  nil,
+		CustomerId:   userInfo.GetId(),
+	}
+	var orderItems []*v12.CreateInternalOrderItem
+	for _, salesType := range req.SalesType {
+		if salesType.ShowSeatId != nil && salesType.Qty != 1 {
+			return nil, pb.ErrorShowOrderQtyInvalidLocalized(localize.FromContext(ctx), nil, nil)
+		}
+		st, ok := lo.Find(g.SalesTypes, func(item biz.ShowSalesType) bool {
+			return item.ID.String() == salesType.ShowSalesTypeId
+		})
+		if !ok {
+			return nil, errors.NotFound("SHOW_SALES_TYPE_NOT_FOUND", "")
+		}
+		orderItems = append(orderItems, &v12.CreateInternalOrderItem{
+			Qty:           salesType.Qty,
+			OriginalPrice: st.Price.Default.ToPricePb(),
+			Price:         st.Price.Discounted.ToPricePb(),
+			IsGiveaway:    false,
+			Product:       nil,
+		})
+	}
+	createOrderReq.Items = orderItems
+	order, err := s.orderSrv.CreateInternalOrder(ctx, createOrderReq)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.PlaceShowOrderReply{OrderId: order.Id}, nil
+
 }
 
 func (s *ShowService) MapBizShow2Pb(ctx context.Context, a *biz.Show, b *pb.Show) {

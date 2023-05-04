@@ -57,7 +57,27 @@ func (m *PlaceShowOrderRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for ShowId
+	if utf8.RuneCountInString(m.GetShowId()) < 1 {
+		err := PlaceShowOrderRequestValidationError{
+			field:  "ShowId",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(m.GetSalesType()) < 1 {
+		err := PlaceShowOrderRequestValidationError{
+			field:  "SalesType",
+			reason: "value must contain at least 1 item(s)",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	for idx, item := range m.GetSalesType() {
 		_, _ = idx, item
@@ -195,9 +215,27 @@ func (m *OrderSalesType) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for ShowSalesTypeId
+	if utf8.RuneCountInString(m.GetShowSalesTypeId()) < 1 {
+		err := OrderSalesTypeValidationError{
+			field:  "ShowSalesTypeId",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for Qty
+	if m.GetQty() <= 0 {
+		err := OrderSalesTypeValidationError{
+			field:  "Qty",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	if m.ShowSeatId != nil {
 		// no validation rules for ShowSeatId

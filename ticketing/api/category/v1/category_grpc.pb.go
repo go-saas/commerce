@@ -253,3 +253,91 @@ var TicketingCategoryService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "ticketing/api/category/v1/category.proto",
 }
+
+const (
+	TicketingCategoryAppService_ListAppCategory_FullMethodName = "/ticketing.api.category.v1.TicketingCategoryAppService/ListAppCategory"
+)
+
+// TicketingCategoryAppServiceClient is the client API for TicketingCategoryAppService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type TicketingCategoryAppServiceClient interface {
+	ListAppCategory(ctx context.Context, in *ListAppCategoryRequest, opts ...grpc.CallOption) (*ListAppCategoryReply, error)
+}
+
+type ticketingCategoryAppServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewTicketingCategoryAppServiceClient(cc grpc.ClientConnInterface) TicketingCategoryAppServiceClient {
+	return &ticketingCategoryAppServiceClient{cc}
+}
+
+func (c *ticketingCategoryAppServiceClient) ListAppCategory(ctx context.Context, in *ListAppCategoryRequest, opts ...grpc.CallOption) (*ListAppCategoryReply, error) {
+	out := new(ListAppCategoryReply)
+	err := c.cc.Invoke(ctx, TicketingCategoryAppService_ListAppCategory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TicketingCategoryAppServiceServer is the server API for TicketingCategoryAppService service.
+// All implementations should embed UnimplementedTicketingCategoryAppServiceServer
+// for forward compatibility
+type TicketingCategoryAppServiceServer interface {
+	ListAppCategory(context.Context, *ListAppCategoryRequest) (*ListAppCategoryReply, error)
+}
+
+// UnimplementedTicketingCategoryAppServiceServer should be embedded to have forward compatible implementations.
+type UnimplementedTicketingCategoryAppServiceServer struct {
+}
+
+func (UnimplementedTicketingCategoryAppServiceServer) ListAppCategory(context.Context, *ListAppCategoryRequest) (*ListAppCategoryReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAppCategory not implemented")
+}
+
+// UnsafeTicketingCategoryAppServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TicketingCategoryAppServiceServer will
+// result in compilation errors.
+type UnsafeTicketingCategoryAppServiceServer interface {
+	mustEmbedUnimplementedTicketingCategoryAppServiceServer()
+}
+
+func RegisterTicketingCategoryAppServiceServer(s grpc.ServiceRegistrar, srv TicketingCategoryAppServiceServer) {
+	s.RegisterService(&TicketingCategoryAppService_ServiceDesc, srv)
+}
+
+func _TicketingCategoryAppService_ListAppCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAppCategoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TicketingCategoryAppServiceServer).ListAppCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TicketingCategoryAppService_ListAppCategory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TicketingCategoryAppServiceServer).ListAppCategory(ctx, req.(*ListAppCategoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// TicketingCategoryAppService_ServiceDesc is the grpc.ServiceDesc for TicketingCategoryAppService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var TicketingCategoryAppService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "ticketing.api.category.v1.TicketingCategoryAppService",
+	HandlerType: (*TicketingCategoryAppServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "ListAppCategory",
+			Handler:    _TicketingCategoryAppService_ListAppCategory_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "ticketing/api/category/v1/category.proto",
+}

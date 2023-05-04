@@ -22,17 +22,12 @@ func NewGrpcConn(client *conf.Client, services *conf.Services, dis registry.Disc
 	return api.NewGrpcConn(client, ServiceName, services, dis, opt, tokenMgr, logger, opts)
 }
 
-func NewHttpClient(client *conf.Client, services *conf.Services, dis registry.Discovery, opt *api.Option, tokenMgr api.TokenManager, logger log.Logger, opts []http.ClientOption) (HttpClient, func()) {
-	return api.NewHttpClient(client, ServiceName, services, dis, opt, tokenMgr, logger, opts)
+var GrpcProviderSet = kitdi.NewSet(NewGrpcConn, NewOrderGrpcClient, NewOrderInternalGrpcClient)
+
+func NewOrderGrpcClient(conn GrpcConn) v1.OrderServiceServer {
+	return v1.NewOrderServiceClientProxy(v1.NewOrderServiceClient(conn))
 }
 
-var GrpcProviderSet = kitdi.NewSet(NewGrpcConn, NewOrderGrpcClient)
-var HttpProviderSet = kitdi.NewSet(NewHttpClient, NewOrderHttpClient)
-
-func NewOrderGrpcClient(conn GrpcConn) v1.OrderServiceClient {
-	return v1.NewOrderServiceClient(conn)
-}
-
-func NewOrderHttpClient(http HttpClient) v1.OrderServiceHTTPClient {
-	return v1.NewOrderServiceHTTPClient(http)
+func NewOrderInternalGrpcClient(conn GrpcConn) v1.OrderInternalServiceServer {
+	return v1.NewOrderInternalServiceClientProxy(v1.NewOrderInternalServiceClient(conn))
 }

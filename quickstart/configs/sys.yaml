@@ -51,7 +51,11 @@ sys:
       cors:
         plugins:
           cors:
-            allow_origins: "*"
+            allow_origins: "**"
+            allow_methods: "**"
+            allow_headers: "**"
+            expose_headers: "**"
+            allow_credential: true
     routes:
       hydra-public:
         uris: [ "/.well-known/jwks.json","/.well-known/openid-configuration","/oauth2/*","/userinfo" ]
@@ -107,6 +111,10 @@ sys:
       ticketing-api:
         uris: [ "/v1/ticketing/*","/assets/ticketing/*" ]
         upstream_id: ticketing-http
+
+      order-api:
+        uris: [ "/v1/order/*","/assets/order/*" ]
+        upstream_id: order-http
 
       user-api:
         priority: -99

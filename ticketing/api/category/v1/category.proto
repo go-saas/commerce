@@ -53,6 +53,30 @@ service TicketingCategoryService {
 
 }
 
+service TicketingCategoryAppService {
+  rpc ListAppCategory (ListAppCategoryRequest) returns (ListAppCategoryReply){
+    option (google.api.http) = {
+      get: "/v1/ticketing/app/category",
+      additional_bindings:{
+        post:"/v1/ticketing/app/category/list",
+        body:"*"
+      }
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["TicketingCategoryAppService","UsageApp"];
+    };
+  }
+}
+
+message ListAppCategoryRequest{
+
+}
+
+message ListAppCategoryReply{
+  repeated Category items=3;
+}
+
+
 message CreateCategoryRequest {
   string key=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED,(validate.rules).string.pattern="^[a-z0-9]{1,13}$"];
   string name =2 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
@@ -100,6 +124,7 @@ message ListCategoryReply {
   int32 filter_size =2;
   repeated Category items=3;
 }
+
 message Category{
   string key=1;
   string name=2;

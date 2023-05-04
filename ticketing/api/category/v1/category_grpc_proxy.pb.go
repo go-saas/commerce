@@ -24,6 +24,10 @@ const GrpcOperationTicketingCategoryServiceCreateCategory = "/ticketing.api.cate
 const GrpcOperationTicketingCategoryServiceUpdateCategory = "/ticketing.api.category.v1.TicketingCategoryService/UpdateCategory"
 const GrpcOperationTicketingCategoryServiceDeleteCategory = "/ticketing.api.category.v1.TicketingCategoryService/DeleteCategory"
 
+var _ TicketingCategoryAppServiceServer = (*ticketingCategoryAppServiceClientProxy)(nil)
+
+const GrpcOperationTicketingCategoryAppServiceListAppCategory = "/ticketing.api.category.v1.TicketingCategoryAppService/ListAppCategory"
+
 // ticketingCategoryServiceClientProxy is the proxy to turn TicketingCategoryService client to server interface.
 type ticketingCategoryServiceClientProxy struct {
 	cc TicketingCategoryServiceClient
@@ -47,4 +51,17 @@ func (c *ticketingCategoryServiceClientProxy) UpdateCategory(ctx context.Context
 }
 func (c *ticketingCategoryServiceClientProxy) DeleteCategory(ctx context.Context, in *DeleteCategoryRequest) (*DeleteCategoryReply, error) {
 	return c.cc.DeleteCategory(ctx, in)
+}
+
+// ticketingCategoryAppServiceClientProxy is the proxy to turn TicketingCategoryAppService client to server interface.
+type ticketingCategoryAppServiceClientProxy struct {
+	cc TicketingCategoryAppServiceClient
+}
+
+func NewTicketingCategoryAppServiceClientProxy(cc TicketingCategoryAppServiceClient) TicketingCategoryAppServiceServer {
+	return &ticketingCategoryAppServiceClientProxy{cc}
+}
+
+func (c *ticketingCategoryAppServiceClientProxy) ListAppCategory(ctx context.Context, in *ListAppCategoryRequest) (*ListAppCategoryReply, error) {
+	return c.cc.ListAppCategory(ctx, in)
 }

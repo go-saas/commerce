@@ -18,8 +18,8 @@ const _ = grpc.SupportPackageIsVersion7
 
 var _ ShowAppServiceServer = (*showAppServiceClientProxy)(nil)
 
-const GrpcOperationShowAppServiceAppListShow = "/ticketing.api.show.v1.ShowAppService/AppListShow"
-const GrpcOperationShowAppServiceAppGetShow = "/ticketing.api.show.v1.ShowAppService/AppGetShow"
+const GrpcOperationShowAppServiceListAppShow = "/ticketing.api.show.v1.ShowAppService/ListAppShow"
+const GrpcOperationShowAppServiceGetAppShow = "/ticketing.api.show.v1.ShowAppService/GetAppShow"
 const GrpcOperationShowAppServicePlaceShowOrder = "/ticketing.api.show.v1.ShowAppService/PlaceShowOrder"
 
 // showAppServiceClientProxy is the proxy to turn ShowAppService client to server interface.
@@ -31,11 +31,11 @@ func NewShowAppServiceClientProxy(cc ShowAppServiceClient) ShowAppServiceServer 
 	return &showAppServiceClientProxy{cc}
 }
 
-func (c *showAppServiceClientProxy) AppListShow(ctx context.Context, in *ListShowRequest) (*ListShowReply, error) {
-	return c.cc.AppListShow(ctx, in)
+func (c *showAppServiceClientProxy) ListAppShow(ctx context.Context, in *ListShowRequest) (*ListShowReply, error) {
+	return c.cc.ListAppShow(ctx, in)
 }
-func (c *showAppServiceClientProxy) AppGetShow(ctx context.Context, in *GetShowRequest) (*Show, error) {
-	return c.cc.AppGetShow(ctx, in)
+func (c *showAppServiceClientProxy) GetAppShow(ctx context.Context, in *GetShowRequest) (*Show, error) {
+	return c.cc.GetAppShow(ctx, in)
 }
 func (c *showAppServiceClientProxy) PlaceShowOrder(ctx context.Context, in *PlaceShowOrderRequest) (*PlaceShowOrderReply, error) {
 	return c.cc.PlaceShowOrder(ctx, in)
