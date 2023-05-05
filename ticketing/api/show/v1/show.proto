@@ -96,11 +96,17 @@ message ListShowRequest {
   repeated string sort =4;
   google.protobuf.FieldMask fields=5;
   ShowFilter filter =6;
+
+  string after_page_token =10;
+  string before_page_token =11;
 }
 message ListShowReply {
   int32 total_size =1;
   int32 filter_size =2;
   repeated Show items=3;
+
+  optional string next_after_page_token=4;
+  optional string next_before_page_token=5;
 }
 
 message Show{

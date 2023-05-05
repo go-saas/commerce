@@ -69,8 +69,32 @@ service OrderService {
       delete: "/v1/order/order/{id}"
     };
   }
-
 }
+
+
+service OrderAppService{
+  rpc ListAppOrder (ListOrderRequest) returns (ListOrderReply){
+    option (google.api.http) = {
+      get: "/v1/order/app/order",
+      additional_bindings:{
+        post:"/v1/order/app/order/list",
+        body:"*"
+      }
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["OrderAppService","UsageApp"];
+    };
+  }
+  rpc GetAppOrder (GetOrderRequest) returns (Order){
+    option (google.api.http) = {
+      get: "/v1/order/app/order/{id}"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["OrderAppService","UsageApp"];
+    };
+  }
+}
+
 
 message CreateOrderRequest {
   string name =1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
@@ -102,7 +126,9 @@ message GetOrderRequest {
 message OrderFilter{
   query.operation.StringFilterOperation id=1;
   query.operation.StringFilterOperation name =2;
+  query.operation.StringFilterOperation customer_id =10;
 }
+
 message ListOrderRequest {
   int32 page_offset =1;
   int32 page_size = 2;
@@ -110,12 +136,18 @@ message ListOrderRequest {
   repeated string sort =4;
   google.protobuf.FieldMask fields=5;
   OrderFilter filter =6;
+
+  string after_page_token =10;
+  string before_page_token =11;
 }
 
 message ListOrderReply {
   int32 total_size =1;
   int32 filter_size =2;
   repeated Order items=3;
+
+  optional string next_after_page_token=4;
+  optional string next_before_page_token=5;
 }
 
 message Order{

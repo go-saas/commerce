@@ -834,6 +834,10 @@ func (m *ListShowRequest) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for AfterPageToken
+
+	// no validation rules for BeforePageToken
+
 	if len(errors) > 0 {
 		return ListShowRequestMultiError(errors)
 	}
@@ -970,6 +974,14 @@ func (m *ListShowReply) validate(all bool) error {
 			}
 		}
 
+	}
+
+	if m.NextAfterPageToken != nil {
+		// no validation rules for NextAfterPageToken
+	}
+
+	if m.NextBeforePageToken != nil {
+		// no validation rules for NextBeforePageToken
 	}
 
 	if len(errors) > 0 {

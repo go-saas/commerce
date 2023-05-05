@@ -54,6 +54,9 @@ func (c *OrderRepo) BuildFilterScope(q *v1.ListOrderRequest) func(db *gorm.DB) *
 		if filter.Name != nil {
 			ret = ret.Scopes(kitgorm.BuildStringFilter("`name`", filter.Name))
 		}
+		if filter.CustomerId != nil {
+			ret = ret.Scopes(kitgorm.BuildStringFilter("`customer_id`", filter.Name))
+		}
 		return ret
 	}
 }

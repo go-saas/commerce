@@ -830,6 +830,35 @@ func (m *OrderFilter) validate(all bool) error {
 		}
 	}
 
+	if all {
+		switch v := interface{}(m.GetCustomerId()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, OrderFilterValidationError{
+					field:  "CustomerId",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, OrderFilterValidationError{
+					field:  "CustomerId",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCustomerId()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return OrderFilterValidationError{
+				field:  "CustomerId",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
 		return OrderFilterMultiError(errors)
 	}
@@ -993,6 +1022,10 @@ func (m *ListOrderRequest) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for AfterPageToken
+
+	// no validation rules for BeforePageToken
+
 	if len(errors) > 0 {
 		return ListOrderRequestMultiError(errors)
 	}
@@ -1129,6 +1162,14 @@ func (m *ListOrderReply) validate(all bool) error {
 			}
 		}
 
+	}
+
+	if m.NextAfterPageToken != nil {
+		// no validation rules for NextAfterPageToken
+	}
+
+	if m.NextBeforePageToken != nil {
+		// no validation rules for NextBeforePageToken
 	}
 
 	if len(errors) > 0 {

@@ -269,3 +269,117 @@ func (c *OrderServiceHTTPClientImpl) UpdateOrder(ctx context.Context, in *Update
 	}
 	return &out, err
 }
+
+const OperationOrderAppServiceGetAppOrder = "/order.api.order.v1.OrderAppService/GetAppOrder"
+const OperationOrderAppServiceListAppOrder = "/order.api.order.v1.OrderAppService/ListAppOrder"
+
+type OrderAppServiceHTTPServer interface {
+	GetAppOrder(context.Context, *GetOrderRequest) (*Order, error)
+	ListAppOrder(context.Context, *ListOrderRequest) (*ListOrderReply, error)
+}
+
+func RegisterOrderAppServiceHTTPServer(s *http.Server, srv OrderAppServiceHTTPServer) {
+	r := s.Route("/")
+	r.POST("/v1/order/app/order/list", _OrderAppService_ListAppOrder0_HTTP_Handler(srv))
+	r.GET("/v1/order/app/order", _OrderAppService_ListAppOrder1_HTTP_Handler(srv))
+	r.GET("/v1/order/app/order/{id}", _OrderAppService_GetAppOrder0_HTTP_Handler(srv))
+}
+
+func _OrderAppService_ListAppOrder0_HTTP_Handler(srv OrderAppServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListOrderRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationOrderAppServiceListAppOrder)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListAppOrder(ctx, req.(*ListOrderRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListOrderReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _OrderAppService_ListAppOrder1_HTTP_Handler(srv OrderAppServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListOrderRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationOrderAppServiceListAppOrder)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListAppOrder(ctx, req.(*ListOrderRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListOrderReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _OrderAppService_GetAppOrder0_HTTP_Handler(srv OrderAppServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetOrderRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationOrderAppServiceGetAppOrder)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetAppOrder(ctx, req.(*GetOrderRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*Order)
+		return ctx.Result(200, reply)
+	}
+}
+
+type OrderAppServiceHTTPClient interface {
+	GetAppOrder(ctx context.Context, req *GetOrderRequest, opts ...http.CallOption) (rsp *Order, err error)
+	ListAppOrder(ctx context.Context, req *ListOrderRequest, opts ...http.CallOption) (rsp *ListOrderReply, err error)
+}
+
+type OrderAppServiceHTTPClientImpl struct {
+	cc *http.Client
+}
+
+func NewOrderAppServiceHTTPClient(client *http.Client) OrderAppServiceHTTPClient {
+	return &OrderAppServiceHTTPClientImpl{client}
+}
+
+func (c *OrderAppServiceHTTPClientImpl) GetAppOrder(ctx context.Context, in *GetOrderRequest, opts ...http.CallOption) (*Order, error) {
+	var out Order
+	pattern := "/v1/order/app/order/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationOrderAppServiceGetAppOrder))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *OrderAppServiceHTTPClientImpl) ListAppOrder(ctx context.Context, in *ListOrderRequest, opts ...http.CallOption) (*ListOrderReply, error) {
+	var out ListOrderReply
+	pattern := "/v1/order/app/order"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationOrderAppServiceListAppOrder))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}

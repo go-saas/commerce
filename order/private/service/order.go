@@ -8,10 +8,13 @@ import (
 	pb "github.com/go-saas/commerce/order/api/order/v1"
 	"github.com/go-saas/commerce/order/private/biz"
 	sapi "github.com/go-saas/kit/pkg/api"
+	"github.com/go-saas/kit/pkg/authn"
 	"github.com/go-saas/kit/pkg/authz/authz"
 	"github.com/go-saas/kit/pkg/price"
+	"github.com/go-saas/kit/pkg/query"
 	"github.com/go-saas/kit/pkg/utils"
 	"github.com/samber/lo"
+	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 type OrderService struct {
@@ -23,9 +26,58 @@ type OrderService struct {
 
 var _ pb.OrderServiceServer = (*OrderService)(nil)
 var _ pb.OrderInternalServiceServer = (*OrderService)(nil)
+var _ pb.OrderAppServiceServer = (*OrderService)(nil)
 
 func NewOrderService(repo biz.OrderRepo, auth authz.Service, trust sapi.TrustedContextValidator) *OrderService {
 	return &OrderService{repo: repo, auth: auth, trust: trust}
+}
+
+func (s *OrderService) ListAppOrder(ctx context.Context, req *pb.ListOrderRequest) (*pb.ListOrderReply, error) {
+	userInfo, err := authn.ErrIfUnauthenticated(ctx)
+	if err != nil {
+		return nil, err
+	}
+	ret := &pb.ListOrderReply{}
+	if req.Filter == nil {
+		req.Filter = &pb.OrderFilter{}
+	}
+	req.Filter.CustomerId = &query.StringFilterOperation{Eq: &wrapperspb.StringValue{Value: userInfo.GetId()}}
+	cursorRet, err := s.repo.ListCursor(ctx, req)
+	ret.NextBeforePageToken = cursorRet.Before
+	ret.NextAfterPageToken = cursorRet.After
+
+	if err != nil {
+		return ret, err
+	}
+	items, err := s.repo.List(ctx, req)
+	if err != nil {
+		return ret, err
+	}
+	rItems := lo.Map(items, func(g *biz.Order, _ int) *pb.Order {
+		b := &pb.Order{}
+		MapBizOrder2Pb(g, b)
+		return b
+	})
+
+	ret.Items = rItems
+	return ret, nil
+}
+
+func (s *OrderService) GetAppOrder(ctx context.Context, req *pb.GetOrderRequest) (*pb.Order, error) {
+	userInfo, err := authn.ErrIfUnauthenticated(ctx)
+	if err != nil {
+		return nil, err
+	}
+	g, err := s.repo.Get(ctx, req.GetId())
+	if err != nil {
+		return nil, err
+	}
+	if g == nil || g.CustomerID != userInfo.GetId() {
+		return nil, errors.NotFound("", "")
+	}
+	res := &pb.Order{}
+	MapBizOrder2Pb(g, res)
+	return res, nil
 }
 
 func (s *OrderService) ListOrder(ctx context.Context, req *pb.ListOrderRequest) (*pb.ListOrderReply, error) {

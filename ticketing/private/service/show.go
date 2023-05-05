@@ -195,9 +195,9 @@ func (s *ShowService) ListAppShow(ctx context.Context, req *pb.ListShowRequest) 
 
 	ret := &pb.ListShowReply{}
 
-	totalCount, filterCount, err := s.repo.Count(ctx, req)
-	ret.TotalSize = int32(totalCount)
-	ret.FilterSize = int32(filterCount)
+	cursorRet, err := s.repo.ListCursor(ctx, req)
+	ret.NextBeforePageToken = cursorRet.Before
+	ret.NextAfterPageToken = cursorRet.After
 
 	if err != nil {
 		return ret, err

@@ -24,6 +24,11 @@ const GrpcOperationOrderServiceCreateOrder = "/order.api.order.v1.OrderService/C
 const GrpcOperationOrderServiceUpdateOrder = "/order.api.order.v1.OrderService/UpdateOrder"
 const GrpcOperationOrderServiceDeleteOrder = "/order.api.order.v1.OrderService/DeleteOrder"
 
+var _ OrderAppServiceServer = (*orderAppServiceClientProxy)(nil)
+
+const GrpcOperationOrderAppServiceListAppOrder = "/order.api.order.v1.OrderAppService/ListAppOrder"
+const GrpcOperationOrderAppServiceGetAppOrder = "/order.api.order.v1.OrderAppService/GetAppOrder"
+
 // orderServiceClientProxy is the proxy to turn OrderService client to server interface.
 type orderServiceClientProxy struct {
 	cc OrderServiceClient
@@ -47,4 +52,20 @@ func (c *orderServiceClientProxy) UpdateOrder(ctx context.Context, in *UpdateOrd
 }
 func (c *orderServiceClientProxy) DeleteOrder(ctx context.Context, in *DeleteOrderRequest) (*DeleteOrderReply, error) {
 	return c.cc.DeleteOrder(ctx, in)
+}
+
+// orderAppServiceClientProxy is the proxy to turn OrderAppService client to server interface.
+type orderAppServiceClientProxy struct {
+	cc OrderAppServiceClient
+}
+
+func NewOrderAppServiceClientProxy(cc OrderAppServiceClient) OrderAppServiceServer {
+	return &orderAppServiceClientProxy{cc}
+}
+
+func (c *orderAppServiceClientProxy) ListAppOrder(ctx context.Context, in *ListOrderRequest) (*ListOrderReply, error) {
+	return c.cc.ListAppOrder(ctx, in)
+}
+func (c *orderAppServiceClientProxy) GetAppOrder(ctx context.Context, in *GetOrderRequest) (*Order, error) {
+	return c.cc.GetAppOrder(ctx, in)
 }
