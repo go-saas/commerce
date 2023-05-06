@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/bojanz/currency v1.1.2
-	github.com/cockroachdb/apd v1.1.0
+	github.com/cockroachdb/apd/v3 v3.1.2
 	github.com/envoyproxy/protoc-gen-validate v0.9.1
 	github.com/flowchartsman/swaggerui v0.0.0-20221017034628-909ed4f3701b
 	github.com/go-chi/chi/v5 v5.0.8
@@ -53,7 +53,6 @@ require (
 	github.com/casbin/gorm-adapter/v3 v3.12.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.1.3 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
-	github.com/cockroachdb/apd/v3 v3.1.2 // indirect
 	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/coreos/go-systemd/v22 v22.4.0 // indirect
 	github.com/danieljoos/wincred v1.1.2 // indirect
