@@ -213,6 +213,6 @@ replace (
 	github.com/99designs/keyring => github.com/99designs/keyring v1.2.1
 	github.com/dtm-labs/client => github.com/goxiaoy/client v0.0.0-20230202163110-7dfe91ab1b7f
 	github.com/dtm-labs/dtm => github.com/goxiaoy/dtm v0.0.0-20230212053702-b57b19825025
-	github.com/go-saas/kit => github.com/go-saas/kit v0.0.5-0.20230504085006-77a65542ea93
+	github.com/go-saas/kit => github.com/go-saas/kit v0.0.5-0.20230506062437-89150181e2ae
 	github.com/hibiken/asynqmon => github.com/goxiaoy/asynqmon v0.7.2-0.20220620161318-80231130441b
 )
