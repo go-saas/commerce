@@ -292,6 +292,8 @@ func (s *ShowService) MapBizShow2Pb(ctx context.Context, a *biz.Show, b *pb.Show
 	b.StartTime = utils.Time2Timepb(&a.StartTime)
 	b.EndTime = utils.Time2Timepb(&a.EndTime)
 
+	b.IsRecommend = a.IsRecommend
+
 	b.LocationId = a.LocationID
 	if a.Location != nil {
 		b.Location = &v1.Location{}
