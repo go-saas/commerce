@@ -196,6 +196,9 @@ func (s *ShowService) ListAppShow(ctx context.Context, req *pb.ListShowRequest) 
 	ret := &pb.ListShowReply{}
 
 	cursorRet, err := s.repo.ListCursor(ctx, req)
+	if err != nil {
+		return nil, err
+	}
 	ret.NextBeforePageToken = cursorRet.Before
 	ret.NextAfterPageToken = cursorRet.After
 

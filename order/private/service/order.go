@@ -43,6 +43,9 @@ func (s *OrderService) ListAppOrder(ctx context.Context, req *pb.ListOrderReques
 	}
 	req.Filter.CustomerId = &query.StringFilterOperation{Eq: &wrapperspb.StringValue{Value: userInfo.GetId()}}
 	cursorRet, err := s.repo.ListCursor(ctx, req)
+	if err != nil {
+		return nil, err
+	}
 	ret.NextBeforePageToken = cursorRet.Before
 	ret.NextAfterPageToken = cursorRet.After
 
