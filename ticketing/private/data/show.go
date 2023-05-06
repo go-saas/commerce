@@ -58,7 +58,7 @@ func (c *ShowRepo) BuildFilterScope(q *v1.ListShowRequest) func(db *gorm.DB) *go
 			ret = ret.Scopes(kitgorm.BuildStringFilter("`name`", filter.Name))
 		}
 		if filter.IsRecommend != nil {
-			ret = ret.Scopes(kitgorm.BuildStringFilter("`is_recommend`", filter.Name))
+			ret = ret.Scopes(kitgorm.BuildBooleanFilter("`is_recommend`", filter.IsRecommend))
 		}
 		return ret
 	}
