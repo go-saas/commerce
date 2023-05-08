@@ -165,71 +165,11 @@ func (s *ShowService) DeleteShow(ctx context.Context, req *pb.DeleteShowRequest)
 	return &pb.DeleteShowReply{Id: g.ID.String()}, nil
 }
 
-func (s *ShowService) RecommendShow(ctx context.Context, req *pb.RecommendShowRequest) (*pb.RecommendShowReply, error) {
-	if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceShow, req.Id), api.ActionShowRecommend); err != nil {
-		return nil, err
-	}
-	g, err := s.repo.Get(ctx, req.Id)
-	if err != nil {
-		return nil, err
-	}
-	if g == nil {
-		return nil, errors.NotFound("", "")
-	}
-	g.IsRecommend = req.IsRecommend
-	err = s.repo.Update(ctx, req.Id, g, nil)
-	if err != nil {
-		return nil, err
-	}
-	return &pb.RecommendShowReply{Id: req.Id}, nil
-}
-
 func (s *ShowService) UploadMedias(ctx http.Context) error {
 	return s.upload(ctx, biz.ShowMediaPath, func(ctx context.Context) error {
 		_, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceShow, "*"), authz.WriteAction)
 		return err
 	})
-}
-
-func (s *ShowService) ListAppShow(ctx context.Context, req *pb.ListShowRequest) (*pb.ListShowReply, error) {
-
-	ret := &pb.ListShowReply{}
-
-	cursorRet, err := s.repo.ListCursor(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-	ret.NextBeforePageToken = cursorRet.Before
-	ret.NextAfterPageToken = cursorRet.After
-
-	if err != nil {
-		return ret, err
-	}
-	items, err := s.repo.List(ctx, req)
-	if err != nil {
-		return ret, err
-	}
-	rItems := lo.Map(items, func(g *biz.Show, _ int) *pb.Show {
-		b := &pb.Show{}
-		s.MapBizShow2Pb(ctx, g, b)
-		return b
-	})
-
-	ret.Items = rItems
-	return ret, nil
-}
-
-func (s *ShowService) GetAppShow(ctx context.Context, req *pb.GetShowRequest) (*pb.Show, error) {
-	g, err := s.repo.Get(ctx, req.GetId())
-	if err != nil {
-		return nil, err
-	}
-	if g == nil {
-		return nil, errors.NotFound("", "")
-	}
-	res := &pb.Show{}
-	s.MapBizShow2Pb(ctx, g, res)
-	return res, nil
 }
 
 func (s *ShowService) PlaceShowOrder(ctx context.Context, req *pb.PlaceShowOrderRequest) (*pb.PlaceShowOrderReply, error) {
@@ -280,7 +220,7 @@ func (s *ShowService) PlaceShowOrder(ctx context.Context, req *pb.PlaceShowOrder
 
 func (s *ShowService) MapBizShow2Pb(ctx context.Context, a *biz.Show, b *pb.Show) {
 	b.Id = a.ID.String()
-
+	b.Name = a.Name
 	b.CreatedAt = utils.Time2Timepb(&a.CreatedAt)
 
 	b.ActivityId = a.ActivityID
@@ -291,8 +231,6 @@ func (s *ShowService) MapBizShow2Pb(ctx context.Context, a *biz.Show, b *pb.Show
 	b.MainPic = mapBizMedia2Pb(ctx, s.blob, a.MainPic)
 	b.StartTime = utils.Time2Timepb(&a.StartTime)
 	b.EndTime = utils.Time2Timepb(&a.EndTime)
-
-	b.IsRecommend = a.IsRecommend
 
 	b.LocationId = a.LocationID
 	if a.Location != nil {
@@ -308,7 +246,6 @@ func (s *ShowService) MapBizShow2Pb(ctx context.Context, a *biz.Show, b *pb.Show
 		mapBizShowSalesType2Pb(ctx, &item, r)
 		return r
 	})
-	b.Notice = a.Notice
 	//TODO seats
 }
 
@@ -343,11 +280,9 @@ func mapPbShowSalesType2Biz(ctx context.Context, a *pb.UpdateShowSalesType, b *b
 }
 
 func (s *ShowService) MapUpdatePbShow2Biz(ctx context.Context, a *pb.UpdateShow, b *biz.Show) error {
-
+	b.Name = a.Name
 	b.StartTime = *utils.Timepb2Time(a.StartTime)
 	b.EndTime = *utils.Timepb2Time(a.EndTime)
-
-	b.Notice = a.Notice
 
 	var sts []biz.ShowSalesType
 	for _, salesType := range a.SalesTypes {
@@ -364,13 +299,12 @@ func (s *ShowService) MapUpdatePbShow2Biz(ctx context.Context, a *pb.UpdateShow,
 
 }
 func (s *ShowService) MapCreatePbShow2Biz(ctx context.Context, a *pb.CreateShowRequest, b *biz.Show) error {
+	b.Name = a.Name
 	b.ActivityID = a.ActivityId
 	b.StartTime = *utils.Timepb2Time(a.StartTime)
 	b.EndTime = *utils.Timepb2Time(a.EndTime)
 	b.LocationID = a.LocationId
 	b.HallID = a.HallId
-
-	b.Notice = a.Notice
 
 	var sts []biz.ShowSalesType
 	for _, salesType := range a.SalesTypes {

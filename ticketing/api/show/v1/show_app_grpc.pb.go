@@ -19,8 +19,6 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ShowAppService_ListAppShow_FullMethodName    = "/ticketing.api.show.v1.ShowAppService/ListAppShow"
-	ShowAppService_GetAppShow_FullMethodName     = "/ticketing.api.show.v1.ShowAppService/GetAppShow"
 	ShowAppService_PlaceShowOrder_FullMethodName = "/ticketing.api.show.v1.ShowAppService/PlaceShowOrder"
 )
 
@@ -28,8 +26,6 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ShowAppServiceClient interface {
-	ListAppShow(ctx context.Context, in *ListShowRequest, opts ...grpc.CallOption) (*ListShowReply, error)
-	GetAppShow(ctx context.Context, in *GetShowRequest, opts ...grpc.CallOption) (*Show, error)
 	PlaceShowOrder(ctx context.Context, in *PlaceShowOrderRequest, opts ...grpc.CallOption) (*PlaceShowOrderReply, error)
 }
 
@@ -39,24 +35,6 @@ type showAppServiceClient struct {
 
 func NewShowAppServiceClient(cc grpc.ClientConnInterface) ShowAppServiceClient {
 	return &showAppServiceClient{cc}
-}
-
-func (c *showAppServiceClient) ListAppShow(ctx context.Context, in *ListShowRequest, opts ...grpc.CallOption) (*ListShowReply, error) {
-	out := new(ListShowReply)
-	err := c.cc.Invoke(ctx, ShowAppService_ListAppShow_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *showAppServiceClient) GetAppShow(ctx context.Context, in *GetShowRequest, opts ...grpc.CallOption) (*Show, error) {
-	out := new(Show)
-	err := c.cc.Invoke(ctx, ShowAppService_GetAppShow_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *showAppServiceClient) PlaceShowOrder(ctx context.Context, in *PlaceShowOrderRequest, opts ...grpc.CallOption) (*PlaceShowOrderReply, error) {
@@ -72,8 +50,6 @@ func (c *showAppServiceClient) PlaceShowOrder(ctx context.Context, in *PlaceShow
 // All implementations should embed UnimplementedShowAppServiceServer
 // for forward compatibility
 type ShowAppServiceServer interface {
-	ListAppShow(context.Context, *ListShowRequest) (*ListShowReply, error)
-	GetAppShow(context.Context, *GetShowRequest) (*Show, error)
 	PlaceShowOrder(context.Context, *PlaceShowOrderRequest) (*PlaceShowOrderReply, error)
 }
 
@@ -81,12 +57,6 @@ type ShowAppServiceServer interface {
 type UnimplementedShowAppServiceServer struct {
 }
 
-func (UnimplementedShowAppServiceServer) ListAppShow(context.Context, *ListShowRequest) (*ListShowReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListAppShow not implemented")
-}
-func (UnimplementedShowAppServiceServer) GetAppShow(context.Context, *GetShowRequest) (*Show, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAppShow not implemented")
-}
 func (UnimplementedShowAppServiceServer) PlaceShowOrder(context.Context, *PlaceShowOrderRequest) (*PlaceShowOrderReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PlaceShowOrder not implemented")
 }
@@ -100,42 +70,6 @@ type UnsafeShowAppServiceServer interface {
 
 func RegisterShowAppServiceServer(s grpc.ServiceRegistrar, srv ShowAppServiceServer) {
 	s.RegisterService(&ShowAppService_ServiceDesc, srv)
-}
-
-func _ShowAppService_ListAppShow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListShowRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ShowAppServiceServer).ListAppShow(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ShowAppService_ListAppShow_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShowAppServiceServer).ListAppShow(ctx, req.(*ListShowRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ShowAppService_GetAppShow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetShowRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ShowAppServiceServer).GetAppShow(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ShowAppService_GetAppShow_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShowAppServiceServer).GetAppShow(ctx, req.(*GetShowRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _ShowAppService_PlaceShowOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -163,14 +97,6 @@ var ShowAppService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "ticketing.api.show.v1.ShowAppService",
 	HandlerType: (*ShowAppServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "ListAppShow",
-			Handler:    _ShowAppService_ListAppShow_Handler,
-		},
-		{
-			MethodName: "GetAppShow",
-			Handler:    _ShowAppService_GetAppShow_Handler,
-		},
 		{
 			MethodName: "PlaceShowOrder",
 			Handler:    _ShowAppService_PlaceShowOrder_Handler,

@@ -24,7 +24,11 @@ groups:
       - name: "permission.permission.write"
         namespace: "ticketing.activity"
         action: "write"
-
+      - name: "permission.permission.recommend"
+        namespace: "ticketing.activity"
+        action: "recommend"
+        side: HOST_ONLY
+        
   - name: "permission.ticketing.show.group"
     def:
       - name: "permission.ticketing.show.any"
@@ -37,10 +41,7 @@ groups:
       - name: "permission.permission.write"
         namespace: "ticketing.show"
         action: "write"
-      - name: "permission.permission.recommend"
-        namespace: "ticketing.show"
-        action: "recommend"
-        side: HOST_ONLY
+
   - name: "permission.ticketing.ticket.group"
     def:
       - name: "permission.ticketing.ticket.any"

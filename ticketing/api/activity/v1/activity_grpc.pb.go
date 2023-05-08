@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ActivityService_ListActivity_FullMethodName   = "/ticketing.api.activity.v1.ActivityService/ListActivity"
-	ActivityService_GetActivity_FullMethodName    = "/ticketing.api.activity.v1.ActivityService/GetActivity"
-	ActivityService_CreateActivity_FullMethodName = "/ticketing.api.activity.v1.ActivityService/CreateActivity"
-	ActivityService_UpdateActivity_FullMethodName = "/ticketing.api.activity.v1.ActivityService/UpdateActivity"
-	ActivityService_DeleteActivity_FullMethodName = "/ticketing.api.activity.v1.ActivityService/DeleteActivity"
+	ActivityService_ListActivity_FullMethodName      = "/ticketing.api.activity.v1.ActivityService/ListActivity"
+	ActivityService_GetActivity_FullMethodName       = "/ticketing.api.activity.v1.ActivityService/GetActivity"
+	ActivityService_CreateActivity_FullMethodName    = "/ticketing.api.activity.v1.ActivityService/CreateActivity"
+	ActivityService_UpdateActivity_FullMethodName    = "/ticketing.api.activity.v1.ActivityService/UpdateActivity"
+	ActivityService_DeleteActivity_FullMethodName    = "/ticketing.api.activity.v1.ActivityService/DeleteActivity"
+	ActivityService_RecommendActivity_FullMethodName = "/ticketing.api.activity.v1.ActivityService/RecommendActivity"
 )
 
 // ActivityServiceClient is the client API for ActivityService service.
@@ -35,6 +36,7 @@ type ActivityServiceClient interface {
 	CreateActivity(ctx context.Context, in *CreateActivityRequest, opts ...grpc.CallOption) (*Activity, error)
 	UpdateActivity(ctx context.Context, in *UpdateActivityRequest, opts ...grpc.CallOption) (*Activity, error)
 	DeleteActivity(ctx context.Context, in *DeleteActivityRequest, opts ...grpc.CallOption) (*DeleteActivityReply, error)
+	RecommendActivity(ctx context.Context, in *RecommendActivityRequest, opts ...grpc.CallOption) (*RecommendActivityReply, error)
 }
 
 type activityServiceClient struct {
@@ -90,6 +92,15 @@ func (c *activityServiceClient) DeleteActivity(ctx context.Context, in *DeleteAc
 	return out, nil
 }
 
+func (c *activityServiceClient) RecommendActivity(ctx context.Context, in *RecommendActivityRequest, opts ...grpc.CallOption) (*RecommendActivityReply, error) {
+	out := new(RecommendActivityReply)
+	err := c.cc.Invoke(ctx, ActivityService_RecommendActivity_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ActivityServiceServer is the server API for ActivityService service.
 // All implementations should embed UnimplementedActivityServiceServer
 // for forward compatibility
@@ -99,6 +110,7 @@ type ActivityServiceServer interface {
 	CreateActivity(context.Context, *CreateActivityRequest) (*Activity, error)
 	UpdateActivity(context.Context, *UpdateActivityRequest) (*Activity, error)
 	DeleteActivity(context.Context, *DeleteActivityRequest) (*DeleteActivityReply, error)
+	RecommendActivity(context.Context, *RecommendActivityRequest) (*RecommendActivityReply, error)
 }
 
 // UnimplementedActivityServiceServer should be embedded to have forward compatible implementations.
@@ -119,6 +131,9 @@ func (UnimplementedActivityServiceServer) UpdateActivity(context.Context, *Updat
 }
 func (UnimplementedActivityServiceServer) DeleteActivity(context.Context, *DeleteActivityRequest) (*DeleteActivityReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteActivity not implemented")
+}
+func (UnimplementedActivityServiceServer) RecommendActivity(context.Context, *RecommendActivityRequest) (*RecommendActivityReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RecommendActivity not implemented")
 }
 
 // UnsafeActivityServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -222,6 +237,24 @@ func _ActivityService_DeleteActivity_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ActivityService_RecommendActivity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RecommendActivityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActivityServiceServer).RecommendActivity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ActivityService_RecommendActivity_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActivityServiceServer).RecommendActivity(ctx, req.(*RecommendActivityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ActivityService_ServiceDesc is the grpc.ServiceDesc for ActivityService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -248,6 +281,172 @@ var ActivityService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteActivity",
 			Handler:    _ActivityService_DeleteActivity_Handler,
+		},
+		{
+			MethodName: "RecommendActivity",
+			Handler:    _ActivityService_RecommendActivity_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "ticketing/api/activity/v1/activity.proto",
+}
+
+const (
+	ActivityAppService_ListAppActivity_FullMethodName     = "/ticketing.api.activity.v1.ActivityAppService/ListAppActivity"
+	ActivityAppService_GetAppActivity_FullMethodName      = "/ticketing.api.activity.v1.ActivityAppService/GetAppActivity"
+	ActivityAppService_ListAppActivityShow_FullMethodName = "/ticketing.api.activity.v1.ActivityAppService/ListAppActivityShow"
+)
+
+// ActivityAppServiceClient is the client API for ActivityAppService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type ActivityAppServiceClient interface {
+	ListAppActivity(ctx context.Context, in *ListActivityRequest, opts ...grpc.CallOption) (*ListActivityReply, error)
+	GetAppActivity(ctx context.Context, in *GetActivityRequest, opts ...grpc.CallOption) (*Activity, error)
+	ListAppActivityShow(ctx context.Context, in *ListAppActivityShowRequest, opts ...grpc.CallOption) (*ListAppActivityShowReply, error)
+}
+
+type activityAppServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewActivityAppServiceClient(cc grpc.ClientConnInterface) ActivityAppServiceClient {
+	return &activityAppServiceClient{cc}
+}
+
+func (c *activityAppServiceClient) ListAppActivity(ctx context.Context, in *ListActivityRequest, opts ...grpc.CallOption) (*ListActivityReply, error) {
+	out := new(ListActivityReply)
+	err := c.cc.Invoke(ctx, ActivityAppService_ListAppActivity_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *activityAppServiceClient) GetAppActivity(ctx context.Context, in *GetActivityRequest, opts ...grpc.CallOption) (*Activity, error) {
+	out := new(Activity)
+	err := c.cc.Invoke(ctx, ActivityAppService_GetAppActivity_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *activityAppServiceClient) ListAppActivityShow(ctx context.Context, in *ListAppActivityShowRequest, opts ...grpc.CallOption) (*ListAppActivityShowReply, error) {
+	out := new(ListAppActivityShowReply)
+	err := c.cc.Invoke(ctx, ActivityAppService_ListAppActivityShow_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ActivityAppServiceServer is the server API for ActivityAppService service.
+// All implementations should embed UnimplementedActivityAppServiceServer
+// for forward compatibility
+type ActivityAppServiceServer interface {
+	ListAppActivity(context.Context, *ListActivityRequest) (*ListActivityReply, error)
+	GetAppActivity(context.Context, *GetActivityRequest) (*Activity, error)
+	ListAppActivityShow(context.Context, *ListAppActivityShowRequest) (*ListAppActivityShowReply, error)
+}
+
+// UnimplementedActivityAppServiceServer should be embedded to have forward compatible implementations.
+type UnimplementedActivityAppServiceServer struct {
+}
+
+func (UnimplementedActivityAppServiceServer) ListAppActivity(context.Context, *ListActivityRequest) (*ListActivityReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAppActivity not implemented")
+}
+func (UnimplementedActivityAppServiceServer) GetAppActivity(context.Context, *GetActivityRequest) (*Activity, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAppActivity not implemented")
+}
+func (UnimplementedActivityAppServiceServer) ListAppActivityShow(context.Context, *ListAppActivityShowRequest) (*ListAppActivityShowReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAppActivityShow not implemented")
+}
+
+// UnsafeActivityAppServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ActivityAppServiceServer will
+// result in compilation errors.
+type UnsafeActivityAppServiceServer interface {
+	mustEmbedUnimplementedActivityAppServiceServer()
+}
+
+func RegisterActivityAppServiceServer(s grpc.ServiceRegistrar, srv ActivityAppServiceServer) {
+	s.RegisterService(&ActivityAppService_ServiceDesc, srv)
+}
+
+func _ActivityAppService_ListAppActivity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListActivityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActivityAppServiceServer).ListAppActivity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ActivityAppService_ListAppActivity_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActivityAppServiceServer).ListAppActivity(ctx, req.(*ListActivityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ActivityAppService_GetAppActivity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetActivityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActivityAppServiceServer).GetAppActivity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ActivityAppService_GetAppActivity_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActivityAppServiceServer).GetAppActivity(ctx, req.(*GetActivityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ActivityAppService_ListAppActivityShow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAppActivityShowRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActivityAppServiceServer).ListAppActivityShow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ActivityAppService_ListAppActivityShow_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActivityAppServiceServer).ListAppActivityShow(ctx, req.(*ListAppActivityShowRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// ActivityAppService_ServiceDesc is the grpc.ServiceDesc for ActivityAppService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var ActivityAppService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "ticketing.api.activity.v1.ActivityAppService",
+	HandlerType: (*ActivityAppServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "ListAppActivity",
+			Handler:    _ActivityAppService_ListAppActivity_Handler,
+		},
+		{
+			MethodName: "GetAppActivity",
+			Handler:    _ActivityAppService_GetAppActivity_Handler,
+		},
+		{
+			MethodName: "ListAppActivityShow",
+			Handler:    _ActivityAppService_ListAppActivityShow_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

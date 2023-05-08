@@ -19,12 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ShowService_ListShow_FullMethodName      = "/ticketing.api.show.v1.ShowService/ListShow"
-	ShowService_GetShow_FullMethodName       = "/ticketing.api.show.v1.ShowService/GetShow"
-	ShowService_CreateShow_FullMethodName    = "/ticketing.api.show.v1.ShowService/CreateShow"
-	ShowService_UpdateShow_FullMethodName    = "/ticketing.api.show.v1.ShowService/UpdateShow"
-	ShowService_DeleteShow_FullMethodName    = "/ticketing.api.show.v1.ShowService/DeleteShow"
-	ShowService_RecommendShow_FullMethodName = "/ticketing.api.show.v1.ShowService/RecommendShow"
+	ShowService_ListShow_FullMethodName   = "/ticketing.api.show.v1.ShowService/ListShow"
+	ShowService_GetShow_FullMethodName    = "/ticketing.api.show.v1.ShowService/GetShow"
+	ShowService_CreateShow_FullMethodName = "/ticketing.api.show.v1.ShowService/CreateShow"
+	ShowService_UpdateShow_FullMethodName = "/ticketing.api.show.v1.ShowService/UpdateShow"
+	ShowService_DeleteShow_FullMethodName = "/ticketing.api.show.v1.ShowService/DeleteShow"
 )
 
 // ShowServiceClient is the client API for ShowService service.
@@ -36,7 +35,6 @@ type ShowServiceClient interface {
 	CreateShow(ctx context.Context, in *CreateShowRequest, opts ...grpc.CallOption) (*Show, error)
 	UpdateShow(ctx context.Context, in *UpdateShowRequest, opts ...grpc.CallOption) (*Show, error)
 	DeleteShow(ctx context.Context, in *DeleteShowRequest, opts ...grpc.CallOption) (*DeleteShowReply, error)
-	RecommendShow(ctx context.Context, in *RecommendShowRequest, opts ...grpc.CallOption) (*RecommendShowReply, error)
 }
 
 type showServiceClient struct {
@@ -92,15 +90,6 @@ func (c *showServiceClient) DeleteShow(ctx context.Context, in *DeleteShowReques
 	return out, nil
 }
 
-func (c *showServiceClient) RecommendShow(ctx context.Context, in *RecommendShowRequest, opts ...grpc.CallOption) (*RecommendShowReply, error) {
-	out := new(RecommendShowReply)
-	err := c.cc.Invoke(ctx, ShowService_RecommendShow_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // ShowServiceServer is the server API for ShowService service.
 // All implementations should embed UnimplementedShowServiceServer
 // for forward compatibility
@@ -110,7 +99,6 @@ type ShowServiceServer interface {
 	CreateShow(context.Context, *CreateShowRequest) (*Show, error)
 	UpdateShow(context.Context, *UpdateShowRequest) (*Show, error)
 	DeleteShow(context.Context, *DeleteShowRequest) (*DeleteShowReply, error)
-	RecommendShow(context.Context, *RecommendShowRequest) (*RecommendShowReply, error)
 }
 
 // UnimplementedShowServiceServer should be embedded to have forward compatible implementations.
@@ -131,9 +119,6 @@ func (UnimplementedShowServiceServer) UpdateShow(context.Context, *UpdateShowReq
 }
 func (UnimplementedShowServiceServer) DeleteShow(context.Context, *DeleteShowRequest) (*DeleteShowReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteShow not implemented")
-}
-func (UnimplementedShowServiceServer) RecommendShow(context.Context, *RecommendShowRequest) (*RecommendShowReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RecommendShow not implemented")
 }
 
 // UnsafeShowServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -237,24 +222,6 @@ func _ShowService_DeleteShow_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ShowService_RecommendShow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RecommendShowRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ShowServiceServer).RecommendShow(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ShowService_RecommendShow_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShowServiceServer).RecommendShow(ctx, req.(*RecommendShowRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // ShowService_ServiceDesc is the grpc.ServiceDesc for ShowService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -281,10 +248,6 @@ var ShowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteShow",
 			Handler:    _ShowService_DeleteShow_Handler,
-		},
-		{
-			MethodName: "RecommendShow",
-			Handler:    _ShowService_RecommendShow_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

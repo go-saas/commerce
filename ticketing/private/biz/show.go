@@ -31,9 +31,7 @@ type Show struct {
 
 	Seats []ShowSeat `gorm:"foreignKey:ShowID"`
 
-	Notice string
-
-	IsRecommend bool
+	Name string
 }
 
 type ShowSalesType struct {

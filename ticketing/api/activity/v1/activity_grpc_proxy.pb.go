@@ -23,6 +23,13 @@ const GrpcOperationActivityServiceGetActivity = "/ticketing.api.activity.v1.Acti
 const GrpcOperationActivityServiceCreateActivity = "/ticketing.api.activity.v1.ActivityService/CreateActivity"
 const GrpcOperationActivityServiceUpdateActivity = "/ticketing.api.activity.v1.ActivityService/UpdateActivity"
 const GrpcOperationActivityServiceDeleteActivity = "/ticketing.api.activity.v1.ActivityService/DeleteActivity"
+const GrpcOperationActivityServiceRecommendActivity = "/ticketing.api.activity.v1.ActivityService/RecommendActivity"
+
+var _ ActivityAppServiceServer = (*activityAppServiceClientProxy)(nil)
+
+const GrpcOperationActivityAppServiceListAppActivity = "/ticketing.api.activity.v1.ActivityAppService/ListAppActivity"
+const GrpcOperationActivityAppServiceGetAppActivity = "/ticketing.api.activity.v1.ActivityAppService/GetAppActivity"
+const GrpcOperationActivityAppServiceListAppActivityShow = "/ticketing.api.activity.v1.ActivityAppService/ListAppActivityShow"
 
 // activityServiceClientProxy is the proxy to turn ActivityService client to server interface.
 type activityServiceClientProxy struct {
@@ -47,4 +54,26 @@ func (c *activityServiceClientProxy) UpdateActivity(ctx context.Context, in *Upd
 }
 func (c *activityServiceClientProxy) DeleteActivity(ctx context.Context, in *DeleteActivityRequest) (*DeleteActivityReply, error) {
 	return c.cc.DeleteActivity(ctx, in)
+}
+func (c *activityServiceClientProxy) RecommendActivity(ctx context.Context, in *RecommendActivityRequest) (*RecommendActivityReply, error) {
+	return c.cc.RecommendActivity(ctx, in)
+}
+
+// activityAppServiceClientProxy is the proxy to turn ActivityAppService client to server interface.
+type activityAppServiceClientProxy struct {
+	cc ActivityAppServiceClient
+}
+
+func NewActivityAppServiceClientProxy(cc ActivityAppServiceClient) ActivityAppServiceServer {
+	return &activityAppServiceClientProxy{cc}
+}
+
+func (c *activityAppServiceClientProxy) ListAppActivity(ctx context.Context, in *ListActivityRequest) (*ListActivityReply, error) {
+	return c.cc.ListAppActivity(ctx, in)
+}
+func (c *activityAppServiceClientProxy) GetAppActivity(ctx context.Context, in *GetActivityRequest) (*Activity, error) {
+	return c.cc.GetAppActivity(ctx, in)
+}
+func (c *activityAppServiceClientProxy) ListAppActivityShow(ctx context.Context, in *ListAppActivityShowRequest) (*ListAppActivityShowReply, error) {
+	return c.cc.ListAppActivityShow(ctx, in)
 }

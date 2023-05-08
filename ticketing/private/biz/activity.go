@@ -28,6 +28,10 @@ type Activity struct {
 	SeatSelectable bool `gorm:"comment:是否可以选座"`
 
 	Duration time.Duration `gorm:"comment:单次活动预估时间"`
+
+	IsRecommend bool
+
+	Notice string
 }
 
 const (

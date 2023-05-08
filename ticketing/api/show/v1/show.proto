@@ -54,22 +54,6 @@ service ShowService {
     };
   }
 
-  rpc RecommendShow (RecommendShowRequest) returns (RecommendShowReply){
-    option (google.api.http) = {
-      put: "/v1/ticketing/show/{id}/recommend"
-      body: "*"
-    };
-  }
-
-}
-
-message RecommendShowRequest{
-  string id=1;
-  bool is_recommend=2;
-}
-
-message RecommendShowReply{
-  string id=1;
 }
 
 message DeleteShowRequest {
@@ -86,7 +70,7 @@ message GetShowRequest {
 message ShowFilter{
   query.operation.StringFilterOperation id=1;
   query.operation.StringFilterOperation name =2;
-  query.operation.BooleanFilterOperators is_recommend=3;
+  query.operation.StringFilterOperation activity_id=3;
 }
 
 message ListShowRequest {
@@ -112,6 +96,7 @@ message ListShowReply {
 message Show{
   string id=1;
 
+  string name=2;
   google.protobuf.Timestamp created_at =4;
 
   string activity_id=10;
@@ -128,10 +113,7 @@ message Show{
 
   repeated ShowSalesType sales_types=40;
 
-  string notice=50;
 
-
-  bool is_recommend=51;
 
   .ticketing.api.location.v1.TicketingMedia main_pic = 52;
 
@@ -167,7 +149,7 @@ message UpdateShowSalesType{
 
 
 message CreateShowRequest {
-
+  string name=2;
   string activity_id=10 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
   google.protobuf.Timestamp start_time=12[(validate.rules).timestamp.required=true,(google.api.field_behavior) = REQUIRED];
   google.protobuf.Timestamp end_time=13[(validate.rules).timestamp.required=true,(google.api.field_behavior) = REQUIRED];
@@ -178,7 +160,6 @@ message CreateShowRequest {
 
   repeated UpdateShowSalesType sales_types=40;
 
-  string notice=50;
 
   .ticketing.api.location.v1.TicketingMedia main_pic = 52;
 }
@@ -191,13 +172,12 @@ message UpdateShowRequest {
 message UpdateShow{
   string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
 
-
+  string name=2;
   google.protobuf.Timestamp start_time=12[(validate.rules).timestamp.required=true,(google.api.field_behavior) = REQUIRED];
   google.protobuf.Timestamp end_time=13[(validate.rules).timestamp.required=true,(google.api.field_behavior) = REQUIRED];
 
   repeated UpdateShowSalesType sales_types=40;
 
-  string notice=50;
 
   .ticketing.api.location.v1.TicketingMedia main_pic = 52;
 }

@@ -70,7 +70,9 @@ func (c *ActivityRepo) BuildFilterScope(q *v1.ListActivityRequest) func(db *gorm
 		if filter.Name != nil {
 			ret = ret.Scopes(kitgorm.BuildStringFilter("`name`", filter.Name))
 		}
-
+		if filter.IsRecommend != nil {
+			ret = ret.Scopes(kitgorm.BuildBooleanFilter("`is_recommend`", filter.IsRecommend))
+		}
 		return ret
 	}
 }

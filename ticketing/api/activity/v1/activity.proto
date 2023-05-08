@@ -13,6 +13,7 @@ import "query/operation.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 import "ticketing/api/location/v1/location.proto";
 import "ticketing/api/category/v1/category.proto";
+import "price/price.proto";
 
 option go_package = "github.com/go-saas/commerce/ticketing/api/activity/v1;v1";
 
@@ -72,6 +73,98 @@ service ActivityService {
     };
   }
 
+  rpc RecommendActivity (RecommendActivityRequest) returns (RecommendActivityReply){
+    option (google.api.http) = {
+      put: "/v1/ticketing/activity/{id}/recommend"
+      body: "*"
+    };
+  }
+
+}
+
+
+service ActivityAppService{
+  rpc ListAppActivity (ListActivityRequest) returns (ListActivityReply){
+    option (google.api.http) = {
+      get: "/v1/ticketing/app/activity",
+      additional_bindings:{
+        post:"/v1/ticketing/app/activity/list",
+        body:"*"
+      }
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["ActivityAppService","UsageApp"];
+    };
+  }
+  rpc GetAppActivity (GetActivityRequest) returns (Activity){
+    option (google.api.http) = {
+      get: "/v1/ticketing/app/activity/{id}"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["ActivityAppService","UsageApp"];
+    };
+  }
+
+  rpc ListAppActivityShow(ListAppActivityShowRequest)returns(ListAppActivityShowReply){
+    option (google.api.http) = {
+      get: "/v1/ticketing/app/activity/{id}/show"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["ActivityAppService","UsageApp"];
+    };
+  }
+}
+
+message RecommendActivityRequest{
+  string id=1;
+  bool is_recommend=2;
+}
+
+message RecommendActivityReply{
+  string id=1;
+}
+
+message ListAppActivityShowRequest{
+  string id=1;
+}
+
+message ListAppActivityShowReply{
+  repeated ActivityShow shows=1;
+}
+
+message ActivityShow{
+  string id=1;
+
+  string name=2;
+  google.protobuf.Timestamp created_at =4;
+
+  string activity_id=10;
+  .ticketing.api.activity.v1.Activity activity=11;
+
+  google.protobuf.Timestamp start_time=12;
+  google.protobuf.Timestamp end_time=13;
+
+  string location_id=20;
+  .ticketing.api.location.v1.Location location=21;
+
+  string hall_id=31;
+  .ticketing.api.location.v1.LocationHall hall=32;
+
+  repeated ActivityShowSalesType sales_types=40;
+
+  .ticketing.api.location.v1.TicketingMedia main_pic = 52;
+}
+
+message ActivityShowSalesType{
+  string id=1;
+  string name=2;
+
+  .ticketing.api.location.v1.SeatGroup seat_group=3;
+  optional string seat_group_id=4;
+
+  google.protobuf.Timestamp saleable_from=100;
+  google.protobuf.Timestamp saleable_to=101;
+  price.InfoPb price =102;
 }
 
 message CreateActivityRequest {
@@ -87,6 +180,8 @@ message CreateActivityRequest {
 
   bool seat_selectable=22;
   google.protobuf.Duration duration=23;
+
+  string notice=50;
 }
 
 message UpdateActivityRequest {
@@ -108,6 +203,8 @@ message UpdateActivity{
 
   bool seat_selectable=22;
   google.protobuf.Duration duration=23;
+
+  string notice=50;
 }
 
 
@@ -126,6 +223,7 @@ message GetActivityRequest {
 message ActivityFilter{
   query.operation.StringFilterOperation id=1;
   query.operation.StringFilterOperation name =2;
+  query.operation.BooleanFilterOperators is_recommend=3;
 }
 
 message ListActivityRequest {
@@ -135,12 +233,18 @@ message ListActivityRequest {
   repeated string sort =4;
   google.protobuf.FieldMask fields=5;
   ActivityFilter filter =6;
+
+  string after_page_token =10;
+  string before_page_token =11;
 }
 
 message ListActivityReply {
   int32 total_size =1;
   int32 filter_size =2;
   repeated Activity items=3;
+
+  optional string next_after_page_token=4;
+  optional string next_before_page_token=5;
 }
 
 message Activity{
@@ -160,4 +264,9 @@ message Activity{
   bool seat_selectable=22;
   google.protobuf.Duration duration=23;
 
+  string notice=50;
+
+  bool is_recommend=51;
+
 }
+

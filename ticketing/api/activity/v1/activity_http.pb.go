@@ -23,6 +23,7 @@ const OperationActivityServiceCreateActivity = "/ticketing.api.activity.v1.Activ
 const OperationActivityServiceDeleteActivity = "/ticketing.api.activity.v1.ActivityService/DeleteActivity"
 const OperationActivityServiceGetActivity = "/ticketing.api.activity.v1.ActivityService/GetActivity"
 const OperationActivityServiceListActivity = "/ticketing.api.activity.v1.ActivityService/ListActivity"
+const OperationActivityServiceRecommendActivity = "/ticketing.api.activity.v1.ActivityService/RecommendActivity"
 const OperationActivityServiceUpdateActivity = "/ticketing.api.activity.v1.ActivityService/UpdateActivity"
 
 type ActivityServiceHTTPServer interface {
@@ -30,6 +31,7 @@ type ActivityServiceHTTPServer interface {
 	DeleteActivity(context.Context, *DeleteActivityRequest) (*DeleteActivityReply, error)
 	GetActivity(context.Context, *GetActivityRequest) (*Activity, error)
 	ListActivity(context.Context, *ListActivityRequest) (*ListActivityReply, error)
+	RecommendActivity(context.Context, *RecommendActivityRequest) (*RecommendActivityReply, error)
 	UpdateActivity(context.Context, *UpdateActivityRequest) (*Activity, error)
 }
 
@@ -42,6 +44,7 @@ func RegisterActivityServiceHTTPServer(s *http.Server, srv ActivityServiceHTTPSe
 	r.PATCH("/v1/ticketing/activity/{activity.id}", _ActivityService_UpdateActivity0_HTTP_Handler(srv))
 	r.PUT("/v1/ticketing/activity/{activity.id}", _ActivityService_UpdateActivity1_HTTP_Handler(srv))
 	r.DELETE("/v1/ticketing/activity/{id}", _ActivityService_DeleteActivity0_HTTP_Handler(srv))
+	r.PUT("/v1/ticketing/activity/{id}/recommend", _ActivityService_RecommendActivity0_HTTP_Handler(srv))
 }
 
 func _ActivityService_ListActivity0_HTTP_Handler(srv ActivityServiceHTTPServer) func(ctx http.Context) error {
@@ -189,11 +192,34 @@ func _ActivityService_DeleteActivity0_HTTP_Handler(srv ActivityServiceHTTPServer
 	}
 }
 
+func _ActivityService_RecommendActivity0_HTTP_Handler(srv ActivityServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in RecommendActivityRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationActivityServiceRecommendActivity)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.RecommendActivity(ctx, req.(*RecommendActivityRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*RecommendActivityReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type ActivityServiceHTTPClient interface {
 	CreateActivity(ctx context.Context, req *CreateActivityRequest, opts ...http.CallOption) (rsp *Activity, err error)
 	DeleteActivity(ctx context.Context, req *DeleteActivityRequest, opts ...http.CallOption) (rsp *DeleteActivityReply, err error)
 	GetActivity(ctx context.Context, req *GetActivityRequest, opts ...http.CallOption) (rsp *Activity, err error)
 	ListActivity(ctx context.Context, req *ListActivityRequest, opts ...http.CallOption) (rsp *ListActivityReply, err error)
+	RecommendActivity(ctx context.Context, req *RecommendActivityRequest, opts ...http.CallOption) (rsp *RecommendActivityReply, err error)
 	UpdateActivity(ctx context.Context, req *UpdateActivityRequest, opts ...http.CallOption) (rsp *Activity, err error)
 }
 
@@ -257,6 +283,19 @@ func (c *ActivityServiceHTTPClientImpl) ListActivity(ctx context.Context, in *Li
 	return &out, err
 }
 
+func (c *ActivityServiceHTTPClientImpl) RecommendActivity(ctx context.Context, in *RecommendActivityRequest, opts ...http.CallOption) (*RecommendActivityReply, error) {
+	var out RecommendActivityReply
+	pattern := "/v1/ticketing/activity/{id}/recommend"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationActivityServiceRecommendActivity))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
 func (c *ActivityServiceHTTPClientImpl) UpdateActivity(ctx context.Context, in *UpdateActivityRequest, opts ...http.CallOption) (*Activity, error) {
 	var out Activity
 	pattern := "/v1/ticketing/activity/{activity.id}"
@@ -264,6 +303,159 @@ func (c *ActivityServiceHTTPClientImpl) UpdateActivity(ctx context.Context, in *
 	opts = append(opts, http.Operation(OperationActivityServiceUpdateActivity))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+const OperationActivityAppServiceGetAppActivity = "/ticketing.api.activity.v1.ActivityAppService/GetAppActivity"
+const OperationActivityAppServiceListAppActivity = "/ticketing.api.activity.v1.ActivityAppService/ListAppActivity"
+const OperationActivityAppServiceListAppActivityShow = "/ticketing.api.activity.v1.ActivityAppService/ListAppActivityShow"
+
+type ActivityAppServiceHTTPServer interface {
+	GetAppActivity(context.Context, *GetActivityRequest) (*Activity, error)
+	ListAppActivity(context.Context, *ListActivityRequest) (*ListActivityReply, error)
+	ListAppActivityShow(context.Context, *ListAppActivityShowRequest) (*ListAppActivityShowReply, error)
+}
+
+func RegisterActivityAppServiceHTTPServer(s *http.Server, srv ActivityAppServiceHTTPServer) {
+	r := s.Route("/")
+	r.POST("/v1/ticketing/app/activity/list", _ActivityAppService_ListAppActivity0_HTTP_Handler(srv))
+	r.GET("/v1/ticketing/app/activity", _ActivityAppService_ListAppActivity1_HTTP_Handler(srv))
+	r.GET("/v1/ticketing/app/activity/{id}", _ActivityAppService_GetAppActivity0_HTTP_Handler(srv))
+	r.GET("/v1/ticketing/app/activity/{id}/show", _ActivityAppService_ListAppActivityShow0_HTTP_Handler(srv))
+}
+
+func _ActivityAppService_ListAppActivity0_HTTP_Handler(srv ActivityAppServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListActivityRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationActivityAppServiceListAppActivity)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListAppActivity(ctx, req.(*ListActivityRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListActivityReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _ActivityAppService_ListAppActivity1_HTTP_Handler(srv ActivityAppServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListActivityRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationActivityAppServiceListAppActivity)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListAppActivity(ctx, req.(*ListActivityRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListActivityReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _ActivityAppService_GetAppActivity0_HTTP_Handler(srv ActivityAppServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetActivityRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationActivityAppServiceGetAppActivity)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetAppActivity(ctx, req.(*GetActivityRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*Activity)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _ActivityAppService_ListAppActivityShow0_HTTP_Handler(srv ActivityAppServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ListAppActivityShowRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationActivityAppServiceListAppActivityShow)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ListAppActivityShow(ctx, req.(*ListAppActivityShowRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListAppActivityShowReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+type ActivityAppServiceHTTPClient interface {
+	GetAppActivity(ctx context.Context, req *GetActivityRequest, opts ...http.CallOption) (rsp *Activity, err error)
+	ListAppActivity(ctx context.Context, req *ListActivityRequest, opts ...http.CallOption) (rsp *ListActivityReply, err error)
+	ListAppActivityShow(ctx context.Context, req *ListAppActivityShowRequest, opts ...http.CallOption) (rsp *ListAppActivityShowReply, err error)
+}
+
+type ActivityAppServiceHTTPClientImpl struct {
+	cc *http.Client
+}
+
+func NewActivityAppServiceHTTPClient(client *http.Client) ActivityAppServiceHTTPClient {
+	return &ActivityAppServiceHTTPClientImpl{client}
+}
+
+func (c *ActivityAppServiceHTTPClientImpl) GetAppActivity(ctx context.Context, in *GetActivityRequest, opts ...http.CallOption) (*Activity, error) {
+	var out Activity
+	pattern := "/v1/ticketing/app/activity/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationActivityAppServiceGetAppActivity))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *ActivityAppServiceHTTPClientImpl) ListAppActivity(ctx context.Context, in *ListActivityRequest, opts ...http.CallOption) (*ListActivityReply, error) {
+	var out ListActivityReply
+	pattern := "/v1/ticketing/app/activity"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationActivityAppServiceListAppActivity))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *ActivityAppServiceHTTPClientImpl) ListAppActivityShow(ctx context.Context, in *ListAppActivityShowRequest, opts ...http.CallOption) (*ListAppActivityShowReply, error) {
+	var out ListAppActivityShowReply
+	pattern := "/v1/ticketing/app/activity/{id}/show"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationActivityAppServiceListAppActivityShow))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

@@ -18,27 +18,6 @@ option go_package = "github.com/go-saas/commerce/ticketing/api/show/v1;v1";
 
 service ShowAppService {
 
-  rpc ListAppShow (ListShowRequest) returns (ListShowReply){
-    option (google.api.http) = {
-      get: "/v1/ticketing/app/show",
-      additional_bindings:{
-        post:"/v1/ticketing/app/show/list",
-        body:"*"
-      }
-    };
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      tags: ["ShowAppService","UsageApp"];
-    };
-  }
-  rpc GetAppShow (GetShowRequest) returns (Show){
-    option (google.api.http) = {
-      get: "/v1/ticketing/app/show/{id}"
-    };
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      tags: ["ShowAppService","UsageApp"];
-    };
-  }
-
   rpc PlaceShowOrder(PlaceShowOrderRequest)returns(PlaceShowOrderReply){
     option (google.api.http) = {
       post: "/v1/ticketing/app/show/order"

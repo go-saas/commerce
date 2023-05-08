@@ -36,6 +36,9 @@
       "name": "ActivityService"
     },
     {
+      "name": "ActivityAppService"
+    },
+    {
       "name": "TicketingBannerService"
     },
     {
@@ -2726,6 +2729,42 @@
             "in": "query",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "filter.isRecommend.$eq",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.isRecommend.$neq",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.isRecommend.$null",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.isRecommend.$nnull",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "afterPageToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "beforePageToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -2927,60 +2966,14 @@
         ]
       }
     },
-    "/v1/ticketing/app/banner": {
-      "get": {
-        "operationId": "TicketingAppBannerService_ListAppBanner",
+    "/v1/ticketing/activity/{id}/recommend": {
+      "put": {
+        "operationId": "ActivityService_RecommendActivity",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListAppBannerReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "tags": [
-          "TicketingAppBannerService",
-          "UsageApp"
-        ]
-      }
-    },
-    "/v1/ticketing/app/category": {
-      "get": {
-        "operationId": "TicketingCategoryAppService_ListAppCategory",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1ListAppCategoryReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "tags": [
-          "TicketingCategoryAppService",
-          "UsageApp"
-        ]
-      }
-    },
-    "/v1/ticketing/app/category/list": {
-      "post": {
-        "operationId": "TicketingCategoryAppService_ListAppCategory2",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1ListAppCategoryReply"
+              "$ref": "#/definitions/v1RecommendActivityReply"
             }
           },
           "default": {
@@ -2992,28 +2985,38 @@
         },
         "parameters": [
           {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1ListAppCategoryRequest"
+              "type": "object",
+              "properties": {
+                "isRecommend": {
+                  "type": "boolean"
+                }
+              }
             }
           }
         ],
         "tags": [
-          "TicketingCategoryAppService",
-          "UsageApp"
+          "ActivityService"
         ]
       }
     },
-    "/v1/ticketing/app/show": {
+    "/v1/ticketing/app/activity": {
       "get": {
-        "operationId": "ShowAppService_ListAppShow",
+        "operationId": "ActivityAppService_ListAppActivity",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListShowReply"
+              "$ref": "#/definitions/v1ListActivityReply"
             }
           },
           "default": {
@@ -3282,19 +3285,19 @@
           }
         ],
         "tags": [
-          "ShowAppService",
+          "ActivityAppService",
           "UsageApp"
         ]
       }
     },
-    "/v1/ticketing/app/show/list": {
+    "/v1/ticketing/app/activity/list": {
       "post": {
-        "operationId": "ShowAppService_ListAppShow2",
+        "operationId": "ActivityAppService_ListAppActivity2",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListShowReply"
+              "$ref": "#/definitions/v1ListActivityReply"
             }
           },
           "default": {
@@ -3310,12 +3313,153 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1ListShowRequest"
+              "$ref": "#/definitions/v1ListActivityRequest"
             }
           }
         ],
         "tags": [
-          "ShowAppService",
+          "ActivityAppService",
+          "UsageApp"
+        ]
+      }
+    },
+    "/v1/ticketing/app/activity/{id}": {
+      "get": {
+        "operationId": "ActivityAppService_GetAppActivity",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1Activity"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ActivityAppService",
+          "UsageApp"
+        ]
+      }
+    },
+    "/v1/ticketing/app/activity/{id}/show": {
+      "get": {
+        "operationId": "ActivityAppService_ListAppActivityShow",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListAppActivityShowReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ActivityAppService",
+          "UsageApp"
+        ]
+      }
+    },
+    "/v1/ticketing/app/banner": {
+      "get": {
+        "operationId": "TicketingAppBannerService_ListAppBanner",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListAppBannerReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "TicketingAppBannerService",
+          "UsageApp"
+        ]
+      }
+    },
+    "/v1/ticketing/app/category": {
+      "get": {
+        "operationId": "TicketingCategoryAppService_ListAppCategory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListAppCategoryReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "TicketingCategoryAppService",
+          "UsageApp"
+        ]
+      }
+    },
+    "/v1/ticketing/app/category/list": {
+      "post": {
+        "operationId": "TicketingCategoryAppService_ListAppCategory2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListAppCategoryReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ListAppCategoryRequest"
+            }
+          }
+        ],
+        "tags": [
+          "TicketingCategoryAppService",
           "UsageApp"
         ]
       }
@@ -3345,37 +3489,6 @@
             "schema": {
               "$ref": "#/definitions/v1PlaceShowOrderRequest"
             }
-          }
-        ],
-        "tags": [
-          "ShowAppService",
-          "UsageApp"
-        ]
-      }
-    },
-    "/v1/ticketing/app/show/{id}": {
-      "get": {
-        "operationId": "ShowAppService_GetAppShow",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1Show"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
           }
         ],
         "tags": [
@@ -5443,28 +5556,96 @@
             "type": "string"
           },
           {
-            "name": "filter.isRecommend.$eq",
+            "name": "filter.activityId.$eq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$neq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$contains",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$starts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$nstarts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$ends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$nends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.activityId.$nin",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.activityId.$null",
             "in": "query",
             "required": false,
             "type": "boolean"
           },
           {
-            "name": "filter.isRecommend.$neq",
+            "name": "filter.activityId.$nnull",
             "in": "query",
             "required": false,
             "type": "boolean"
           },
           {
-            "name": "filter.isRecommend.$null",
+            "name": "filter.activityId.$empty",
             "in": "query",
             "required": false,
             "type": "boolean"
           },
           {
-            "name": "filter.isRecommend.$nnull",
+            "name": "filter.activityId.$nempty",
             "in": "query",
             "required": false,
             "type": "boolean"
+          },
+          {
+            "name": "filter.activityId.$like",
+            "in": "query",
+            "required": false,
+            "type": "string"
           },
           {
             "name": "afterPageToken",
@@ -5597,49 +5778,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          }
-        ],
-        "tags": [
-          "ShowService"
-        ]
-      }
-    },
-    "/v1/ticketing/show/{id}/recommend": {
-      "put": {
-        "operationId": "ShowService_RecommendShow",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1RecommendShowReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "isRecommend": {
-                  "type": "boolean"
-                }
-              }
-            }
           }
         ],
         "tags": [
@@ -6713,6 +6851,12 @@
         },
         "duration": {
           "type": "string"
+        },
+        "notice": {
+          "type": "string"
+        },
+        "isRecommend": {
+          "type": "boolean"
         }
       },
       "required": [
@@ -6727,6 +6871,88 @@
         },
         "name": {
           "$ref": "#/definitions/operationStringFilterOperation"
+        },
+        "isRecommend": {
+          "$ref": "#/definitions/operationBooleanFilterOperators"
+        }
+      }
+    },
+    "v1ActivityShow": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "activityId": {
+          "type": "string"
+        },
+        "activity": {
+          "$ref": "#/definitions/v1Activity"
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "locationId": {
+          "type": "string"
+        },
+        "location": {
+          "$ref": "#/definitions/locationv1Location"
+        },
+        "hallId": {
+          "type": "string"
+        },
+        "hall": {
+          "$ref": "#/definitions/v1LocationHall"
+        },
+        "salesTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ActivityShowSalesType"
+          }
+        },
+        "mainPic": {
+          "$ref": "#/definitions/v1TicketingMedia"
+        }
+      }
+    },
+    "v1ActivityShowSalesType": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "seatGroup": {
+          "$ref": "#/definitions/v1SeatGroup"
+        },
+        "seatGroupId": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "saleableFrom": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "saleableTo": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "price": {
+          "$ref": "#/definitions/priceInfoPb"
         }
       }
     },
@@ -6868,6 +7094,9 @@
           "type": "boolean"
         },
         "duration": {
+          "type": "string"
+        },
+        "notice": {
           "type": "string"
         }
       },
@@ -7112,6 +7341,9 @@
     "v1CreateShowRequest": {
       "type": "object",
       "properties": {
+        "name": {
+          "type": "string"
+        },
         "activityId": {
           "type": "string",
           "required": [
@@ -7149,9 +7381,6 @@
           "items": {
             "$ref": "#/definitions/v1UpdateShowSalesType"
           }
-        },
-        "notice": {
-          "type": "string"
         },
         "mainPic": {
           "$ref": "#/definitions/v1TicketingMedia"
@@ -7331,6 +7560,14 @@
           "items": {
             "$ref": "#/definitions/v1Activity"
           }
+        },
+        "nextAfterPageToken": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "nextBeforePageToken": {
+          "type": "string",
+          "x-nullable": true
         }
       }
     },
@@ -7359,6 +7596,23 @@
         },
         "filter": {
           "$ref": "#/definitions/v1ActivityFilter"
+        },
+        "afterPageToken": {
+          "type": "string"
+        },
+        "beforePageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ListAppActivityShowReply": {
+      "type": "object",
+      "properties": {
+        "shows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ActivityShow"
+          }
         }
       }
     },
@@ -8054,7 +8308,7 @@
         }
       }
     },
-    "v1RecommendShowReply": {
+    "v1RecommendActivityReply": {
       "type": "object",
       "properties": {
         "id": {
@@ -8099,6 +8353,9 @@
         "id": {
           "type": "string"
         },
+        "name": {
+          "type": "string"
+        },
         "createdAt": {
           "type": "string",
           "format": "date-time"
@@ -8135,12 +8392,6 @@
             "$ref": "#/definitions/v1ShowSalesType"
           }
         },
-        "notice": {
-          "type": "string"
-        },
-        "isRecommend": {
-          "type": "boolean"
-        },
         "mainPic": {
           "$ref": "#/definitions/v1TicketingMedia"
         },
@@ -8163,8 +8414,8 @@
         "name": {
           "$ref": "#/definitions/operationStringFilterOperation"
         },
-        "isRecommend": {
-          "$ref": "#/definitions/operationBooleanFilterOperators"
+        "activityId": {
+          "$ref": "#/definitions/operationStringFilterOperation"
         }
       }
     },
@@ -8304,6 +8555,9 @@
           "type": "boolean"
         },
         "duration": {
+          "type": "string"
+        },
+        "notice": {
           "type": "string"
         }
       },
@@ -8588,6 +8842,9 @@
             "id"
           ]
         },
+        "name": {
+          "type": "string"
+        },
         "startTime": {
           "type": "string",
           "format": "date-time",
@@ -8607,9 +8864,6 @@
           "items": {
             "$ref": "#/definitions/v1UpdateShowSalesType"
           }
-        },
-        "notice": {
-          "type": "string"
         },
         "mainPic": {
           "$ref": "#/definitions/v1TicketingMedia"

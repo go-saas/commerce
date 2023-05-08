@@ -35,6 +35,1028 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on RecommendActivityRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RecommendActivityRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RecommendActivityRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// RecommendActivityRequestMultiError, or nil if none found.
+func (m *RecommendActivityRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RecommendActivityRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for IsRecommend
+
+	if len(errors) > 0 {
+		return RecommendActivityRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// RecommendActivityRequestMultiError is an error wrapping multiple validation
+// errors returned by RecommendActivityRequest.ValidateAll() if the designated
+// constraints aren't met.
+type RecommendActivityRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RecommendActivityRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RecommendActivityRequestMultiError) AllErrors() []error { return m }
+
+// RecommendActivityRequestValidationError is the validation error returned by
+// RecommendActivityRequest.Validate if the designated constraints aren't met.
+type RecommendActivityRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RecommendActivityRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RecommendActivityRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RecommendActivityRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RecommendActivityRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RecommendActivityRequestValidationError) ErrorName() string {
+	return "RecommendActivityRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RecommendActivityRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRecommendActivityRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RecommendActivityRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RecommendActivityRequestValidationError{}
+
+// Validate checks the field values on RecommendActivityReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RecommendActivityReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RecommendActivityReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// RecommendActivityReplyMultiError, or nil if none found.
+func (m *RecommendActivityReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RecommendActivityReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return RecommendActivityReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// RecommendActivityReplyMultiError is an error wrapping multiple validation
+// errors returned by RecommendActivityReply.ValidateAll() if the designated
+// constraints aren't met.
+type RecommendActivityReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RecommendActivityReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RecommendActivityReplyMultiError) AllErrors() []error { return m }
+
+// RecommendActivityReplyValidationError is the validation error returned by
+// RecommendActivityReply.Validate if the designated constraints aren't met.
+type RecommendActivityReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RecommendActivityReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RecommendActivityReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RecommendActivityReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RecommendActivityReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RecommendActivityReplyValidationError) ErrorName() string {
+	return "RecommendActivityReplyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RecommendActivityReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRecommendActivityReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RecommendActivityReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RecommendActivityReplyValidationError{}
+
+// Validate checks the field values on ListAppActivityShowRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListAppActivityShowRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListAppActivityShowRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListAppActivityShowRequestMultiError, or nil if none found.
+func (m *ListAppActivityShowRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListAppActivityShowRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return ListAppActivityShowRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListAppActivityShowRequestMultiError is an error wrapping multiple
+// validation errors returned by ListAppActivityShowRequest.ValidateAll() if
+// the designated constraints aren't met.
+type ListAppActivityShowRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListAppActivityShowRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListAppActivityShowRequestMultiError) AllErrors() []error { return m }
+
+// ListAppActivityShowRequestValidationError is the validation error returned
+// by ListAppActivityShowRequest.Validate if the designated constraints aren't met.
+type ListAppActivityShowRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListAppActivityShowRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListAppActivityShowRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListAppActivityShowRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListAppActivityShowRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListAppActivityShowRequestValidationError) ErrorName() string {
+	return "ListAppActivityShowRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListAppActivityShowRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListAppActivityShowRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListAppActivityShowRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListAppActivityShowRequestValidationError{}
+
+// Validate checks the field values on ListAppActivityShowReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListAppActivityShowReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListAppActivityShowReply with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListAppActivityShowReplyMultiError, or nil if none found.
+func (m *ListAppActivityShowReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListAppActivityShowReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetShows() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ListAppActivityShowReplyValidationError{
+						field:  fmt.Sprintf("Shows[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ListAppActivityShowReplyValidationError{
+						field:  fmt.Sprintf("Shows[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ListAppActivityShowReplyValidationError{
+					field:  fmt.Sprintf("Shows[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return ListAppActivityShowReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListAppActivityShowReplyMultiError is an error wrapping multiple validation
+// errors returned by ListAppActivityShowReply.ValidateAll() if the designated
+// constraints aren't met.
+type ListAppActivityShowReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListAppActivityShowReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListAppActivityShowReplyMultiError) AllErrors() []error { return m }
+
+// ListAppActivityShowReplyValidationError is the validation error returned by
+// ListAppActivityShowReply.Validate if the designated constraints aren't met.
+type ListAppActivityShowReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListAppActivityShowReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListAppActivityShowReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListAppActivityShowReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListAppActivityShowReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListAppActivityShowReplyValidationError) ErrorName() string {
+	return "ListAppActivityShowReplyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListAppActivityShowReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListAppActivityShowReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListAppActivityShowReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListAppActivityShowReplyValidationError{}
+
+// Validate checks the field values on ActivityShow with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *ActivityShow) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ActivityShow with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in ActivityShowMultiError, or
+// nil if none found.
+func (m *ActivityShow) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ActivityShow) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Name
+
+	if all {
+		switch v := interface{}(m.GetCreatedAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ActivityShowValidationError{
+					field:  "CreatedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ActivityShowValidationError{
+					field:  "CreatedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCreatedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ActivityShowValidationError{
+				field:  "CreatedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for ActivityId
+
+	if all {
+		switch v := interface{}(m.GetActivity()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ActivityShowValidationError{
+					field:  "Activity",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ActivityShowValidationError{
+					field:  "Activity",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetActivity()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ActivityShowValidationError{
+				field:  "Activity",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetStartTime()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ActivityShowValidationError{
+					field:  "StartTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ActivityShowValidationError{
+					field:  "StartTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetStartTime()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ActivityShowValidationError{
+				field:  "StartTime",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetEndTime()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ActivityShowValidationError{
+					field:  "EndTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ActivityShowValidationError{
+					field:  "EndTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetEndTime()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ActivityShowValidationError{
+				field:  "EndTime",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for LocationId
+
+	if all {
+		switch v := interface{}(m.GetLocation()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ActivityShowValidationError{
+					field:  "Location",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ActivityShowValidationError{
+					field:  "Location",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLocation()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ActivityShowValidationError{
+				field:  "Location",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for HallId
+
+	if all {
+		switch v := interface{}(m.GetHall()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ActivityShowValidationError{
+					field:  "Hall",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ActivityShowValidationError{
+					field:  "Hall",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetHall()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ActivityShowValidationError{
+				field:  "Hall",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	for idx, item := range m.GetSalesTypes() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ActivityShowValidationError{
+						field:  fmt.Sprintf("SalesTypes[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ActivityShowValidationError{
+						field:  fmt.Sprintf("SalesTypes[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ActivityShowValidationError{
+					field:  fmt.Sprintf("SalesTypes[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if all {
+		switch v := interface{}(m.GetMainPic()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ActivityShowValidationError{
+					field:  "MainPic",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ActivityShowValidationError{
+					field:  "MainPic",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetMainPic()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ActivityShowValidationError{
+				field:  "MainPic",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return ActivityShowMultiError(errors)
+	}
+
+	return nil
+}
+
+// ActivityShowMultiError is an error wrapping multiple validation errors
+// returned by ActivityShow.ValidateAll() if the designated constraints aren't met.
+type ActivityShowMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ActivityShowMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ActivityShowMultiError) AllErrors() []error { return m }
+
+// ActivityShowValidationError is the validation error returned by
+// ActivityShow.Validate if the designated constraints aren't met.
+type ActivityShowValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ActivityShowValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ActivityShowValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ActivityShowValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ActivityShowValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ActivityShowValidationError) ErrorName() string { return "ActivityShowValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ActivityShowValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sActivityShow.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ActivityShowValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ActivityShowValidationError{}
+
+// Validate checks the field values on ActivityShowSalesType with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ActivityShowSalesType) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ActivityShowSalesType with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ActivityShowSalesTypeMultiError, or nil if none found.
+func (m *ActivityShowSalesType) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ActivityShowSalesType) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Name
+
+	if all {
+		switch v := interface{}(m.GetSeatGroup()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ActivityShowSalesTypeValidationError{
+					field:  "SeatGroup",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ActivityShowSalesTypeValidationError{
+					field:  "SeatGroup",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSeatGroup()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ActivityShowSalesTypeValidationError{
+				field:  "SeatGroup",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetSaleableFrom()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ActivityShowSalesTypeValidationError{
+					field:  "SaleableFrom",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ActivityShowSalesTypeValidationError{
+					field:  "SaleableFrom",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSaleableFrom()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ActivityShowSalesTypeValidationError{
+				field:  "SaleableFrom",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetSaleableTo()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ActivityShowSalesTypeValidationError{
+					field:  "SaleableTo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ActivityShowSalesTypeValidationError{
+					field:  "SaleableTo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSaleableTo()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ActivityShowSalesTypeValidationError{
+				field:  "SaleableTo",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetPrice()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ActivityShowSalesTypeValidationError{
+					field:  "Price",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ActivityShowSalesTypeValidationError{
+					field:  "Price",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPrice()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ActivityShowSalesTypeValidationError{
+				field:  "Price",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if m.SeatGroupId != nil {
+		// no validation rules for SeatGroupId
+	}
+
+	if len(errors) > 0 {
+		return ActivityShowSalesTypeMultiError(errors)
+	}
+
+	return nil
+}
+
+// ActivityShowSalesTypeMultiError is an error wrapping multiple validation
+// errors returned by ActivityShowSalesType.ValidateAll() if the designated
+// constraints aren't met.
+type ActivityShowSalesTypeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ActivityShowSalesTypeMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ActivityShowSalesTypeMultiError) AllErrors() []error { return m }
+
+// ActivityShowSalesTypeValidationError is the validation error returned by
+// ActivityShowSalesType.Validate if the designated constraints aren't met.
+type ActivityShowSalesTypeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ActivityShowSalesTypeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ActivityShowSalesTypeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ActivityShowSalesTypeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ActivityShowSalesTypeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ActivityShowSalesTypeValidationError) ErrorName() string {
+	return "ActivityShowSalesTypeValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ActivityShowSalesTypeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sActivityShowSalesType.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ActivityShowSalesTypeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ActivityShowSalesTypeValidationError{}
+
 // Validate checks the field values on CreateActivityRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -194,6 +1216,8 @@ func (m *CreateActivityRequest) validate(all bool) error {
 			}
 		}
 	}
+
+	// no validation rules for Notice
 
 	if len(errors) > 0 {
 		return CreateActivityRequestMultiError(errors)
@@ -607,6 +1631,8 @@ func (m *UpdateActivity) validate(all bool) error {
 			}
 		}
 	}
+
+	// no validation rules for Notice
 
 	if len(errors) > 0 {
 		return UpdateActivityMultiError(errors)
@@ -1089,6 +2115,35 @@ func (m *ActivityFilter) validate(all bool) error {
 		}
 	}
 
+	if all {
+		switch v := interface{}(m.GetIsRecommend()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ActivityFilterValidationError{
+					field:  "IsRecommend",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ActivityFilterValidationError{
+					field:  "IsRecommend",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetIsRecommend()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ActivityFilterValidationError{
+				field:  "IsRecommend",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
 		return ActivityFilterMultiError(errors)
 	}
@@ -1253,6 +2308,10 @@ func (m *ListActivityRequest) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for AfterPageToken
+
+	// no validation rules for BeforePageToken
+
 	if len(errors) > 0 {
 		return ListActivityRequestMultiError(errors)
 	}
@@ -1391,6 +2450,14 @@ func (m *ListActivityReply) validate(all bool) error {
 			}
 		}
 
+	}
+
+	if m.NextAfterPageToken != nil {
+		// no validation rules for NextAfterPageToken
+	}
+
+	if m.NextBeforePageToken != nil {
+		// no validation rules for NextBeforePageToken
 	}
 
 	if len(errors) > 0 {
@@ -1670,6 +2737,10 @@ func (m *Activity) validate(all bool) error {
 			}
 		}
 	}
+
+	// no validation rules for Notice
+
+	// no validation rules for IsRecommend
 
 	if len(errors) > 0 {
 		return ActivityMultiError(errors)

@@ -55,6 +55,8 @@ func NewHttpServerRegister(
 		v1.RegisterTicketingCategoryAppServiceHTTPServer(srv, category)
 
 		v13.RegisterActivityServiceHTTPServer(srv, activity)
+		v13.RegisterActivityAppServiceHTTPServer(srv, activity)
+
 		v14.RegisterShowServiceHTTPServer(srv, show)
 		v14.RegisterShowAppServiceHTTPServer(srv, show)
 
@@ -101,6 +103,7 @@ func NewGrpcServerRegister(
 		v1.RegisterTicketingCategoryAppServiceServer(srv, category)
 
 		v13.RegisterActivityServiceServer(srv, activity)
+		v13.RegisterActivityAppServiceServer(srv, activity)
 
 		v14.RegisterShowServiceServer(srv, show)
 		v14.RegisterShowAppServiceServer(srv, show)

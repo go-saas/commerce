@@ -6,13 +6,13 @@ import (
 )
 
 const (
-	ResourceLocation                    = "ticketing.location"
-	ResourceShow                        = "ticketing.show"
-	ResourceTicket                      = "ticketing.ticket"
-	ResourceActivity                    = "ticketing.activity"
-	ResourceCategory                    = "ticketing.category"
-	ResourceBanner                      = "ticketing.banner"
-	ActionShowRecommend authz.ActionStr = "recommend"
+	ResourceLocation                        = "ticketing.location"
+	ResourceShow                            = "ticketing.show"
+	ResourceTicket                          = "ticketing.ticket"
+	ResourceActivity                        = "ticketing.activity"
+	ResourceCategory                        = "ticketing.category"
+	ResourceBanner                          = "ticketing.banner"
+	ActionActivityRecommend authz.ActionStr = "recommend"
 )
 
 //go:embed permission.yaml
