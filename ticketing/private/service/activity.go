@@ -163,7 +163,7 @@ func (s *ActivityService) DeleteActivity(ctx context.Context, req *pb.DeleteActi
 }
 
 func (s *ActivityService) RecommendActivity(ctx context.Context, req *pb.RecommendActivityRequest) (*pb.RecommendActivityReply, error) {
-	if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceTicket, req.Id), api.ActionActivityRecommend); err != nil {
+	if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceActivity, req.Id), api.ActionActivityRecommend); err != nil {
 		return nil, err
 	}
 	g, err := s.repo.Get(ctx, req.Id)
