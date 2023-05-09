@@ -13,8 +13,10 @@ import (
 	"github.com/go-saas/kit/pkg/price"
 	"github.com/go-saas/kit/pkg/query"
 	"github.com/go-saas/kit/pkg/utils"
+	"github.com/go-saas/lbs"
 	"github.com/samber/lo"
 	"google.golang.org/protobuf/types/known/wrapperspb"
+	"time"
 )
 
 type OrderService struct {
@@ -211,6 +213,19 @@ func (s *OrderService) CreateInternalOrder(ctx context.Context, req *pb.CreateIn
 	if err != nil {
 		return nil, err
 	}
+	e.CustomerID = req.CustomerId
+	e.Extra = utils.Structpb2Map(req.Extra)
+
+	billingAddr, _ := lbs.NewAddressEntityFromPb(req.BillingAddr)
+	e.BillingAddr = *billingAddr
+	shippingAddr, _ := lbs.NewAddressEntityFromPb(req.ShippingAddr)
+	e.ShippingAddr = *shippingAddr
+
+	if req.PayBefore != nil {
+		t := time.Now().Add(req.PayBefore.AsDuration())
+		e.PayBefore = &t
+	}
+
 	err = s.repo.Create(ctx, e)
 	if err != nil {
 		return nil, err
