@@ -216,10 +216,15 @@ func (s *OrderService) CreateInternalOrder(ctx context.Context, req *pb.CreateIn
 	e.CustomerID = req.CustomerId
 	e.Extra = utils.Structpb2Map(req.Extra)
 
-	billingAddr, _ := lbs.NewAddressEntityFromPb(req.BillingAddr)
-	e.BillingAddr = *billingAddr
-	shippingAddr, _ := lbs.NewAddressEntityFromPb(req.ShippingAddr)
-	e.ShippingAddr = *shippingAddr
+	if req.BillingAddr != nil {
+		billingAddr, _ := lbs.NewAddressEntityFromPb(req.BillingAddr)
+		e.BillingAddr = *billingAddr
+	}
+	if req.ShippingAddr != nil {
+		shippingAddr, _ := lbs.NewAddressEntityFromPb(req.ShippingAddr)
+		e.ShippingAddr = *shippingAddr
+
+	}
 
 	if req.PayBefore != nil {
 		t := time.Now().Add(req.PayBefore.AsDuration())
