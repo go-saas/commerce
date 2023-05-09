@@ -223,7 +223,6 @@ func (s *OrderService) CreateInternalOrder(ctx context.Context, req *pb.CreateIn
 	if req.ShippingAddr != nil {
 		shippingAddr, _ := lbs.NewAddressEntityFromPb(req.ShippingAddr)
 		e.ShippingAddr = *shippingAddr
-
 	}
 
 	if req.PayBefore != nil {
