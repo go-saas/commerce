@@ -201,10 +201,14 @@ func (s *ShowService) PlaceShowOrder(ctx context.Context, req *pb.PlaceShowOrder
 		if !ok {
 			return nil, errors.NotFound("SHOW_SALES_TYPE_NOT_FOUND", "")
 		}
+		price := st.Price.Default.ToPricePb()
+		if !st.Price.Discounted.IsEmpty() {
+			price = st.Price.Discounted.ToPricePb()
+		}
 		orderItems = append(orderItems, &v12.CreateInternalOrderItem{
 			Qty:           salesType.Qty,
 			OriginalPrice: st.Price.Default.ToPricePb(),
-			Price:         st.Price.Discounted.ToPricePb(),
+			Price:         price,
 			IsGiveaway:    false,
 			Product: &v12.OrderProduct{
 				Name:     g.Activity.Name,
