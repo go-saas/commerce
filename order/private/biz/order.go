@@ -12,6 +12,7 @@ import (
 	"github.com/lithammer/shortuuid/v3"
 	"github.com/segmentio/ksuid"
 	"gorm.io/gorm"
+	"strconv"
 	"time"
 )
 
@@ -70,7 +71,7 @@ func NewOrder(taxRate apd.Decimal, items []OrderItem) (*Order, error) {
 	for i, item := range i.Items {
 		if i == 0 {
 			totalPrice = item.RowTotal.ToCurrency()
-			rowOriginalPrice, err := item.OriginalPrice.ToCurrency().Mul(string(item.Qty))
+			rowOriginalPrice, err := item.OriginalPrice.ToCurrency().Mul(strconv.FormatInt(int64(item.Qty), 10))
 			if err != nil {
 				return nil, err
 			}
@@ -80,7 +81,7 @@ func NewOrder(taxRate apd.Decimal, items []OrderItem) (*Order, error) {
 			if err != nil {
 				return nil, err
 			}
-			rowOriginalPrice, err := item.OriginalPrice.ToCurrency().Mul(string(item.Qty))
+			rowOriginalPrice, err := item.OriginalPrice.ToCurrency().Mul(strconv.FormatInt(int64(item.Qty), 10))
 			if err != nil {
 				return nil, err
 			}
@@ -162,7 +163,7 @@ func NewOrderItemFromRowDiscount(
 		IsGiveaway:    isGiveaway,
 	}
 
-	avgDiscount, err := i.RowDiscount.ToCurrency().Div(string(i.Qty))
+	avgDiscount, err := i.RowDiscount.ToCurrency().Div(strconv.FormatInt(int64(i.Qty), 10))
 	if err != nil {
 		return nil, err
 	}
@@ -202,7 +203,7 @@ func NewOrderItemFromPriceAndOriginalPrice(
 	if err != nil {
 		return nil, err
 	}
-	rowDiscount, err := singleDiscount.Mul(string(i.Qty))
+	rowDiscount, err := singleDiscount.Mul(strconv.FormatInt(int64(i.Qty), 10))
 	if err != nil {
 		return nil, err
 	}
@@ -224,7 +225,7 @@ func (i *OrderItem) Cal(taxRate apd.Decimal) (err error) {
 		return err
 	}
 
-	rowTotal, err := i.Price.ToCurrency().Mul(string(i.Qty))
+	rowTotal, err := i.Price.ToCurrency().Mul(strconv.FormatInt(int64(i.Qty), 10))
 	if err != nil {
 		return err
 	}
