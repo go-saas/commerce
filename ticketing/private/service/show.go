@@ -206,7 +206,14 @@ func (s *ShowService) PlaceShowOrder(ctx context.Context, req *pb.PlaceShowOrder
 			OriginalPrice: st.Price.Default.ToPricePb(),
 			Price:         st.Price.Discounted.ToPricePb(),
 			IsGiveaway:    false,
-			Product:       nil,
+			Product: &v12.OrderProduct{
+				Name:     g.Activity.Name,
+				Id:       g.ID.String(),
+				MainPic:  mapBizMedia2Pb(ctx, s.blob, g.Activity.MainPic).Url,
+				Type:     "SHOW",
+				SkuId:    st.ID.String(),
+				SkuTitle: st.Name,
+			},
 		})
 	}
 	createOrderReq.Items = orderItems
