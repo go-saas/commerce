@@ -71,6 +71,14 @@ func (s *PaymentService) CreateStripePaymentIntent(ctx context.Context, req *pb.
 	if err != nil {
 		return nil, handleStripeError(err)
 	}
+
+	ephemeralKey, err := s.stripeClient.EphemeralKeys.New(&stripe.EphemeralKeyParams{
+		Customer: &customer.ID,
+	})
+	if err != nil {
+		return nil, handleStripeError(err)
+	}
+
 	paymentIntentParams := &stripe.PaymentIntentParams{
 		Amount:   &order.TotalPrice.Amount,
 		Currency: &order.TotalPrice.CurrencyCode,
@@ -87,6 +95,7 @@ func (s *PaymentService) CreateStripePaymentIntent(ctx context.Context, req *pb.
 	return &pb.CreateStripePaymentIntentReply{
 		PaymentIntent: intent.ClientSecret,
 		CustomerId:    customer.ID,
+		EphemeralKey:  ephemeralKey.Secret,
 	}, nil
 }
 
