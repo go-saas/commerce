@@ -239,6 +239,44 @@ func (s *OrderService) CreateInternalOrder(ctx context.Context, req *pb.CreateIn
 	return res, nil
 }
 
+func (s *OrderService) GetInternalOrder(ctx context.Context, req *pb.GetInternalOrderRequest) (*pb.Order, error) {
+	if ok, _ := s.trust.Trusted(ctx); !ok {
+		return nil, errors.Forbidden("", "")
+	}
+	g, err := s.repo.Get(ctx, req.GetId())
+	if err != nil {
+		return nil, err
+	}
+	if g == nil {
+		return nil, errors.NotFound("", "")
+	}
+	res := &pb.Order{}
+	MapBizOrder2Pb(g, res)
+	return res, nil
+}
+
+func (s *OrderService) InternalOrderPaySuccess(ctx context.Context, req *pb.InternalOrderPaySuccessRequest) (*pb.InternalOrderPaySuccessReply, error) {
+	if ok, _ := s.trust.Trusted(ctx); !ok {
+		return nil, errors.Forbidden("", "")
+	}
+	g, err := s.repo.Get(ctx, req.GetId())
+	if err != nil {
+		return nil, err
+	}
+	if g == nil {
+		return nil, errors.NotFound("", "")
+	}
+	p, err := price.NewPriceFromPb(req.PaidPrice)
+	if err != nil {
+		return nil, err
+	}
+	g.ChangeToPaid(req.PayWay, p, utils.Structpb2Map(req.PayExtra), utils.Timepb2Time(req.PaidTime))
+	if err := s.repo.Update(ctx, g.ID, g, nil); err != nil {
+		return nil, err
+	}
+	return &pb.InternalOrderPaySuccessReply{}, err
+}
+
 func MapBizOrder2Pb(a *biz.Order, b *pb.Order) {
 	b.Id = a.ID
 

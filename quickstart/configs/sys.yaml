@@ -116,6 +116,10 @@ sys:
         uris: [ "/v1/order/*","/assets/order/*" ]
         upstream_id: order-http
 
+      payment-api:
+        uris: [ "/v1/payment/*" ]
+        upstream_id: payment-http
+
       user-api:
         priority: -99
         uris: ["/v1/*","/assets/user/*"]

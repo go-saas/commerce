@@ -25,6 +25,7 @@ require (
 	github.com/segmentio/ksuid v1.0.4
 	github.com/spf13/afero v1.9.3
 	github.com/stretchr/testify v1.8.1
+	github.com/stripe/stripe-go/v74 v74.17.0
 	google.golang.org/genproto v0.0.0-20221207170731-23e4bf6bdc37
 	google.golang.org/grpc v1.51.0
 	google.golang.org/protobuf v1.28.1
@@ -71,7 +72,6 @@ require (
 	github.com/fatih/color v1.13.0 // indirect
 	github.com/fclairamb/afero-s3 v0.3.1 // indirect
 	github.com/felixge/httpsnoop v1.0.3 // indirect
-	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/glebarez/go-sqlite v1.19.1 // indirect
 	github.com/glebarez/sqlite v1.5.0 // indirect
 	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20220927151429-0ecc2b422f28 // indirect

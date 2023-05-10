@@ -48,6 +48,14 @@ data:
       os:
         dir: ".assets"
 
+payment:
+  methods:
+    default:
+      stripe:
+        is_test: true
+        private_key: sk_test_51GqvR7JYyL5pFgToLCVoHxhFtAwZv0Fd6SHuHZdT3LHPSfcj3FqcxMAG7atHAwcF0FaUJ6SrlObZh6RMteHLxBqz00qrjLMhdI
+
+
 security:
   jwt:
     expire_in: 2592000s #    30 days

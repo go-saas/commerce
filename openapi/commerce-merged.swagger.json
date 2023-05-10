@@ -15,6 +15,12 @@
       "name": "OrderInternalService"
     },
     {
+      "name": "PaymentGatewayService"
+    },
+    {
+      "name": "StripePaymentGatewayService"
+    },
+    {
       "name": "ProductCategoryService"
     },
     {
@@ -1016,6 +1022,106 @@
         ],
         "tags": [
           "OrderService"
+        ]
+      }
+    },
+    "/v1/payment/methods": {
+      "get": {
+        "operationId": "PaymentGatewayService_GetPaymentMethod",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetPaymentMethodReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "isTest",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "tags": [
+          "PaymentGatewayService"
+        ]
+      }
+    },
+    "/v1/payment/stripe/intent": {
+      "post": {
+        "operationId": "StripePaymentGatewayService_CreateStripePaymentIntent",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateStripePaymentIntentReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateStripePaymentIntentRequest"
+            }
+          }
+        ],
+        "tags": [
+          "StripePaymentGatewayService"
+        ]
+      }
+    },
+    "/v1/payment/stripe/webhook": {
+      "post": {
+        "operationId": "StripePaymentGatewayService_StripeWebhook",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1StripeWebhookReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "properties": {}
+            }
+          }
+        ],
+        "tags": [
+          "StripePaymentGatewayService"
         ]
       }
     },
@@ -6279,6 +6385,23 @@
     }
   },
   "definitions": {
+    "gatewayv1PaymentMethod": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "logo": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "notice": {
+          "type": "string"
+        }
+      }
+    },
     "googlerpcStatus": {
       "type": "object",
       "properties": {
@@ -7394,6 +7517,28 @@
         "hallId"
       ]
     },
+    "v1CreateStripePaymentIntentReply": {
+      "type": "object",
+      "properties": {
+        "paymentIntent": {
+          "type": "string"
+        },
+        "ephemeralKey": {
+          "type": "string"
+        },
+        "customerId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1CreateStripePaymentIntentRequest": {
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "type": "string"
+        }
+      }
+    },
     "v1CreateTicketRequest": {
       "type": "object",
       "properties": {
@@ -7529,6 +7674,20 @@
           }
         }
       }
+    },
+    "v1GetPaymentMethodReply": {
+      "type": "object",
+      "properties": {
+        "methods": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/gatewayv1PaymentMethod"
+          }
+        }
+      }
+    },
+    "v1InternalOrderPaySuccessReply": {
+      "type": "object"
     },
     "v1Keyword": {
       "type": "object",
@@ -8468,6 +8627,9 @@
           "type": "string"
         }
       }
+    },
+    "v1StripeWebhookReply": {
+      "type": "object"
     },
     "v1Ticket": {
       "type": "object",

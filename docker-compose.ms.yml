@@ -91,3 +91,16 @@ services:
       dockerfile: ./order/Dockerfile
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  payment:
+    image: ${DOCKER_REGISTRY}go-saas-commerce-payment:${DOCKER_TAG:-latest}
+    volumes:
+      - ./quickstart/configs:/data/conf
+      - ./quickstart/.assets:/app/.assets
+
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./payment/Dockerfile
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

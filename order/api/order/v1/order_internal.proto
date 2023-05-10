@@ -19,6 +19,14 @@ option go_package = "github.com/go-saas/commerce/order/api/order/v1;v1";
 service OrderInternalService {
   rpc CreateInternalOrder (CreateInternalOrderRequest) returns (Order){
   }
+
+  rpc GetInternalOrder(GetInternalOrderRequest)returns(Order){
+
+  }
+
+  rpc InternalOrderPaySuccess(InternalOrderPaySuccessRequest)returns(InternalOrderPaySuccessReply){
+
+  }
 }
 
 message CreateInternalOrderRequest{
@@ -48,3 +56,23 @@ message CreateInternalOrderItem{
   OrderProduct product=100 [(validate.rules).message.required=true,(google.api.field_behavior) = REQUIRED];
 
 }
+
+message GetInternalOrderRequest{
+  string id=1;
+
+}
+
+message InternalOrderPaySuccessRequest{
+  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+
+  google.protobuf.Struct pay_extra = 21;
+  google.protobuf.Timestamp paid_time=22;
+
+  price.PricePb paid_price=30;
+  string pay_way = 31;
+}
+
+message InternalOrderPaySuccessReply{
+
+}
+

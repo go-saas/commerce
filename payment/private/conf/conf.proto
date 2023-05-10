@@ -13,6 +13,22 @@ message Bootstrap {
   .conf.Logging logging=6;
   .conf.Tracers tracing=7;
   .conf.AppConfig app=8;
+
+  PaymentConf payment=500;
 }
 
+
+message PaymentConf{
+  map<string,PaymentMethod> methods=1;
+}
+
+message PaymentMethod{
+    StripePayment stripe=1;
+}
+
+message StripePayment{
+  bool is_test=1;
+  string publish_key=2;
+  string private_key=3;
+}
 

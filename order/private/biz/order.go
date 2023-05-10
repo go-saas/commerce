@@ -10,6 +10,7 @@ import (
 	"github.com/go-saas/kit/pkg/price"
 	"github.com/go-saas/lbs"
 	"github.com/lithammer/shortuuid/v3"
+	"github.com/samber/lo"
 	"github.com/segmentio/ksuid"
 	"gorm.io/gorm"
 	"strconv"
@@ -35,8 +36,9 @@ type Order struct {
 
 	PayBefore *time.Time
 
-	PayWay      string
-	PayWayExtra data.JSONMap
+	PayWay string
+
+	PayExtra []OrderPayExtra `gorm:"foreignKey:OrderID;references:ID"`
 
 	ShippingAddr lbs.AddressEntity `gorm:"embedded;embeddedPrefix:shipping_addr_"`
 	BillingAddr  lbs.AddressEntity `gorm:"embedded;embeddedPrefix:billing_addr_"`
@@ -144,6 +146,13 @@ type OrderItem struct {
 	IsGiveaway bool `gorm:"comment:是否赠品"`
 
 	BizPayload data.JSONMap
+}
+
+type OrderPayExtra struct {
+	kitgorm.UIDBase
+	OrderID     string
+	PayWay      string
+	PayWayExtra data.JSONMap
 }
 
 func NewOrderItemFromRowDiscount(
@@ -290,4 +299,18 @@ func (u *Order) BeforeCreate(tx *gorm.DB) error {
 		u.ID = ksuid.New().String()
 	}
 	return nil
+}
+
+func (u *Order) ChangeToPaid(payway string, paidPrice price.Price, extra map[string]interface{}, paidTime *time.Time) {
+	u.PayWay = payway
+	u.PaidPrice = paidPrice
+	u.PaidTime = paidTime
+	existing, ok := lo.Find(u.PayExtra, func(item OrderPayExtra) bool {
+		return item.PayWay == payway
+	})
+	if ok {
+		existing.PayWayExtra = extra
+	} else {
+		u.PayExtra = append(u.PayExtra, OrderPayExtra{PayWay: payway, PayWayExtra: extra})
+	}
 }

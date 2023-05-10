@@ -19,6 +19,8 @@ const _ = grpc.SupportPackageIsVersion7
 var _ OrderInternalServiceServer = (*orderInternalServiceClientProxy)(nil)
 
 const GrpcOperationOrderInternalServiceCreateInternalOrder = "/order.api.order.v1.OrderInternalService/CreateInternalOrder"
+const GrpcOperationOrderInternalServiceGetInternalOrder = "/order.api.order.v1.OrderInternalService/GetInternalOrder"
+const GrpcOperationOrderInternalServiceInternalOrderPaySuccess = "/order.api.order.v1.OrderInternalService/InternalOrderPaySuccess"
 
 // orderInternalServiceClientProxy is the proxy to turn OrderInternalService client to server interface.
 type orderInternalServiceClientProxy struct {
@@ -31,4 +33,10 @@ func NewOrderInternalServiceClientProxy(cc OrderInternalServiceClient) OrderInte
 
 func (c *orderInternalServiceClientProxy) CreateInternalOrder(ctx context.Context, in *CreateInternalOrderRequest) (*Order, error) {
 	return c.cc.CreateInternalOrder(ctx, in)
+}
+func (c *orderInternalServiceClientProxy) GetInternalOrder(ctx context.Context, in *GetInternalOrderRequest) (*Order, error) {
+	return c.cc.GetInternalOrder(ctx, in)
+}
+func (c *orderInternalServiceClientProxy) InternalOrderPaySuccess(ctx context.Context, in *InternalOrderPaySuccessRequest) (*InternalOrderPaySuccessReply, error) {
+	return c.cc.InternalOrderPaySuccess(ctx, in)
 }

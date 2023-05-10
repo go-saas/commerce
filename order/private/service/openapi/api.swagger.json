@@ -1178,6 +1178,9 @@
         }
       }
     },
+    "v1InternalOrderPaySuccessReply": {
+      "type": "object"
+    },
     "v1ListOrderReply": {
       "type": "object",
       "properties": {

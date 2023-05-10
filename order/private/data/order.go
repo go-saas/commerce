@@ -28,8 +28,9 @@ func (c *OrderRepo) GetDb(ctx context.Context) *gorm.DB {
 // BuildDetailScope preload relations
 func (c *OrderRepo) BuildDetailScope(withDetail bool) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
+		db = db.Preload("Items")
 		if withDetail {
-			return db.Preload("Items")
+			db = db.Preload("PayExtra")
 		}
 		return db
 	}
