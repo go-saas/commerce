@@ -73,7 +73,8 @@ func (s *PaymentService) CreateStripePaymentIntent(ctx context.Context, req *pb.
 	}
 
 	ephemeralKey, err := s.stripeClient.EphemeralKeys.New(&stripe.EphemeralKeyParams{
-		Customer: &customer.ID,
+		Customer:      &customer.ID,
+		StripeVersion: stripe.String(stripe.APIVersion),
 	})
 	if err != nil {
 		return nil, handleStripeError(err)
