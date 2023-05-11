@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"
 	v1 "github.com/go-saas/commerce/order/api/order/v1"
@@ -62,16 +63,8 @@ func (s *PaymentService) CreateStripePaymentIntent(ctx context.Context, req *pb.
 	if order.CustomerId != userInfo.GetId() {
 		return nil, errors.NotFound("", "")
 	}
-	params := &stripe.CustomerParams{}
-	params.Metadata = map[string]string{
-		"user_id": userInfo.GetId(),
-	}
-
-	customer, err := s.stripeClient.Customers.New(params)
-	if err != nil {
-		return nil, handleStripeError(err)
-	}
-
+	userId := userInfo.GetId()
+	customer, err := s.findOrCreateCustomer(userId)
 	ephemeralKey, err := s.stripeClient.EphemeralKeys.New(&stripe.EphemeralKeyParams{
 		Customer:      &customer.ID,
 		StripeVersion: stripe.String(stripe.APIVersion),
@@ -85,7 +78,7 @@ func (s *PaymentService) CreateStripePaymentIntent(ctx context.Context, req *pb.
 		Currency: &order.TotalPrice.CurrencyCode,
 		Customer: &customer.ID,
 	}
-	params.Metadata = map[string]string{
+	paymentIntentParams.Metadata = map[string]string{
 		"user_id":  userInfo.GetId(),
 		"order_id": req.OrderId,
 	}
@@ -142,4 +135,38 @@ func (s *PaymentService) StripeWebhook(ctx context.Context, req *emptypb.Empty) 
 func handleStripeError(err error) error {
 	//TODO handle stripe
 	return err
+}
+
+func (s *PaymentService) findOrCreateCustomer(userId string) (*stripe.Customer, error) {
+	var err error
+	customerSearch := &stripe.CustomerSearchParams{}
+	customerSearch.Query = fmt.Sprintf("metadata['user_id']:'%s'", userId)
+	searchIter := s.stripeClient.Customers.Search(customerSearch)
+	if searchIter.Err() != nil {
+		return nil, handleStripeError(searchIter.Err())
+	}
+	var customer *stripe.Customer
+	for searchIter.Next() {
+		if searchIter.Err() != nil {
+			return nil, handleStripeError(searchIter.Err())
+		}
+		customer = searchIter.Customer()
+		break
+	}
+	if searchIter.Err() != nil {
+		return nil, handleStripeError(searchIter.Err())
+	}
+	if customer == nil {
+		params := &stripe.CustomerParams{
+			Name: &userId,
+		}
+		params.Metadata = map[string]string{
+			"user_id": userId,
+		}
+		customer, err = s.stripeClient.Customers.New(params)
+		if err != nil {
+			return nil, handleStripeError(err)
+		}
+	}
+	return customer, nil
 }
