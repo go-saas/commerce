@@ -8,6 +8,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	v1 "github.com/go-saas/commerce/order/api/order/v1"
 	pb "github.com/go-saas/commerce/payment/api/gateway/v1"
+	"github.com/go-saas/commerce/payment/private/conf"
 	sapi "github.com/go-saas/kit/pkg/api"
 	"github.com/go-saas/kit/pkg/authn"
 	"github.com/go-saas/kit/pkg/authz/authz"
@@ -26,6 +27,7 @@ type PaymentService struct {
 	orderInternalSrv v1.OrderInternalServiceServer
 	stripeClient     *client.API
 	l                *log.Helper
+	c                *conf.PaymentConf
 }
 
 var _ pb.PaymentGatewayServiceServer = (*PaymentService)(nil)
@@ -37,6 +39,7 @@ func NewPaymentService(
 	orderInternalSrv v1.OrderInternalServiceServer,
 	stripeClient *client.API,
 	logger log.Logger,
+	c *conf.PaymentConf,
 ) *PaymentService {
 	return &PaymentService{
 		trust:            trust,
@@ -44,6 +47,7 @@ func NewPaymentService(
 		orderInternalSrv: orderInternalSrv,
 		stripeClient:     stripeClient,
 		l:                log.NewHelper(logger),
+		c:                c,
 	}
 }
 
@@ -99,7 +103,7 @@ func (s *PaymentService) StripeWebhook(ctx context.Context, req *emptypb.Empty) 
 		if err != nil {
 			return nil, err
 		}
-		event, err := webhook.ConstructEvent(body, req.Header.Get("stripe-signature"), s.stripeClient.Customers.Key)
+		event, err := webhook.ConstructEvent(body, req.Header.Get("Stripe-Signature"), s.c.GetMethodOrDefault("").Stripe.WebhookKey)
 		if err != nil {
 			return nil, handleStripeError(err)
 		}

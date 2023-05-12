@@ -30,5 +30,6 @@ message StripePayment{
   bool is_test=1;
   string publish_key=2;
   string private_key=3;
+  string webhook_key=4;
 }
 

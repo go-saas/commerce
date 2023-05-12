@@ -639,6 +639,8 @@ func (m *StripePayment) validate(all bool) error {
 
 	// no validation rules for PrivateKey
 
+	// no validation rules for WebhookKey
+
 	if len(errors) > 0 {
 		return StripePaymentMultiError(errors)
 	}
