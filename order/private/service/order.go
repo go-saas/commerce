@@ -54,10 +54,7 @@ func (s *OrderService) ListAppOrder(ctx context.Context, req *pb.ListOrderReques
 	if err != nil {
 		return ret, err
 	}
-	items, err := s.repo.List(ctx, req)
-	if err != nil {
-		return ret, err
-	}
+	items := cursorRet.Items
 	rItems := lo.Map(items, func(g *biz.Order, _ int) *pb.Order {
 		b := &pb.Order{}
 		MapBizOrder2Pb(g, b)

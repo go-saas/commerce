@@ -24,7 +24,7 @@ var ProviderSet = kitdi.NewSet(
 
 func NewHttpServerRegister(
 	resEncoder khttp.EncodeResponseFunc,
-	errEncoder khttp.EncodeErrorFunc, ) kithttp.ServiceRegister {
+	errEncoder khttp.EncodeErrorFunc) kithttp.ServiceRegister {
 	return kithttp.ServiceRegisterFunc(func(srv *khttp.Server, middleware ...middleware.Middleware) {
 
 		swaggerRouter := chi.NewRouter()
@@ -32,6 +32,7 @@ func NewHttpServerRegister(
 			kithttp.MiddlewareConvert(errEncoder, middleware...))
 		const apiPrefix = "/v1/server/dev/swagger"
 		swaggerRouter.Handle(apiPrefix+"*", http.StripPrefix(apiPrefix, swaggerui.Handler(spec)))
+		srv.HandlePrefix(apiPrefix, swaggerRouter)
 	})
 }
 

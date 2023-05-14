@@ -194,10 +194,7 @@ func (s *ActivityService) ListAppActivity(ctx context.Context, req *pb.ListActiv
 	if err != nil {
 		return ret, err
 	}
-	items, err := s.repo.List(ctx, req)
-	if err != nil {
-		return ret, err
-	}
+	items := cursorRet.Items
 	rItems := lo.Map(items, func(g *biz.Activity, _ int) *pb.Activity {
 		b := &pb.Activity{}
 		s.MapBizActivity2Pb(ctx, g, b)

@@ -36,6 +36,7 @@ func NewHttpServerRegister(
 			kithttp.MiddlewareConvert(errEncoder, middleware...))
 		const apiPrefix = "/v1/order/dev/swagger"
 		swaggerRouter.Handle(apiPrefix+"*", http.StripPrefix(apiPrefix, swaggerui.Handler(spec)))
+		srv.HandlePrefix(apiPrefix, swaggerRouter)
 	})
 }
 

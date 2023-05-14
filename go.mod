@@ -111,7 +111,6 @@ require (
 	github.com/hashicorp/serf v0.10.0 // indirect
 	github.com/hibiken/asynq v0.23.0 // indirect
 	github.com/hibiken/asynqmon v0.7.1 // indirect
-	github.com/iancoleman/strcase v0.2.0 // indirect
 	github.com/imdario/mergo v0.3.13 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.13.0 // indirect
@@ -215,4 +214,5 @@ replace (
 	github.com/dtm-labs/dtm => github.com/goxiaoy/dtm v0.0.0-20230212053702-b57b19825025
 	github.com/go-saas/kit => github.com/go-saas/kit v0.0.5-0.20230506062437-89150181e2ae
 	github.com/hibiken/asynqmon => github.com/goxiaoy/asynqmon v0.7.2-0.20220620161318-80231130441b
+	github.com/pilagod/gorm-cursor-paginator/v2 => github.com/goxiaoy/gorm-cursor-paginator/v2 v2.0.0-20230514151845-2edb73b9058d
 )
