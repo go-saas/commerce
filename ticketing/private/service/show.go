@@ -12,7 +12,6 @@ import (
 	"github.com/go-saas/commerce/ticketing/private/biz"
 	"github.com/go-saas/kit/pkg/authn"
 	"github.com/go-saas/kit/pkg/authz/authz"
-	"github.com/go-saas/kit/pkg/localize"
 	"github.com/go-saas/kit/pkg/price"
 	"github.com/go-saas/kit/pkg/utils"
 	"github.com/google/uuid"
@@ -193,7 +192,7 @@ func (s *ShowService) PlaceShowOrder(ctx context.Context, req *pb.PlaceShowOrder
 	var orderItems []*v12.CreateInternalOrderItem
 	for _, salesType := range req.SalesType {
 		if salesType.ShowSeatId != nil && salesType.Qty != 1 {
-			return nil, pb.ErrorShowOrderQtyInvalidLocalized(localize.FromContext(ctx), nil, nil)
+			return nil, pb.ErrorShowOrderQtyInvalidLocalized(ctx, nil, nil)
 		}
 		st, ok := lo.Find(g.SalesTypes, func(item biz.ShowSalesType) bool {
 			return item.ID.String() == salesType.ShowSalesTypeId

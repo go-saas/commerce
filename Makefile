@@ -34,7 +34,7 @@ build:
 	cd order && make build
 	cd payment && make build
 	cd product && make build
-	cd ticketing make build
+	cd ticketing && make build
 	cd sys && make build
 	cd user && make build
 
