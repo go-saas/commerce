@@ -18,14 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 var _ TicketingBannerServiceServer = (*ticketingBannerServiceClientProxy)(nil)
 
-const GrpcOperationTicketingBannerServiceListBanner = "/ticketing.api.banner.v1.TicketingBannerService/ListBanner"
-const GrpcOperationTicketingBannerServiceCreateBanner = "/ticketing.api.banner.v1.TicketingBannerService/CreateBanner"
-const GrpcOperationTicketingBannerServiceUpdateBanner = "/ticketing.api.banner.v1.TicketingBannerService/UpdateBanner"
-const GrpcOperationTicketingBannerServiceDeleteBanner = "/ticketing.api.banner.v1.TicketingBannerService/DeleteBanner"
-
 var _ TicketingAppBannerServiceServer = (*ticketingAppBannerServiceClientProxy)(nil)
-
-const GrpcOperationTicketingAppBannerServiceListAppBanner = "/ticketing.api.banner.v1.TicketingAppBannerService/ListAppBanner"
 
 // ticketingBannerServiceClientProxy is the proxy to turn TicketingBannerService client to server interface.
 type ticketingBannerServiceClientProxy struct {

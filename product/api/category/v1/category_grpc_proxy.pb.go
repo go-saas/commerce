@@ -18,12 +18,6 @@ const _ = grpc.SupportPackageIsVersion7
 
 var _ ProductCategoryServiceServer = (*productCategoryServiceClientProxy)(nil)
 
-const GrpcOperationProductCategoryServiceListCategory = "/product.api.category.v1.ProductCategoryService/ListCategory"
-const GrpcOperationProductCategoryServiceGetCategory = "/product.api.category.v1.ProductCategoryService/GetCategory"
-const GrpcOperationProductCategoryServiceCreateCategory = "/product.api.category.v1.ProductCategoryService/CreateCategory"
-const GrpcOperationProductCategoryServiceUpdateCategory = "/product.api.category.v1.ProductCategoryService/UpdateCategory"
-const GrpcOperationProductCategoryServiceDeleteCategory = "/product.api.category.v1.ProductCategoryService/DeleteCategory"
-
 // productCategoryServiceClientProxy is the proxy to turn ProductCategoryService client to server interface.
 type productCategoryServiceClientProxy struct {
 	cc ProductCategoryServiceClient

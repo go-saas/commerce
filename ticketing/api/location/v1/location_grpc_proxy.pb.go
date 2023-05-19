@@ -18,17 +18,6 @@ const _ = grpc.SupportPackageIsVersion7
 
 var _ LocationServiceServer = (*locationServiceClientProxy)(nil)
 
-const GrpcOperationLocationServiceListLocation = "/ticketing.api.location.v1.LocationService/ListLocation"
-const GrpcOperationLocationServiceGetLocation = "/ticketing.api.location.v1.LocationService/GetLocation"
-const GrpcOperationLocationServiceCreateLocation = "/ticketing.api.location.v1.LocationService/CreateLocation"
-const GrpcOperationLocationServiceUpdateLocation = "/ticketing.api.location.v1.LocationService/UpdateLocation"
-const GrpcOperationLocationServiceDeleteLocation = "/ticketing.api.location.v1.LocationService/DeleteLocation"
-const GrpcOperationLocationServiceGetLocationHalls = "/ticketing.api.location.v1.LocationService/GetLocationHalls"
-const GrpcOperationLocationServiceGetLocationHallDetail = "/ticketing.api.location.v1.LocationService/GetLocationHallDetail"
-const GrpcOperationLocationServiceCreateLocationHall = "/ticketing.api.location.v1.LocationService/CreateLocationHall"
-const GrpcOperationLocationServiceUpdateLocationHall = "/ticketing.api.location.v1.LocationService/UpdateLocationHall"
-const GrpcOperationLocationServiceDeleteLocationHall = "/ticketing.api.location.v1.LocationService/DeleteLocationHall"
-
 // locationServiceClientProxy is the proxy to turn LocationService client to server interface.
 type locationServiceClientProxy struct {
 	cc LocationServiceClient

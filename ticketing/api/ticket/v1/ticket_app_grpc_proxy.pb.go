@@ -18,8 +18,6 @@ const _ = grpc.SupportPackageIsVersion7
 
 var _ TicketAppServiceServer = (*ticketAppServiceClientProxy)(nil)
 
-const GrpcOperationTicketAppServiceListMyTicket = "/ticketing.api.ticket.v1.TicketAppService/ListMyTicket"
-
 // ticketAppServiceClientProxy is the proxy to turn TicketAppService client to server interface.
 type ticketAppServiceClientProxy struct {
 	cc TicketAppServiceClient

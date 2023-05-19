@@ -19,12 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 var _ PaymentGatewayServiceServer = (*paymentGatewayServiceClientProxy)(nil)
 
-const GrpcOperationPaymentGatewayServiceGetPaymentMethod = "/payment.api.gateway.v1.PaymentGatewayService/GetPaymentMethod"
-
 var _ StripePaymentGatewayServiceServer = (*stripePaymentGatewayServiceClientProxy)(nil)
-
-const GrpcOperationStripePaymentGatewayServiceCreateStripePaymentIntent = "/payment.api.gateway.v1.StripePaymentGatewayService/CreateStripePaymentIntent"
-const GrpcOperationStripePaymentGatewayServiceStripeWebhook = "/payment.api.gateway.v1.StripePaymentGatewayService/StripeWebhook"
 
 // paymentGatewayServiceClientProxy is the proxy to turn PaymentGatewayService client to server interface.
 type paymentGatewayServiceClientProxy struct {

@@ -115,7 +115,32 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateBrandRequest"
+              "type": "object",
+              "properties": {
+                "brand": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "logo": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "desc": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -151,7 +176,32 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateBrandRequest"
+              "type": "object",
+              "properties": {
+                "brand": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "logo": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "desc": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -889,7 +939,20 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateCategoryRequest"
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -925,7 +988,20 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateCategoryRequest"
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -1385,7 +1461,20 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateProductRequest"
+              "type": "object",
+              "properties": {
+                "product": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -1421,7 +1510,20 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateProductRequest"
+              "type": "object",
+              "properties": {
+                "product": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -1445,6 +1547,7 @@
         "details": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
         }
@@ -1630,10 +1733,7 @@
       "type": "object",
       "properties": {
         "code": {
-          "type": "string",
-          "required": [
-            "code"
-          ]
+          "type": "string"
         },
         "name": {
           "type": "string"
@@ -1659,10 +1759,7 @@
           "type": "string"
         },
         "name": {
-          "type": "string",
-          "required": [
-            "name"
-          ]
+          "type": "string"
         },
         "parent": {
           "type": "string"
@@ -1676,10 +1773,7 @@
       "type": "object",
       "properties": {
         "title": {
-          "type": "string",
-          "required": [
-            "title"
-          ]
+          "type": "string"
         },
         "shortDesc": {
           "type": "string"
@@ -1693,12 +1787,14 @@
         "medias": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Media"
           }
         },
         "badges": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Badge"
           }
         },
@@ -1757,6 +1853,7 @@
         "campaignRules": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1CampaignRule"
           }
         },
@@ -1766,6 +1863,7 @@
         "stock": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Stock"
           }
         }
@@ -1835,6 +1933,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Brand"
           }
         }
@@ -1882,6 +1981,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Category"
           }
         }
@@ -1929,6 +2029,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Product"
           }
         }
@@ -2049,10 +2150,7 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
+          "type": "string"
         },
         "code": {
           "type": "string"
@@ -2074,25 +2172,11 @@
         "id"
       ]
     },
-    "v1UpdateBrandRequest": {
-      "type": "object",
-      "properties": {
-        "brand": {
-          "$ref": "#/definitions/v1UpdateBrand"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
-    },
     "v1UpdateCategory": {
       "type": "object",
       "properties": {
         "key": {
-          "type": "string",
-          "required": [
-            "key"
-          ]
+          "type": "string"
         },
         "name": {
           "type": "string"
@@ -2102,25 +2186,11 @@
         "key"
       ]
     },
-    "v1UpdateCategoryRequest": {
-      "type": "object",
-      "properties": {
-        "category": {
-          "$ref": "#/definitions/v1UpdateCategory"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
-    },
     "v1UpdateProduct": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
+          "type": "string"
         },
         "name": {
           "type": "string"
@@ -2129,17 +2199,6 @@
       "required": [
         "id"
       ]
-    },
-    "v1UpdateProductRequest": {
-      "type": "object",
-      "properties": {
-        "product": {
-          "$ref": "#/definitions/v1UpdateProduct"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
     }
   },
   "securityDefinitions": {

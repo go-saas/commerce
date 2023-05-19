@@ -980,7 +980,20 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateOrderRequest"
+              "type": "object",
+              "properties": {
+                "order": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -1016,7 +1029,20 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateOrderRequest"
+              "type": "object",
+              "properties": {
+                "order": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -1116,6 +1142,7 @@
             "in": "body",
             "required": true,
             "schema": {
+              "type": "object",
               "properties": {}
             }
           }
@@ -1218,7 +1245,32 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateBrandRequest"
+              "type": "object",
+              "properties": {
+                "brand": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "logo": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "desc": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -1254,7 +1306,32 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateBrandRequest"
+              "type": "object",
+              "properties": {
+                "brand": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "logo": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "desc": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -1992,7 +2069,20 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/productapicategoryv1UpdateCategoryRequest"
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -2028,7 +2118,20 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/productapicategoryv1UpdateCategoryRequest"
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -2488,7 +2591,20 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateProductRequest"
+              "type": "object",
+              "properties": {
+                "product": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -2524,7 +2640,20 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateProductRequest"
+              "type": "object",
+              "properties": {
+                "product": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -2969,7 +3098,57 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateActivityRequest"
+              "type": "object",
+              "properties": {
+                "activity": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "mainPic": {
+                      "$ref": "#/definitions/v1TicketingMedia"
+                    },
+                    "medias": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/v1TicketingMedia"
+                      }
+                    },
+                    "desc": {
+                      "type": "string"
+                    },
+                    "shortDesc": {
+                      "type": "string"
+                    },
+                    "content": {
+                      "type": "object"
+                    },
+                    "categoryKeys": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "seatSelectable": {
+                      "type": "boolean"
+                    },
+                    "duration": {
+                      "type": "string"
+                    },
+                    "notice": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
             }
           }
         ],
@@ -3005,7 +3184,57 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateActivityRequest"
+              "type": "object",
+              "properties": {
+                "activity": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "mainPic": {
+                      "$ref": "#/definitions/v1TicketingMedia"
+                    },
+                    "medias": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/v1TicketingMedia"
+                      }
+                    },
+                    "desc": {
+                      "type": "string"
+                    },
+                    "shortDesc": {
+                      "type": "string"
+                    },
+                    "content": {
+                      "type": "object"
+                    },
+                    "categoryKeys": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "seatSelectable": {
+                      "type": "boolean"
+                    },
+                    "duration": {
+                      "type": "string"
+                    },
+                    "notice": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
             }
           }
         ],
@@ -3846,7 +4075,35 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateBannerRequest"
+              "type": "object",
+              "properties": {
+                "banner": {
+                  "type": "object",
+                  "properties": {
+                    "refType": {
+                      "type": "string"
+                    },
+                    "refId": {
+                      "type": "string"
+                    },
+                    "mainPic": {
+                      "$ref": "#/definitions/v1TicketingMedia"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "refType",
+                "refId",
+                "mainPic",
+                "status"
+              ]
             }
           }
         ],
@@ -3882,7 +4139,35 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateBannerRequest"
+              "type": "object",
+              "properties": {
+                "banner": {
+                  "type": "object",
+                  "properties": {
+                    "refType": {
+                      "type": "string"
+                    },
+                    "refId": {
+                      "type": "string"
+                    },
+                    "mainPic": {
+                      "$ref": "#/definitions/v1TicketingMedia"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "refType",
+                "refId",
+                "mainPic",
+                "status"
+              ]
             }
           }
         ],
@@ -4348,7 +4633,23 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ticketingapicategoryv1UpdateCategoryRequest"
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "parent": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -4384,7 +4685,23 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ticketingapicategoryv1UpdateCategoryRequest"
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "parent": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -4962,7 +5279,33 @@
               "type": "object",
               "properties": {
                 "hall": {
-                  "$ref": "#/definitions/v1UpdateLocationHall"
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "tags": {
+                      "type": "string"
+                    },
+                    "capacity": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "seatGroups": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/v1UpdateSeatGroup"
+                      }
+                    },
+                    "seats": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/v1Seat"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -5009,7 +5352,33 @@
               "type": "object",
               "properties": {
                 "hall": {
-                  "$ref": "#/definitions/v1UpdateLocationHall"
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "tags": {
+                      "type": "string"
+                    },
+                    "capacity": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "seatGroups": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/v1UpdateSeatGroup"
+                      }
+                    },
+                    "seats": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/v1Seat"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -5085,7 +5454,55 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateLocationRequest"
+              "type": "object",
+              "properties": {
+                "location": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "logo": {
+                      "$ref": "#/definitions/v1TicketingMedia"
+                    },
+                    "medias": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/v1TicketingMedia"
+                      }
+                    },
+                    "desc": {
+                      "type": "string"
+                    },
+                    "shortDesc": {
+                      "type": "string"
+                    },
+                    "content": {
+                      "type": "object"
+                    },
+                    "address": {
+                      "$ref": "#/definitions/lbsAddress"
+                    },
+                    "legalDocs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/v1TicketingMedia"
+                      }
+                    },
+                    "publicContact": {
+                      "$ref": "#/definitions/v1ContactInfo"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
             }
           }
         ],
@@ -5121,7 +5538,55 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateLocationRequest"
+              "type": "object",
+              "properties": {
+                "location": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "logo": {
+                      "$ref": "#/definitions/v1TicketingMedia"
+                    },
+                    "medias": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/v1TicketingMedia"
+                      }
+                    },
+                    "desc": {
+                      "type": "string"
+                    },
+                    "shortDesc": {
+                      "type": "string"
+                    },
+                    "content": {
+                      "type": "object"
+                    },
+                    "address": {
+                      "$ref": "#/definitions/lbsAddress"
+                    },
+                    "legalDocs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/v1TicketingMedia"
+                      }
+                    },
+                    "publicContact": {
+                      "$ref": "#/definitions/v1ContactInfo"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
             }
           }
         ],
@@ -5920,7 +6385,42 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateShowRequest"
+              "type": "object",
+              "properties": {
+                "show": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "startTime": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "endTime": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "salesTypes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/v1UpdateShowSalesType"
+                      }
+                    },
+                    "mainPic": {
+                      "$ref": "#/definitions/v1TicketingMedia"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "startTime",
+                "endTime"
+              ]
             }
           }
         ],
@@ -5956,7 +6456,42 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateShowRequest"
+              "type": "object",
+              "properties": {
+                "show": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "startTime": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "endTime": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "salesTypes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/v1UpdateShowSalesType"
+                      }
+                    },
+                    "mainPic": {
+                      "$ref": "#/definitions/v1TicketingMedia"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "startTime",
+                "endTime"
+              ]
             }
           }
         ],
@@ -6338,7 +6873,20 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateTicketRequest"
+              "type": "object",
+              "properties": {
+                "ticket": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -6374,7 +6922,20 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateTicketRequest"
+              "type": "object",
+              "properties": {
+                "ticket": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -6415,6 +6976,7 @@
         "details": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
         }
@@ -6461,10 +7023,7 @@
           "type": "string"
         },
         "name": {
-          "type": "string",
-          "required": [
-            "name"
-          ]
+          "type": "string"
         },
         "logo": {
           "$ref": "#/definitions/v1TicketingMedia"
@@ -6472,6 +7031,7 @@
         "medias": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1TicketingMedia"
           }
         },
@@ -6490,6 +7050,7 @@
         "legalDocs": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1TicketingMedia"
           }
         },
@@ -6666,10 +7227,7 @@
           "type": "string"
         },
         "name": {
-          "type": "string",
-          "required": [
-            "name"
-          ]
+          "type": "string"
         },
         "parent": {
           "type": "string"
@@ -6704,6 +7262,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/productapicategoryv1Category"
           }
         }
@@ -6741,10 +7300,7 @@
       "type": "object",
       "properties": {
         "key": {
-          "type": "string",
-          "required": [
-            "key"
-          ]
+          "type": "string"
         },
         "name": {
           "type": "string"
@@ -6753,17 +7309,6 @@
       "required": [
         "key"
       ]
-    },
-    "productapicategoryv1UpdateCategoryRequest": {
-      "type": "object",
-      "properties": {
-        "category": {
-          "$ref": "#/definitions/productapicategoryv1UpdateCategory"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
     },
     "protobufAny": {
       "type": "object",
@@ -6821,16 +7366,10 @@
       "type": "object",
       "properties": {
         "key": {
-          "type": "string",
-          "required": [
-            "key"
-          ]
+          "type": "string"
         },
         "name": {
-          "type": "string",
-          "required": [
-            "name"
-          ]
+          "type": "string"
         },
         "parent": {
           "type": "string"
@@ -6866,6 +7405,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/ticketingapicategoryv1Category"
           }
         }
@@ -6903,10 +7443,7 @@
       "type": "object",
       "properties": {
         "key": {
-          "type": "string",
-          "required": [
-            "key"
-          ]
+          "type": "string"
         },
         "name": {
           "type": "string"
@@ -6919,17 +7456,6 @@
         "key"
       ]
     },
-    "ticketingapicategoryv1UpdateCategoryRequest": {
-      "type": "object",
-      "properties": {
-        "category": {
-          "$ref": "#/definitions/ticketingapicategoryv1UpdateCategory"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
-    },
     "v1Activity": {
       "type": "object",
       "properties": {
@@ -6937,10 +7463,7 @@
           "type": "string"
         },
         "name": {
-          "type": "string",
-          "required": [
-            "name"
-          ]
+          "type": "string"
         },
         "mainPic": {
           "$ref": "#/definitions/v1TicketingMedia"
@@ -6948,6 +7471,7 @@
         "medias": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1TicketingMedia"
           }
         },
@@ -6963,6 +7487,7 @@
         "categories": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/ticketingapicategoryv1Category"
           }
         },
@@ -7042,6 +7567,7 @@
         "salesTypes": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1ActivityShowSalesType"
           }
         },
@@ -7184,10 +7710,7 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "string",
-          "required": [
-            "name"
-          ]
+          "type": "string"
         },
         "mainPic": {
           "$ref": "#/definitions/v1TicketingMedia"
@@ -7195,6 +7718,7 @@
         "medias": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1TicketingMedia"
           }
         },
@@ -7231,16 +7755,10 @@
       "type": "object",
       "properties": {
         "refType": {
-          "type": "string",
-          "required": [
-            "ref_type"
-          ]
+          "type": "string"
         },
         "refId": {
-          "type": "string",
-          "required": [
-            "ref_id"
-          ]
+          "type": "string"
         },
         "mainPic": {
           "$ref": "#/definitions/v1TicketingMedia"
@@ -7248,17 +7766,15 @@
       },
       "required": [
         "refType",
-        "refId"
+        "refId",
+        "mainPic"
       ]
     },
     "v1CreateBrandRequest": {
       "type": "object",
       "properties": {
         "code": {
-          "type": "string",
-          "required": [
-            "code"
-          ]
+          "type": "string"
         },
         "name": {
           "type": "string"
@@ -7296,7 +7812,10 @@
         "product": {
           "$ref": "#/definitions/v1OrderProduct"
         }
-      }
+      },
+      "required": [
+        "product"
+      ]
     },
     "v1CreateLocationHallReply": {
       "type": "object"
@@ -7305,10 +7824,7 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "string",
-          "required": [
-            "name"
-          ]
+          "type": "string"
         },
         "logo": {
           "$ref": "#/definitions/v1TicketingMedia"
@@ -7316,6 +7832,7 @@
         "medias": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1TicketingMedia"
           }
         },
@@ -7334,6 +7851,7 @@
         "legalDocs": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1TicketingMedia"
           }
         },
@@ -7349,10 +7867,7 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "string",
-          "required": [
-            "name"
-          ]
+          "type": "string"
         }
       },
       "required": [
@@ -7363,10 +7878,7 @@
       "type": "object",
       "properties": {
         "title": {
-          "type": "string",
-          "required": [
-            "title"
-          ]
+          "type": "string"
         },
         "shortDesc": {
           "type": "string"
@@ -7380,12 +7892,14 @@
         "medias": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Media"
           }
         },
         "badges": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Badge"
           }
         },
@@ -7444,6 +7958,7 @@
         "campaignRules": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1CampaignRule"
           }
         },
@@ -7453,6 +7968,7 @@
         "stock": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Stock"
           }
         }
@@ -7468,40 +7984,26 @@
           "type": "string"
         },
         "activityId": {
-          "type": "string",
-          "required": [
-            "activity_id"
-          ]
+          "type": "string"
         },
         "startTime": {
           "type": "string",
-          "format": "date-time",
-          "required": [
-            "start_time"
-          ]
+          "format": "date-time"
         },
         "endTime": {
           "type": "string",
-          "format": "date-time",
-          "required": [
-            "end_time"
-          ]
+          "format": "date-time"
         },
         "locationId": {
-          "type": "string",
-          "required": [
-            "location_id"
-          ]
+          "type": "string"
         },
         "hallId": {
-          "type": "string",
-          "required": [
-            "hall_id"
-          ]
+          "type": "string"
         },
         "salesTypes": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1UpdateShowSalesType"
           }
         },
@@ -7543,10 +8045,7 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "string",
-          "required": [
-            "name"
-          ]
+          "type": "string"
         }
       },
       "required": [
@@ -7587,16 +8086,10 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
+          "type": "string"
         },
         "hallId": {
-          "type": "string",
-          "required": [
-            "hall_id"
-          ]
+          "type": "string"
         }
       },
       "required": [
@@ -7670,6 +8163,7 @@
         "halls": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1LocationHall"
           }
         }
@@ -7681,6 +8175,7 @@
         "methods": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/gatewayv1PaymentMethod"
           }
         }
@@ -7717,6 +8212,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Activity"
           }
         },
@@ -7770,6 +8266,7 @@
         "shows": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1ActivityShow"
           }
         }
@@ -7781,6 +8278,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Banner"
           }
         }
@@ -7792,6 +8290,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/ticketingapicategoryv1Category"
           }
         }
@@ -7814,6 +8313,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Banner"
           }
         }
@@ -7861,6 +8361,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Brand"
           }
         }
@@ -7908,6 +8409,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/locationv1Location"
           }
         }
@@ -7955,6 +8457,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Order"
           }
         },
@@ -8016,6 +8519,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Product"
           }
         }
@@ -8063,6 +8567,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Show"
           }
         },
@@ -8124,6 +8629,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Ticket"
           }
         },
@@ -8201,6 +8707,7 @@
         "seatGroups": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1SeatGroup"
           }
         }
@@ -8274,6 +8781,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1OrderItem"
           }
         }
@@ -8365,10 +8873,7 @@
       "type": "object",
       "properties": {
         "showSalesTypeId": {
-          "type": "string",
-          "required": [
-            "show_sales_type_id"
-          ]
+          "type": "string"
         },
         "showSeatId": {
           "type": "string",
@@ -8376,10 +8881,7 @@
         },
         "qty": {
           "type": "integer",
-          "format": "int32",
-          "required": [
-            "qty"
-          ]
+          "format": "int32"
         }
       },
       "required": [
@@ -8399,19 +8901,14 @@
       "type": "object",
       "properties": {
         "showId": {
-          "type": "string",
-          "required": [
-            "show_id"
-          ]
+          "type": "string"
         },
         "salesType": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1OrderSalesType"
-          },
-          "required": [
-            "sales_type"
-          ]
+          }
         }
       },
       "required": [
@@ -8548,6 +9045,7 @@
         "salesTypes": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1ShowSalesType"
           }
         },
@@ -8684,10 +9182,7 @@
           "type": "string"
         },
         "name": {
-          "type": "string",
-          "required": [
-            "name"
-          ]
+          "type": "string"
         },
         "mainPic": {
           "$ref": "#/definitions/v1TicketingMedia"
@@ -8695,6 +9190,7 @@
         "medias": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1TicketingMedia"
           }
         },
@@ -8727,74 +9223,38 @@
         "name"
       ]
     },
-    "v1UpdateActivityRequest": {
-      "type": "object",
-      "properties": {
-        "activity": {
-          "$ref": "#/definitions/v1UpdateActivity"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
-    },
     "v1UpdateBanner": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
+          "type": "string"
         },
         "refType": {
-          "type": "string",
-          "required": [
-            "ref_type"
-          ]
+          "type": "string"
         },
         "refId": {
-          "type": "string",
-          "required": [
-            "ref_id"
-          ]
+          "type": "string"
         },
         "mainPic": {
           "$ref": "#/definitions/v1TicketingMedia"
         },
         "status": {
-          "type": "string",
-          "required": [
-            "status"
-          ]
+          "type": "string"
         }
       },
       "required": [
         "id",
         "refType",
         "refId",
+        "mainPic",
         "status"
       ]
-    },
-    "v1UpdateBannerRequest": {
-      "type": "object",
-      "properties": {
-        "banner": {
-          "$ref": "#/definitions/v1UpdateBanner"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
     },
     "v1UpdateBrand": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
+          "type": "string"
         },
         "code": {
           "type": "string"
@@ -8816,31 +9276,14 @@
         "id"
       ]
     },
-    "v1UpdateBrandRequest": {
-      "type": "object",
-      "properties": {
-        "brand": {
-          "$ref": "#/definitions/v1UpdateBrand"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
-    },
     "v1UpdateLocation": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
+          "type": "string"
         },
         "name": {
-          "type": "string",
-          "required": [
-            "name"
-          ]
+          "type": "string"
         },
         "logo": {
           "$ref": "#/definitions/v1TicketingMedia"
@@ -8848,6 +9291,7 @@
         "medias": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1TicketingMedia"
           }
         },
@@ -8866,6 +9310,7 @@
         "legalDocs": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1TicketingMedia"
           }
         },
@@ -8897,12 +9342,14 @@
         "seatGroups": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1UpdateSeatGroup"
           }
         },
         "seats": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Seat"
           }
         }
@@ -8911,25 +9358,11 @@
     "v1UpdateLocationHallReply": {
       "type": "object"
     },
-    "v1UpdateLocationRequest": {
-      "type": "object",
-      "properties": {
-        "location": {
-          "$ref": "#/definitions/v1UpdateLocation"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
-    },
     "v1UpdateOrder": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
+          "type": "string"
         },
         "name": {
           "type": "string"
@@ -8938,26 +9371,12 @@
       "required": [
         "id"
       ]
-    },
-    "v1UpdateOrderRequest": {
-      "type": "object",
-      "properties": {
-        "order": {
-          "$ref": "#/definitions/v1UpdateOrder"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
     },
     "v1UpdateProduct": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
+          "type": "string"
         },
         "name": {
           "type": "string"
@@ -8966,17 +9385,6 @@
       "required": [
         "id"
       ]
-    },
-    "v1UpdateProductRequest": {
-      "type": "object",
-      "properties": {
-        "product": {
-          "$ref": "#/definitions/v1UpdateProduct"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
     },
     "v1UpdateSeatGroup": {
       "type": "object",
@@ -8990,6 +9398,7 @@
         "seats": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Seat"
           }
         }
@@ -8999,31 +9408,23 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
+          "type": "string"
         },
         "name": {
           "type": "string"
         },
         "startTime": {
           "type": "string",
-          "format": "date-time",
-          "required": [
-            "start_time"
-          ]
+          "format": "date-time"
         },
         "endTime": {
           "type": "string",
-          "format": "date-time",
-          "required": [
-            "end_time"
-          ]
+          "format": "date-time"
         },
         "salesTypes": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1UpdateShowSalesType"
           }
         },
@@ -9036,17 +9437,6 @@
         "startTime",
         "endTime"
       ]
-    },
-    "v1UpdateShowRequest": {
-      "type": "object",
-      "properties": {
-        "show": {
-          "$ref": "#/definitions/v1UpdateShow"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
     },
     "v1UpdateShowSalesType": {
       "type": "object",
@@ -9077,10 +9467,7 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
+          "type": "string"
         },
         "name": {
           "type": "string"
@@ -9089,17 +9476,6 @@
       "required": [
         "id"
       ]
-    },
-    "v1UpdateTicketRequest": {
-      "type": "object",
-      "properties": {
-        "ticket": {
-          "$ref": "#/definitions/v1UpdateTicket"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
     }
   },
   "securityDefinitions": {

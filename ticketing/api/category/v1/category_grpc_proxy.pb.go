@@ -18,15 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 var _ TicketingCategoryServiceServer = (*ticketingCategoryServiceClientProxy)(nil)
 
-const GrpcOperationTicketingCategoryServiceListCategory = "/ticketing.api.category.v1.TicketingCategoryService/ListCategory"
-const GrpcOperationTicketingCategoryServiceGetCategory = "/ticketing.api.category.v1.TicketingCategoryService/GetCategory"
-const GrpcOperationTicketingCategoryServiceCreateCategory = "/ticketing.api.category.v1.TicketingCategoryService/CreateCategory"
-const GrpcOperationTicketingCategoryServiceUpdateCategory = "/ticketing.api.category.v1.TicketingCategoryService/UpdateCategory"
-const GrpcOperationTicketingCategoryServiceDeleteCategory = "/ticketing.api.category.v1.TicketingCategoryService/DeleteCategory"
-
 var _ TicketingCategoryAppServiceServer = (*ticketingCategoryAppServiceClientProxy)(nil)
-
-const GrpcOperationTicketingCategoryAppServiceListAppCategory = "/ticketing.api.category.v1.TicketingCategoryAppService/ListAppCategory"
 
 // ticketingCategoryServiceClientProxy is the proxy to turn TicketingCategoryService client to server interface.
 type ticketingCategoryServiceClientProxy struct {

@@ -932,7 +932,20 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateOrderRequest"
+              "type": "object",
+              "properties": {
+                "order": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -968,7 +981,20 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UpdateOrderRequest"
+              "type": "object",
+              "properties": {
+                "order": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "updateMask": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -992,6 +1018,7 @@
         "details": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
         }
@@ -1151,16 +1178,16 @@
         "product": {
           "$ref": "#/definitions/v1OrderProduct"
         }
-      }
+      },
+      "required": [
+        "product"
+      ]
     },
     "v1CreateOrderRequest": {
       "type": "object",
       "properties": {
         "name": {
-          "type": "string",
-          "required": [
-            "name"
-          ]
+          "type": "string"
         }
       },
       "required": [
@@ -1195,6 +1222,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1Order"
           }
         },
@@ -1296,6 +1324,7 @@
         "items": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/v1OrderItem"
           }
         }
@@ -1387,10 +1416,7 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "required": [
-            "id"
-          ]
+          "type": "string"
         },
         "name": {
           "type": "string"
@@ -1399,17 +1425,6 @@
       "required": [
         "id"
       ]
-    },
-    "v1UpdateOrderRequest": {
-      "type": "object",
-      "properties": {
-        "order": {
-          "$ref": "#/definitions/v1UpdateOrder"
-        },
-        "updateMask": {
-          "type": "string"
-        }
-      }
     }
   },
   "securityDefinitions": {

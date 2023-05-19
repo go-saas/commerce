@@ -18,8 +18,6 @@ const _ = grpc.SupportPackageIsVersion7
 
 var _ ShowAppServiceServer = (*showAppServiceClientProxy)(nil)
 
-const GrpcOperationShowAppServicePlaceShowOrder = "/ticketing.api.show.v1.ShowAppService/PlaceShowOrder"
-
 // showAppServiceClientProxy is the proxy to turn ShowAppService client to server interface.
 type showAppServiceClientProxy struct {
 	cc ShowAppServiceClient
