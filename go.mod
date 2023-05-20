@@ -212,6 +212,6 @@ require (
 replace (
 	github.com/99designs/keyring => github.com/99designs/keyring v1.2.1
 	github.com/dtm-labs/dtm => github.com/goxiaoy/dtm v0.0.0-20230516072701-a236481fe440
-	github.com/go-saas/kit => github.com/go-saas/kit v0.0.5-0.20230519064710-df1aacf9b16c
+	github.com/go-saas/kit => github.com/go-saas/kit v0.0.5-0.20230520043339-b01b108c3cdc
 	github.com/hibiken/asynqmon => github.com/goxiaoy/asynqmon v0.7.2-0.20220620161318-80231130441b
 )

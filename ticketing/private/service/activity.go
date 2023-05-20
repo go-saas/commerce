@@ -279,7 +279,7 @@ func mapBizActivityShowSalesType2Pb(ctx context.Context, a *biz.ShowSalesType, b
 	b.SeatGroup = mapBizSeatGroup2Pb(ctx, a.SeatGroup)
 	b.SaleableFrom = utils.Time2Timepb(a.SaleableFrom)
 	b.SaleableTo = utils.Time2Timepb(a.SaleableTo)
-	b.Price = a.Price.ToInfoPb()
+	b.Price = a.Price.ToInfoPb(ctx)
 }
 
 func (s *ActivityService) UploadMedias(ctx http.Context) error {

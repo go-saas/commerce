@@ -57,7 +57,7 @@ func (s *OrderService) ListAppOrder(ctx context.Context, req *pb.ListOrderReques
 	items := cursorRet.Items
 	rItems := lo.Map(items, func(g *biz.Order, _ int) *pb.Order {
 		b := &pb.Order{}
-		MapBizOrder2Pb(g, b)
+		MapBizOrder2Pb(ctx, g, b)
 		return b
 	})
 
@@ -78,7 +78,7 @@ func (s *OrderService) GetAppOrder(ctx context.Context, req *pb.GetOrderRequest)
 		return nil, errors.NotFound("", "")
 	}
 	res := &pb.Order{}
-	MapBizOrder2Pb(g, res)
+	MapBizOrder2Pb(ctx, g, res)
 	return res, nil
 }
 
@@ -101,7 +101,7 @@ func (s *OrderService) ListOrder(ctx context.Context, req *pb.ListOrderRequest) 
 	}
 	rItems := lo.Map(items, func(g *biz.Order, _ int) *pb.Order {
 		b := &pb.Order{}
-		MapBizOrder2Pb(g, b)
+		MapBizOrder2Pb(ctx, g, b)
 		return b
 	})
 
@@ -120,7 +120,7 @@ func (s *OrderService) GetOrder(ctx context.Context, req *pb.GetOrderRequest) (*
 		return nil, errors.NotFound("", "")
 	}
 	res := &pb.Order{}
-	MapBizOrder2Pb(g, res)
+	MapBizOrder2Pb(ctx, g, res)
 	return res, nil
 }
 func (s *OrderService) CreateOrder(ctx context.Context, req *pb.CreateOrderRequest) (*pb.Order, error) {
@@ -134,7 +134,7 @@ func (s *OrderService) CreateOrder(ctx context.Context, req *pb.CreateOrderReque
 		return nil, err
 	}
 	res := &pb.Order{}
-	MapBizOrder2Pb(e, res)
+	MapBizOrder2Pb(ctx, e, res)
 	return res, nil
 }
 func (s *OrderService) UpdateOrder(ctx context.Context, req *pb.UpdateOrderRequest) (*pb.Order, error) {
@@ -154,7 +154,7 @@ func (s *OrderService) UpdateOrder(ctx context.Context, req *pb.UpdateOrderReque
 		return nil, err
 	}
 	res := &pb.Order{}
-	MapBizOrder2Pb(g, res)
+	MapBizOrder2Pb(ctx, g, res)
 	return res, nil
 }
 func (s *OrderService) DeleteOrder(ctx context.Context, req *pb.DeleteOrderRequest) (*pb.DeleteOrderReply, error) {
@@ -232,7 +232,7 @@ func (s *OrderService) CreateInternalOrder(ctx context.Context, req *pb.CreateIn
 		return nil, err
 	}
 	res := &pb.Order{}
-	MapBizOrder2Pb(e, res)
+	MapBizOrder2Pb(ctx, e, res)
 	return res, nil
 }
 
@@ -248,7 +248,7 @@ func (s *OrderService) GetInternalOrder(ctx context.Context, req *pb.GetInternal
 		return nil, errors.NotFound("", "")
 	}
 	res := &pb.Order{}
-	MapBizOrder2Pb(g, res)
+	MapBizOrder2Pb(ctx, g, res)
 	return res, nil
 }
 
@@ -274,40 +274,40 @@ func (s *OrderService) InternalOrderPaySuccess(ctx context.Context, req *pb.Inte
 	return &pb.InternalOrderPaySuccessReply{}, err
 }
 
-func MapBizOrder2Pb(a *biz.Order, b *pb.Order) {
+func MapBizOrder2Pb(ctx context.Context, a *biz.Order, b *pb.Order) {
 	b.Id = a.ID
 
 	b.Status = a.Status
 	b.CreatedAt = utils.Time2Timepb(&a.CreatedAt)
 
-	b.TotalPrice = a.TotalPrice.ToPricePb()
-	b.TotalPriceInclTax = a.TotalPriceInclTax.ToPricePb()
-	b.Discount = a.Discount.ToPricePb()
-	b.OriginalPrice = a.OriginalPrice.ToPricePb()
-	b.OriginalPriceInclTax = a.OriginalPriceInclTax.ToPricePb()
-	b.PaidPrice = a.PaidPrice.ToPricePb()
+	b.TotalPrice = a.TotalPrice.ToPricePb(ctx)
+	b.TotalPriceInclTax = a.TotalPriceInclTax.ToPricePb(ctx)
+	b.Discount = a.Discount.ToPricePb(ctx)
+	b.OriginalPrice = a.OriginalPrice.ToPricePb(ctx)
+	b.OriginalPriceInclTax = a.OriginalPriceInclTax.ToPricePb(ctx)
+	b.PaidPrice = a.PaidPrice.ToPricePb(ctx)
 	b.PaidTime = utils.Time2Timepb(a.PaidTime)
 	b.PayBefore = utils.Time2Timepb(a.PayBefore)
 	b.PayWay = a.PayWay
 
 	b.CustomerId = a.CustomerID
 	b.Items = lo.Map(a.Items, func(item biz.OrderItem, _ int) *pb.OrderItem {
-		return MapBizOrderItem2Pb(&item)
+		return MapBizOrderItem2Pb(ctx, &item)
 	})
 }
 
-func MapBizOrderItem2Pb(a *biz.OrderItem) *pb.OrderItem {
+func MapBizOrderItem2Pb(ctx context.Context, a *biz.OrderItem) *pb.OrderItem {
 	return &pb.OrderItem{
 		Id:              a.ID,
 		Qty:             a.Qty,
-		Price:           a.Price.ToPricePb(),
-		Tax:             a.Tax.ToPricePb(),
-		PriceInclTax:    a.PriceInclTax.ToPricePb(),
-		RowTotal:        a.RowTotal.ToPricePb(),
-		RowTotalTax:     a.RowTotalTax.ToPricePb(),
-		RowTotalInclTax: a.RowTotalInclTax.ToPricePb(),
-		OriginalPrice:   a.OriginalPrice.ToPricePb(),
-		RowDiscount:     a.RowDiscount.ToPricePb(),
+		Price:           a.Price.ToPricePb(ctx),
+		Tax:             a.Tax.ToPricePb(ctx),
+		PriceInclTax:    a.PriceInclTax.ToPricePb(ctx),
+		RowTotal:        a.RowTotal.ToPricePb(ctx),
+		RowTotalTax:     a.RowTotalTax.ToPricePb(ctx),
+		RowTotalInclTax: a.RowTotalInclTax.ToPricePb(ctx),
+		OriginalPrice:   a.OriginalPrice.ToPricePb(ctx),
+		RowDiscount:     a.RowDiscount.ToPricePb(ctx),
 		Product: &pb.OrderProduct{
 			Name:     a.Product.ProductName,
 			MainPic:  a.Product.ProductMainPic,

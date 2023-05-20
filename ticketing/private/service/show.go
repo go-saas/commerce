@@ -200,13 +200,13 @@ func (s *ShowService) PlaceShowOrder(ctx context.Context, req *pb.PlaceShowOrder
 		if !ok {
 			return nil, errors.NotFound("SHOW_SALES_TYPE_NOT_FOUND", "")
 		}
-		price := st.Price.Default.ToPricePb()
+		price := st.Price.Default.ToPricePb(ctx)
 		if !st.Price.Discounted.IsEmpty() {
-			price = st.Price.Discounted.ToPricePb()
+			price = st.Price.Discounted.ToPricePb(ctx)
 		}
 		orderItems = append(orderItems, &v12.CreateInternalOrderItem{
 			Qty:           salesType.Qty,
-			OriginalPrice: st.Price.Default.ToPricePb(),
+			OriginalPrice: st.Price.Default.ToPricePb(ctx),
 			Price:         price,
 			IsGiveaway:    false,
 			Product: &v12.OrderProduct{
@@ -265,7 +265,7 @@ func mapBizShowSalesType2Pb(ctx context.Context, a *biz.ShowSalesType, b *pb.Sho
 	b.SeatGroup = mapBizSeatGroup2Pb(ctx, a.SeatGroup)
 	b.SaleableFrom = utils.Time2Timepb(a.SaleableFrom)
 	b.SaleableTo = utils.Time2Timepb(a.SaleableTo)
-	b.Price = a.Price.ToInfoPb()
+	b.Price = a.Price.ToInfoPb(ctx)
 }
 
 func mapPbShowSalesType2Biz(ctx context.Context, a *pb.UpdateShowSalesType, b *biz.ShowSalesType) error {
