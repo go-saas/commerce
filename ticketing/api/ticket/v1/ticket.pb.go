@@ -86,6 +86,7 @@ type TicketFilter struct {
 	HallId     *query.StringFilterOperation `protobuf:"bytes,3,opt,name=hall_id,json=hallId,proto3" json:"hall_id,omitempty"`
 	ActivityId *query.StringFilterOperation `protobuf:"bytes,4,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
 	UserId     *query.StringFilterOperation `protobuf:"bytes,5,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Status     *query.StringFilterOperation `protobuf:"bytes,6,opt,name=status,proto3" json:"status,omitempty"`
 }
 
 func (x *TicketFilter) Reset() {
@@ -151,6 +152,13 @@ func (x *TicketFilter) GetActivityId() *query.StringFilterOperation {
 func (x *TicketFilter) GetUserId() *query.StringFilterOperation {
 	if x != nil {
 		return x.UserId
+	}
+	return nil
+}
+
+func (x *TicketFilter) GetStatus() *query.StringFilterOperation {
+	if x != nil {
+		return x.Status
 	}
 	return nil
 }
@@ -495,7 +503,7 @@ var file_ticketing_api_ticket_v1_ticket_proto_rawDesc = []byte{
 	0x77, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x2e, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x54, 0x69,
 	0x63, 0x6b, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1a, 0x0a, 0x02, 0x69,
 	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x0a, 0xe0, 0x41, 0x02, 0xfa, 0x42, 0x04, 0x72,
-	0x02, 0x10, 0x01, 0x52, 0x02, 0x69, 0x64, 0x22, 0xda, 0x02, 0x0a, 0x0c, 0x54, 0x69, 0x63, 0x6b,
+	0x02, 0x10, 0x01, 0x52, 0x02, 0x69, 0x64, 0x22, 0x9a, 0x03, 0x0a, 0x0c, 0x54, 0x69, 0x63, 0x6b,
 	0x65, 0x74, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x12, 0x36, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01,
 	0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x6f, 0x70, 0x65,
 	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x46, 0x69, 0x6c,
@@ -517,7 +525,11 @@ var file_ticketing_api_ticket_v1_ticket_proto_rawDesc = []byte{
 	0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x6f, 0x70, 0x65,
 	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x46, 0x69, 0x6c,
 	0x74, 0x65, 0x72, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x06, 0x75, 0x73,
-	0x65, 0x72, 0x49, 0x64, 0x22, 0xc6, 0x02, 0x0a, 0x11, 0x4c, 0x69, 0x73, 0x74, 0x54, 0x69, 0x63,
+	0x65, 0x72, 0x49, 0x64, 0x12, 0x3e, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x06,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x6f, 0x70, 0x65,
+	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x46, 0x69, 0x6c,
+	0x74, 0x65, 0x72, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x06, 0x73, 0x74,
+	0x61, 0x74, 0x75, 0x73, 0x22, 0xc6, 0x02, 0x0a, 0x11, 0x4c, 0x69, 0x73, 0x74, 0x54, 0x69, 0x63,
 	0x6b, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x70, 0x61,
 	0x67, 0x65, 0x5f, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52,
 	0x0a, 0x70, 0x61, 0x67, 0x65, 0x4f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x12, 0x1b, 0x0a, 0x09, 0x70,
@@ -648,24 +660,25 @@ var file_ticketing_api_ticket_v1_ticket_proto_depIdxs = []int32{
 	5,  // 2: ticketing.api.ticket.v1.TicketFilter.hall_id:type_name -> query.operation.StringFilterOperation
 	5,  // 3: ticketing.api.ticket.v1.TicketFilter.activity_id:type_name -> query.operation.StringFilterOperation
 	5,  // 4: ticketing.api.ticket.v1.TicketFilter.user_id:type_name -> query.operation.StringFilterOperation
-	6,  // 5: ticketing.api.ticket.v1.ListTicketRequest.fields:type_name -> google.protobuf.FieldMask
-	1,  // 6: ticketing.api.ticket.v1.ListTicketRequest.filter:type_name -> ticketing.api.ticket.v1.TicketFilter
-	4,  // 7: ticketing.api.ticket.v1.ListTicketReply.items:type_name -> ticketing.api.ticket.v1.Ticket
-	7,  // 8: ticketing.api.ticket.v1.Ticket.location:type_name -> ticketing.api.location.v1.Location
-	8,  // 9: ticketing.api.ticket.v1.Ticket.hall:type_name -> ticketing.api.location.v1.LocationHall
-	9,  // 10: ticketing.api.ticket.v1.Ticket.activity:type_name -> ticketing.api.activity.v1.Activity
-	10, // 11: ticketing.api.ticket.v1.Ticket.show:type_name -> ticketing.api.show.v1.Show
-	11, // 12: ticketing.api.ticket.v1.Ticket.show_sales_type:type_name -> ticketing.api.show.v1.ShowSalesType
-	12, // 13: ticketing.api.ticket.v1.Ticket.created_at:type_name -> google.protobuf.Timestamp
-	2,  // 14: ticketing.api.ticket.v1.TicketService.ListTicket:input_type -> ticketing.api.ticket.v1.ListTicketRequest
-	0,  // 15: ticketing.api.ticket.v1.TicketService.GetTicket:input_type -> ticketing.api.ticket.v1.GetTicketRequest
-	3,  // 16: ticketing.api.ticket.v1.TicketService.ListTicket:output_type -> ticketing.api.ticket.v1.ListTicketReply
-	4,  // 17: ticketing.api.ticket.v1.TicketService.GetTicket:output_type -> ticketing.api.ticket.v1.Ticket
-	16, // [16:18] is the sub-list for method output_type
-	14, // [14:16] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	5,  // 5: ticketing.api.ticket.v1.TicketFilter.status:type_name -> query.operation.StringFilterOperation
+	6,  // 6: ticketing.api.ticket.v1.ListTicketRequest.fields:type_name -> google.protobuf.FieldMask
+	1,  // 7: ticketing.api.ticket.v1.ListTicketRequest.filter:type_name -> ticketing.api.ticket.v1.TicketFilter
+	4,  // 8: ticketing.api.ticket.v1.ListTicketReply.items:type_name -> ticketing.api.ticket.v1.Ticket
+	7,  // 9: ticketing.api.ticket.v1.Ticket.location:type_name -> ticketing.api.location.v1.Location
+	8,  // 10: ticketing.api.ticket.v1.Ticket.hall:type_name -> ticketing.api.location.v1.LocationHall
+	9,  // 11: ticketing.api.ticket.v1.Ticket.activity:type_name -> ticketing.api.activity.v1.Activity
+	10, // 12: ticketing.api.ticket.v1.Ticket.show:type_name -> ticketing.api.show.v1.Show
+	11, // 13: ticketing.api.ticket.v1.Ticket.show_sales_type:type_name -> ticketing.api.show.v1.ShowSalesType
+	12, // 14: ticketing.api.ticket.v1.Ticket.created_at:type_name -> google.protobuf.Timestamp
+	2,  // 15: ticketing.api.ticket.v1.TicketService.ListTicket:input_type -> ticketing.api.ticket.v1.ListTicketRequest
+	0,  // 16: ticketing.api.ticket.v1.TicketService.GetTicket:input_type -> ticketing.api.ticket.v1.GetTicketRequest
+	3,  // 17: ticketing.api.ticket.v1.TicketService.ListTicket:output_type -> ticketing.api.ticket.v1.ListTicketReply
+	4,  // 18: ticketing.api.ticket.v1.TicketService.GetTicket:output_type -> ticketing.api.ticket.v1.Ticket
+	17, // [17:19] is the sub-list for method output_type
+	15, // [15:17] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_ticketing_api_ticket_v1_ticket_proto_init() }

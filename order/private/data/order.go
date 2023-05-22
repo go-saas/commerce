@@ -63,5 +63,5 @@ func (c *OrderRepo) BuildFilterScope(q *v1.ListOrderRequest) func(db *gorm.DB) *
 }
 
 func (c *OrderRepo) DefaultSorting() []string {
-	return []string{"created_at"}
+	return []string{"-created_at"}
 }

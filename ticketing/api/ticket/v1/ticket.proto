@@ -88,6 +88,7 @@ message TicketFilter{
   query.operation.StringFilterOperation hall_id =3;
   query.operation.StringFilterOperation activity_id =4;
   query.operation.StringFilterOperation user_id =5;
+  query.operation.StringFilterOperation status =6;
 }
 
 message ListTicketRequest {

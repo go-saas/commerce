@@ -25,7 +25,7 @@ func (c *TicketRepo) GetDb(ctx context.Context) *gorm.DB {
 }
 
 func (c *TicketRepo) DefaultSorting() []string {
-	return []string{"created_at"}
+	return []string{"-created_at"}
 }
 
 // BuildDetailScope preload relations
@@ -60,6 +60,9 @@ func (c *TicketRepo) BuildFilterScope(q *v1.ListTicketRequest) func(db *gorm.DB)
 		}
 		if filter.ActivityId != nil {
 			ret = ret.Scopes(kitgorm.BuildStringFilter("`activity_id`", filter.ActivityId))
+		}
+		if filter.Status != nil {
+			ret = ret.Scopes(kitgorm.BuildStringFilter("`status`", filter.Status))
 		}
 		return ret
 	}
