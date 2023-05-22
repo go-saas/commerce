@@ -305,6 +305,7 @@ func (u *Order) ChangeToPaid(payway string, paidPrice price.Price, extra map[str
 	u.PayWay = payway
 	u.PaidPrice = paidPrice
 	u.PaidTime = paidTime
+	u.Status = OrderStatusPaid
 	existing, ok := lo.Find(u.PayExtra, func(item OrderPayExtra) bool {
 		return item.PayWay == payway
 	})
