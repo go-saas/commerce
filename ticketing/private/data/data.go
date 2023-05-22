@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/go-saas/commerce/ticketing/private/biz"
 	_ "github.com/go-saas/kit/pkg/blob/memory"
 	_ "github.com/go-saas/kit/pkg/blob/os"
 	_ "github.com/go-saas/kit/pkg/blob/s3"
@@ -23,9 +24,8 @@ var ProviderSet = kitdi.NewSet(
 	NewActivityRepo,
 	NewShowRepo,
 	NewBannerRepo,
+	NewTicketRepo,
 )
-
-const ConnName = "ticketing"
 
 // Data .
 type Data struct {
@@ -33,7 +33,7 @@ type Data struct {
 }
 
 func GetDb(ctx context.Context, provider gorm.DbProvider) *g.DB {
-	db := provider.Get(ctx, ConnName)
+	db := provider.Get(ctx, string(biz.ConnName))
 	return db
 }
 

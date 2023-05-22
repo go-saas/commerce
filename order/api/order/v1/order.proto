@@ -167,7 +167,7 @@ message Order{
   price.PricePb paid_price=26;
   google.protobuf.Timestamp paid_time=27;
   google.protobuf.Timestamp pay_before=28;
-  string  pay_way=29;
+  string pay_way=29;
 
   lbs.Address shipping_addr =50;
   lbs.Address billing_addr =51;

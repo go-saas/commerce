@@ -213,7 +213,7 @@ func (s *ShowService) PlaceShowOrder(ctx context.Context, req *pb.PlaceShowOrder
 				Name:     g.Activity.Name,
 				Id:       g.ID.String(),
 				MainPic:  mapBizMedia2Pb(ctx, s.blob, g.Activity.MainPic).Url,
-				Type:     "SHOW",
+				Type:     biz.OrderTypeShow,
 				SkuId:    st.ID.String(),
 				SkuTitle: st.Name,
 			},

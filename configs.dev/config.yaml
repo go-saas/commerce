@@ -73,6 +73,12 @@ data:
       default:
         addr: localhost:9094
         type: kafka
+      order:
+        group: order-golang
+      ticketing:
+        group: ticketing-golang
+      payment:
+        group: payment-golang
     databases:
       default:
         debug: true
@@ -82,3 +88,15 @@ data:
       default:
         addrs: ["localhost:7379"]
         password: youShouldChangeThis
+
+logging:
+  zap:
+    level: "info"
+    outputPaths: [ "stdout"]
+    errorOutputPaths: [ "stderr" ]
+    encoding: console
+    development: true
+    encoderConfig:
+      messageKey: message
+      levelKey: level
+      levelEncoder: lowercase

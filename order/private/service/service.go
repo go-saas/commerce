@@ -22,6 +22,7 @@ var ProviderSet = kitdi.NewSet(
 	NewGrpcServerRegister,
 	NewHttpServerRegister,
 	NewOrderService,
+	NewOrderSuccessNotification,
 )
 
 func NewHttpServerRegister(

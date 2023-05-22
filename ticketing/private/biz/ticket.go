@@ -1,6 +1,8 @@
 package biz
 
 import (
+	v1 "github.com/go-saas/commerce/ticketing/api/ticket/v1"
+	"github.com/go-saas/kit/pkg/data"
 	"github.com/lithammer/shortuuid/v3"
 	"time"
 )
@@ -42,14 +44,18 @@ type Ticket struct {
 }
 
 const (
-	TicketStatusValid     = "valid"
-	TicketStatusUsed      = "used"
-	TicketStatusCancelled = "cancelled"
-	TicketStatusExpired   = "expired"
+	TicketStatusValid     = "VALID"
+	TicketStatusUsed      = "USED"
+	TicketStatusCancelled = "CANCELLED"
+	TicketStatusExpired   = "EXPIRED"
+	TicketStatusRefunded  = "REFUNDED"
 )
 
-func NewTicket() *Ticket {
+func NewTicket(userId string) *Ticket {
 	ret := &Ticket{ID: shortuuid.New()}
-
 	return ret
+}
+
+type TicketRepo interface {
+	data.Repo[Ticket, string, v1.ListTicketRequest]
 }

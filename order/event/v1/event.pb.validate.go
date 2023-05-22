@@ -35,41 +35,71 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on DemoEvent with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *DemoEvent) Validate() error {
+// Validate checks the field values on OrderPaySuccessEvent with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *OrderPaySuccessEvent) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on DemoEvent with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in DemoEventMultiError, or nil
-// if none found.
-func (m *DemoEvent) ValidateAll() error {
+// ValidateAll checks the field values on OrderPaySuccessEvent with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// OrderPaySuccessEventMultiError, or nil if none found.
+func (m *OrderPaySuccessEvent) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *DemoEvent) validate(all bool) error {
+func (m *OrderPaySuccessEvent) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
+	if all {
+		switch v := interface{}(m.GetOrder()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, OrderPaySuccessEventValidationError{
+					field:  "Order",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, OrderPaySuccessEventValidationError{
+					field:  "Order",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetOrder()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return OrderPaySuccessEventValidationError{
+				field:  "Order",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
-		return DemoEventMultiError(errors)
+		return OrderPaySuccessEventMultiError(errors)
 	}
 
 	return nil
 }
 
-// DemoEventMultiError is an error wrapping multiple validation errors returned
-// by DemoEvent.ValidateAll() if the designated constraints aren't met.
-type DemoEventMultiError []error
+// OrderPaySuccessEventMultiError is an error wrapping multiple validation
+// errors returned by OrderPaySuccessEvent.ValidateAll() if the designated
+// constraints aren't met.
+type OrderPaySuccessEventMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m DemoEventMultiError) Error() string {
+func (m OrderPaySuccessEventMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -78,11 +108,11 @@ func (m DemoEventMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m DemoEventMultiError) AllErrors() []error { return m }
+func (m OrderPaySuccessEventMultiError) AllErrors() []error { return m }
 
-// DemoEventValidationError is the validation error returned by
-// DemoEvent.Validate if the designated constraints aren't met.
-type DemoEventValidationError struct {
+// OrderPaySuccessEventValidationError is the validation error returned by
+// OrderPaySuccessEvent.Validate if the designated constraints aren't met.
+type OrderPaySuccessEventValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -90,22 +120,24 @@ type DemoEventValidationError struct {
 }
 
 // Field function returns field value.
-func (e DemoEventValidationError) Field() string { return e.field }
+func (e OrderPaySuccessEventValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e DemoEventValidationError) Reason() string { return e.reason }
+func (e OrderPaySuccessEventValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e DemoEventValidationError) Cause() error { return e.cause }
+func (e OrderPaySuccessEventValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e DemoEventValidationError) Key() bool { return e.key }
+func (e OrderPaySuccessEventValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e DemoEventValidationError) ErrorName() string { return "DemoEventValidationError" }
+func (e OrderPaySuccessEventValidationError) ErrorName() string {
+	return "OrderPaySuccessEventValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e DemoEventValidationError) Error() string {
+func (e OrderPaySuccessEventValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -117,14 +149,14 @@ func (e DemoEventValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sDemoEvent.%s: %s%s",
+		"invalid %sOrderPaySuccessEvent.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = DemoEventValidationError{}
+var _ error = OrderPaySuccessEventValidationError{}
 
 var _ interface {
 	Field() string
@@ -132,4 +164,135 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = DemoEventValidationError{}
+} = OrderPaySuccessEventValidationError{}
+
+// Validate checks the field values on OrderRefundSuccessEvent with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *OrderRefundSuccessEvent) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on OrderRefundSuccessEvent with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// OrderRefundSuccessEventMultiError, or nil if none found.
+func (m *OrderRefundSuccessEvent) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *OrderRefundSuccessEvent) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetOrder()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, OrderRefundSuccessEventValidationError{
+					field:  "Order",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, OrderRefundSuccessEventValidationError{
+					field:  "Order",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetOrder()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return OrderRefundSuccessEventValidationError{
+				field:  "Order",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return OrderRefundSuccessEventMultiError(errors)
+	}
+
+	return nil
+}
+
+// OrderRefundSuccessEventMultiError is an error wrapping multiple validation
+// errors returned by OrderRefundSuccessEvent.ValidateAll() if the designated
+// constraints aren't met.
+type OrderRefundSuccessEventMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m OrderRefundSuccessEventMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m OrderRefundSuccessEventMultiError) AllErrors() []error { return m }
+
+// OrderRefundSuccessEventValidationError is the validation error returned by
+// OrderRefundSuccessEvent.Validate if the designated constraints aren't met.
+type OrderRefundSuccessEventValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e OrderRefundSuccessEventValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e OrderRefundSuccessEventValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e OrderRefundSuccessEventValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e OrderRefundSuccessEventValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e OrderRefundSuccessEventValidationError) ErrorName() string {
+	return "OrderRefundSuccessEventValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e OrderRefundSuccessEventValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sOrderRefundSuccessEvent.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = OrderRefundSuccessEventValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = OrderRefundSuccessEventValidationError{}

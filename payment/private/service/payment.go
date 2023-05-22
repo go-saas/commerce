@@ -12,6 +12,7 @@ import (
 	sapi "github.com/go-saas/kit/pkg/api"
 	"github.com/go-saas/kit/pkg/authn"
 	"github.com/go-saas/kit/pkg/authz/authz"
+	"github.com/go-saas/kit/pkg/price"
 	kithttp "github.com/go-saas/kit/pkg/server/http"
 	"github.com/go-saas/kit/pkg/utils"
 	"github.com/stripe/stripe-go/v74"
@@ -19,6 +20,7 @@ import (
 	"github.com/stripe/stripe-go/v74/webhook"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"io"
+	"time"
 )
 
 type PaymentService struct {
@@ -114,11 +116,18 @@ func (s *PaymentService) StripeWebhook(ctx context.Context, req *emptypb.Empty) 
 		case "payment_intent.succeeded":
 			intent := stripe.PaymentIntent{}
 			json.Unmarshal(data.Raw, &intent)
+			totalPrice, err := price.NewPriceFromInt64(intent.Amount, string(intent.Currency))
+			if err != nil {
+				return nil, err
+			}
+			//TODO paid time
+			t := time.Now()
 			_, err = s.orderInternalSrv.InternalOrderPaySuccess(ctx, &v1.InternalOrderPaySuccessRequest{
 				Id:        intent.Metadata["order_id"],
 				PayExtra:  utils.Map2Structpb(data.Object),
-				PaidPrice: nil,
+				PaidPrice: totalPrice.ToPricePb(ctx),
 				PayWay:    "stripe",
+				PaidTime:  utils.Time2Timepb(&t),
 			})
 			if err != nil {
 				return nil, err

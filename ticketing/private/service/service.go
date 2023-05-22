@@ -35,6 +35,8 @@ var ProviderSet = kitdi.NewSet(
 	NewTicketServiceService,
 	NewTicketingBannerServiceService,
 	NewUploadService,
+
+	NewOrderSuccessNotification,
 )
 
 func NewHttpServerRegister(

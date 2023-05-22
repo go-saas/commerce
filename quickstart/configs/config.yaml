@@ -4,17 +4,6 @@ services:
   registry:
     type: etcd
     endpoint: http://etcd:2379
-  services:
-    user: {}
-    sys: {}
-    saas: {}
-    realtime: {}
-    dtmservice: {}
-    cart: {}
-    order: {}
-    payment: {}
-    product: {}
-    ticketing: {}
 data:
   endpoints:
     databases:

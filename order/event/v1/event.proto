@@ -1,8 +1,14 @@
 syntax = "proto3";
-package order.api;
+package order.event;
+
+import "order/api/order/v1/order.proto";
 
 option go_package = "github.com/go-saas/commerce/order/event/v1;v1";
 
-message DemoEvent{
+message OrderPaySuccessEvent{
+  .order.api.order.v1.Order order=1;
+}
 
+message OrderRefundSuccessEvent{
+  .order.api.order.v1.Order order=1;
 }

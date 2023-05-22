@@ -20,8 +20,10 @@ var ProviderSet = kitdi.NewSet(
 	NewAuthorizationOption,
 	kitdi.NewProvider(NewHTTPServer, di.As(new(transport.Server))),
 	kitdi.NewProvider(NewGRPCServer, di.As(new(transport.Server))),
+	kitdi.NewProvider(NewEventServer, di.As(new(transport.Server))),
 	NewSeeder,
 	NewSeeding,
+	kitdi.Value(biz.ConnName),
 	kitdi.Value(ClientName))
 
 var ClientName api.ClientName = api2.ServiceName

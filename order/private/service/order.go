@@ -6,7 +6,9 @@ import (
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-saas/commerce/order/api"
 	pb "github.com/go-saas/commerce/order/api/order/v1"
+	v1 "github.com/go-saas/commerce/order/event/v1"
 	"github.com/go-saas/commerce/order/private/biz"
+	"github.com/go-saas/kit/event"
 	sapi "github.com/go-saas/kit/pkg/api"
 	"github.com/go-saas/kit/pkg/authn"
 	"github.com/go-saas/kit/pkg/authz/authz"
@@ -21,17 +23,18 @@ import (
 
 type OrderService struct {
 	pb.UnimplementedOrderServiceServer
-	repo  biz.OrderRepo
-	auth  authz.Service
-	trust sapi.TrustedContextValidator
+	repo     biz.OrderRepo
+	auth     authz.Service
+	trust    sapi.TrustedContextValidator
+	producer event.Producer
 }
 
 var _ pb.OrderServiceServer = (*OrderService)(nil)
 var _ pb.OrderInternalServiceServer = (*OrderService)(nil)
 var _ pb.OrderAppServiceServer = (*OrderService)(nil)
 
-func NewOrderService(repo biz.OrderRepo, auth authz.Service, trust sapi.TrustedContextValidator) *OrderService {
-	return &OrderService{repo: repo, auth: auth, trust: trust}
+func NewOrderService(repo biz.OrderRepo, auth authz.Service, trust sapi.TrustedContextValidator, producer event.Producer) *OrderService {
+	return &OrderService{repo: repo, auth: auth, trust: trust, producer: producer}
 }
 
 func (s *OrderService) ListAppOrder(ctx context.Context, req *pb.ListOrderRequest) (*pb.ListOrderReply, error) {
@@ -269,6 +272,14 @@ func (s *OrderService) InternalOrderPaySuccess(ctx context.Context, req *pb.Inte
 	}
 	g.ChangeToPaid(req.PayWay, p, utils.Structpb2Map(req.PayExtra), utils.Timepb2Time(req.PaidTime))
 	if err := s.repo.Update(ctx, g.ID, g, nil); err != nil {
+		return nil, err
+	}
+	//publish event
+	orderPb := &pb.Order{}
+	MapBizOrder2Pb(ctx, g, orderPb)
+	msg, _ := event.NewMessageFromProto(&v1.OrderPaySuccessEvent{Order: orderPb})
+	err = s.producer.Send(ctx, msg)
+	if err != nil {
 		return nil, err
 	}
 	return &pb.InternalOrderPaySuccessReply{}, err

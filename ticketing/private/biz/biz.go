@@ -1,6 +1,7 @@
 package biz
 
 import (
+	"github.com/go-saas/kit/pkg/dal"
 	kitdi "github.com/go-saas/kit/pkg/di"
 )
 
@@ -16,3 +17,6 @@ const (
 	ShowMediaPath     = "ticketing/show/m"
 	BannerMediaPath   = "ticketing/banner"
 )
+
+const OrderTypeShow = "SHOW"
+const ConnName dal.ConnName = "ticketing"
