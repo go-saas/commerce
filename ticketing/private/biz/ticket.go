@@ -54,7 +54,7 @@ const (
 )
 
 func NewTicket(userId string) *Ticket {
-	ret := &Ticket{ID: shortuuid.New()}
+	ret := &Ticket{ID: shortuuid.New(), UserID: userId}
 	return ret
 }
 
