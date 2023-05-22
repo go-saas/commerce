@@ -79,38 +79,6 @@
         ]
       }
     },
-    "/v1/ticket/ticket/list": {
-      "post": {
-        "operationId": "TicketService_ListTicket2",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1ListTicketReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1ListTicketRequest"
-            }
-          }
-        ],
-        "tags": [
-          "TicketService"
-        ]
-      }
-    },
     "/v1/ticketing/activity": {
       "get": {
         "operationId": "ActivityService_ListActivity",
@@ -3162,49 +3130,49 @@
             "type": "string"
           },
           {
-            "name": "filter.name.$eq",
+            "name": "filter.locationId.$eq",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "filter.name.$neq",
+            "name": "filter.locationId.$neq",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "filter.name.$contains",
+            "name": "filter.locationId.$contains",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "filter.name.$starts_with",
+            "name": "filter.locationId.$starts_with",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "filter.name.$nstarts_with",
+            "name": "filter.locationId.$nstarts_with",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "filter.name.$ends_with",
+            "name": "filter.locationId.$ends_with",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "filter.name.$nends_with",
+            "name": "filter.locationId.$nends_with",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "filter.name.$in",
+            "name": "filter.locationId.$in",
             "in": "query",
             "required": false,
             "type": "array",
@@ -3214,7 +3182,7 @@
             "collectionFormat": "multi"
           },
           {
-            "name": "filter.name.$nin",
+            "name": "filter.locationId.$nin",
             "in": "query",
             "required": false,
             "type": "array",
@@ -3224,31 +3192,307 @@
             "collectionFormat": "multi"
           },
           {
-            "name": "filter.name.$null",
+            "name": "filter.locationId.$null",
             "in": "query",
             "required": false,
             "type": "boolean"
           },
           {
-            "name": "filter.name.$nnull",
+            "name": "filter.locationId.$nnull",
             "in": "query",
             "required": false,
             "type": "boolean"
           },
           {
-            "name": "filter.name.$empty",
+            "name": "filter.locationId.$empty",
             "in": "query",
             "required": false,
             "type": "boolean"
           },
           {
-            "name": "filter.name.$nempty",
+            "name": "filter.locationId.$nempty",
             "in": "query",
             "required": false,
             "type": "boolean"
           },
           {
-            "name": "filter.name.$like",
+            "name": "filter.locationId.$like",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.hallId.$eq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.hallId.$neq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.hallId.$contains",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.hallId.$starts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.hallId.$nstarts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.hallId.$ends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.hallId.$nends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.hallId.$in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.hallId.$nin",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.hallId.$null",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.hallId.$nnull",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.hallId.$empty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.hallId.$nempty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.hallId.$like",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$eq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$neq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$contains",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$starts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$nstarts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$ends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$nends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.activityId.$nin",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.activityId.$null",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.activityId.$nnull",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.activityId.$empty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.activityId.$nempty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.activityId.$like",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.userId.$eq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.userId.$neq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.userId.$contains",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.userId.$starts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.userId.$nstarts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.userId.$ends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.userId.$nends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.userId.$in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.userId.$nin",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.userId.$null",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.userId.$nnull",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.userId.$empty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.userId.$nempty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.userId.$like",
             "in": "query",
             "required": false,
             "type": "string"
@@ -4031,49 +4275,49 @@
             "type": "string"
           },
           {
-            "name": "filter.name.$eq",
+            "name": "filter.locationId.$eq",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "filter.name.$neq",
+            "name": "filter.locationId.$neq",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "filter.name.$contains",
+            "name": "filter.locationId.$contains",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "filter.name.$starts_with",
+            "name": "filter.locationId.$starts_with",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "filter.name.$nstarts_with",
+            "name": "filter.locationId.$nstarts_with",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "filter.name.$ends_with",
+            "name": "filter.locationId.$ends_with",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "filter.name.$nends_with",
+            "name": "filter.locationId.$nends_with",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "filter.name.$in",
+            "name": "filter.locationId.$in",
             "in": "query",
             "required": false,
             "type": "array",
@@ -4083,7 +4327,7 @@
             "collectionFormat": "multi"
           },
           {
-            "name": "filter.name.$nin",
+            "name": "filter.locationId.$nin",
             "in": "query",
             "required": false,
             "type": "array",
@@ -4093,31 +4337,307 @@
             "collectionFormat": "multi"
           },
           {
-            "name": "filter.name.$null",
+            "name": "filter.locationId.$null",
             "in": "query",
             "required": false,
             "type": "boolean"
           },
           {
-            "name": "filter.name.$nnull",
+            "name": "filter.locationId.$nnull",
             "in": "query",
             "required": false,
             "type": "boolean"
           },
           {
-            "name": "filter.name.$empty",
+            "name": "filter.locationId.$empty",
             "in": "query",
             "required": false,
             "type": "boolean"
           },
           {
-            "name": "filter.name.$nempty",
+            "name": "filter.locationId.$nempty",
             "in": "query",
             "required": false,
             "type": "boolean"
           },
           {
-            "name": "filter.name.$like",
+            "name": "filter.locationId.$like",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.hallId.$eq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.hallId.$neq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.hallId.$contains",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.hallId.$starts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.hallId.$nstarts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.hallId.$ends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.hallId.$nends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.hallId.$in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.hallId.$nin",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.hallId.$null",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.hallId.$nnull",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.hallId.$empty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.hallId.$nempty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.hallId.$like",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$eq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$neq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$contains",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$starts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$nstarts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$ends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$nends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.activityId.$in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.activityId.$nin",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.activityId.$null",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.activityId.$nnull",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.activityId.$empty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.activityId.$nempty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.activityId.$like",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.userId.$eq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.userId.$neq",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.userId.$contains",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.userId.$starts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.userId.$nstarts_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.userId.$ends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.userId.$nends_with",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter.userId.$in",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.userId.$nin",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "filter.userId.$null",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.userId.$nnull",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.userId.$empty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.userId.$nempty",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "filter.userId.$like",
             "in": "query",
             "required": false,
             "type": "string"
@@ -4138,14 +4658,16 @@
         "tags": [
           "TicketService"
         ]
-      },
+      }
+    },
+    "/v1/ticketing/ticket/list": {
       "post": {
-        "operationId": "TicketService_CreateTicket",
+        "operationId": "TicketService_ListTicket2",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1Ticket"
+              "$ref": "#/definitions/v1ListTicketReply"
             }
           },
           "default": {
@@ -4161,7 +4683,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1CreateTicketRequest"
+              "$ref": "#/definitions/v1ListTicketRequest"
             }
           }
         ],
@@ -4193,134 +4715,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          }
-        ],
-        "tags": [
-          "TicketService"
-        ]
-      },
-      "delete": {
-        "operationId": "TicketService_DeleteTicket",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1DeleteTicketReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "TicketService"
-        ]
-      }
-    },
-    "/v1/ticketing/ticket/{ticket.id}": {
-      "put": {
-        "operationId": "TicketService_UpdateTicket",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1Ticket"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "ticket.id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "ticket": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "updateMask": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "tags": [
-          "TicketService"
-        ]
-      },
-      "patch": {
-        "operationId": "TicketService_UpdateTicket2",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1Ticket"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "ticket.id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "ticket": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "updateMask": {
-                  "type": "string"
-                }
-              }
-            }
           }
         ],
         "tags": [
@@ -4965,17 +5359,6 @@
         "hallId"
       ]
     },
-    "v1CreateTicketRequest": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "name"
-      ]
-    },
     "v1DeleteActivityReply": {
       "type": "object",
       "properties": {
@@ -5036,17 +5419,6 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
-        }
-      }
-    },
-    "v1DeleteTicketReply": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
           "type": "string"
         }
       }
@@ -5670,12 +6042,36 @@
         "id": {
           "type": "string"
         },
-        "name": {
-          "type": "string"
+        "location": {
+          "$ref": "#/definitions/locationv1Location"
+        },
+        "hall": {
+          "$ref": "#/definitions/v1LocationHall"
+        },
+        "activity": {
+          "$ref": "#/definitions/v1Activity"
+        },
+        "show": {
+          "$ref": "#/definitions/v1Show"
+        },
+        "showSalesType": {
+          "$ref": "#/definitions/v1ShowSalesType"
         },
         "createdAt": {
           "type": "string",
           "format": "date-time"
+        },
+        "status": {
+          "type": "string"
+        },
+        "orderId": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "notice": {
+          "type": "string"
         }
       }
     },
@@ -5685,7 +6081,16 @@
         "id": {
           "$ref": "#/definitions/operationStringFilterOperation"
         },
-        "name": {
+        "locationId": {
+          "$ref": "#/definitions/operationStringFilterOperation"
+        },
+        "hallId": {
+          "$ref": "#/definitions/operationStringFilterOperation"
+        },
+        "activityId": {
+          "$ref": "#/definitions/operationStringFilterOperation"
+        },
+        "userId": {
           "$ref": "#/definitions/operationStringFilterOperation"
         }
       }
@@ -5960,20 +6365,6 @@
           "$ref": "#/definitions/priceInfoPb"
         }
       }
-    },
-    "v1UpdateTicket": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "id"
-      ]
     }
   },
   "securityDefinitions": {

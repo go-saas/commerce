@@ -31,12 +31,9 @@ func (c *TicketRepo) DefaultSorting() []string {
 // BuildDetailScope preload relations
 func (c *TicketRepo) BuildDetailScope(withDetail bool) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		//db = db.Preload("Activity").Preload("Activity.Categories").Preload("Activity.MainPic").
-		//	Preload("Location").Preload("Hall").Preload("MainPic").
-		//	Preload("SalesTypes")
-		//if withDetail {
-		//	db = db.Preload("Seats")
-		//}
+		db = db.Preload("Activity").Preload("Activity.Categories").Preload("Activity.MainPic").
+			Preload("Location").Preload("Hall").
+			Preload("ShowSalesType")
 		return db
 	}
 }
@@ -48,6 +45,21 @@ func (c *TicketRepo) BuildFilterScope(q *v1.ListTicketRequest) func(db *gorm.DB)
 		ret := db
 		if filter == nil {
 			return ret
+		}
+		if filter.Id != nil {
+			ret = ret.Scopes(kitgorm.BuildStringFilter("`id`", filter.Id))
+		}
+		if filter.UserId != nil {
+			ret = ret.Scopes(kitgorm.BuildStringFilter("`user_id`", filter.UserId))
+		}
+		if filter.LocationId != nil {
+			ret = ret.Scopes(kitgorm.BuildStringFilter("`location_id`", filter.LocationId))
+		}
+		if filter.HallId != nil {
+			ret = ret.Scopes(kitgorm.BuildStringFilter("`hall_id`", filter.HallId))
+		}
+		if filter.ActivityId != nil {
+			ret = ret.Scopes(kitgorm.BuildStringFilter("`activity_id`", filter.ActivityId))
 		}
 		return ret
 	}

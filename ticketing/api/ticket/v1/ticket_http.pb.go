@@ -19,29 +19,19 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationTicketServiceCreateTicket = "/ticketing.api.ticket.v1.TicketService/CreateTicket"
-const OperationTicketServiceDeleteTicket = "/ticketing.api.ticket.v1.TicketService/DeleteTicket"
 const OperationTicketServiceGetTicket = "/ticketing.api.ticket.v1.TicketService/GetTicket"
 const OperationTicketServiceListTicket = "/ticketing.api.ticket.v1.TicketService/ListTicket"
-const OperationTicketServiceUpdateTicket = "/ticketing.api.ticket.v1.TicketService/UpdateTicket"
 
 type TicketServiceHTTPServer interface {
-	CreateTicket(context.Context, *CreateTicketRequest) (*Ticket, error)
-	DeleteTicket(context.Context, *DeleteTicketRequest) (*DeleteTicketReply, error)
 	GetTicket(context.Context, *GetTicketRequest) (*Ticket, error)
 	ListTicket(context.Context, *ListTicketRequest) (*ListTicketReply, error)
-	UpdateTicket(context.Context, *UpdateTicketRequest) (*Ticket, error)
 }
 
 func RegisterTicketServiceHTTPServer(s *http.Server, srv TicketServiceHTTPServer) {
 	r := s.Route("/")
-	r.POST("/v1/ticket/ticket/list", _TicketService_ListTicket0_HTTP_Handler(srv))
+	r.POST("/v1/ticketing/ticket/list", _TicketService_ListTicket0_HTTP_Handler(srv))
 	r.GET("/v1/ticketing/ticket", _TicketService_ListTicket1_HTTP_Handler(srv))
 	r.GET("/v1/ticketing/ticket/{id}", _TicketService_GetTicket0_HTTP_Handler(srv))
-	r.POST("/v1/ticketing/ticket", _TicketService_CreateTicket0_HTTP_Handler(srv))
-	r.PATCH("/v1/ticketing/ticket/{ticket.id}", _TicketService_UpdateTicket0_HTTP_Handler(srv))
-	r.PUT("/v1/ticketing/ticket/{ticket.id}", _TicketService_UpdateTicket1_HTTP_Handler(srv))
-	r.DELETE("/v1/ticketing/ticket/{id}", _TicketService_DeleteTicket0_HTTP_Handler(srv))
 }
 
 func _TicketService_ListTicket0_HTTP_Handler(srv TicketServiceHTTPServer) func(ctx http.Context) error {
@@ -104,97 +94,9 @@ func _TicketService_GetTicket0_HTTP_Handler(srv TicketServiceHTTPServer) func(ct
 	}
 }
 
-func _TicketService_CreateTicket0_HTTP_Handler(srv TicketServiceHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in CreateTicketRequest
-		if err := ctx.Bind(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationTicketServiceCreateTicket)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.CreateTicket(ctx, req.(*CreateTicketRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*Ticket)
-		return ctx.Result(200, reply)
-	}
-}
-
-func _TicketService_UpdateTicket0_HTTP_Handler(srv TicketServiceHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in UpdateTicketRequest
-		if err := ctx.Bind(&in); err != nil {
-			return err
-		}
-		if err := ctx.BindVars(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationTicketServiceUpdateTicket)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UpdateTicket(ctx, req.(*UpdateTicketRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*Ticket)
-		return ctx.Result(200, reply)
-	}
-}
-
-func _TicketService_UpdateTicket1_HTTP_Handler(srv TicketServiceHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in UpdateTicketRequest
-		if err := ctx.Bind(&in); err != nil {
-			return err
-		}
-		if err := ctx.BindVars(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationTicketServiceUpdateTicket)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UpdateTicket(ctx, req.(*UpdateTicketRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*Ticket)
-		return ctx.Result(200, reply)
-	}
-}
-
-func _TicketService_DeleteTicket0_HTTP_Handler(srv TicketServiceHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in DeleteTicketRequest
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		if err := ctx.BindVars(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationTicketServiceDeleteTicket)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.DeleteTicket(ctx, req.(*DeleteTicketRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*DeleteTicketReply)
-		return ctx.Result(200, reply)
-	}
-}
-
 type TicketServiceHTTPClient interface {
-	CreateTicket(ctx context.Context, req *CreateTicketRequest, opts ...http.CallOption) (rsp *Ticket, err error)
-	DeleteTicket(ctx context.Context, req *DeleteTicketRequest, opts ...http.CallOption) (rsp *DeleteTicketReply, err error)
 	GetTicket(ctx context.Context, req *GetTicketRequest, opts ...http.CallOption) (rsp *Ticket, err error)
 	ListTicket(ctx context.Context, req *ListTicketRequest, opts ...http.CallOption) (rsp *ListTicketReply, err error)
-	UpdateTicket(ctx context.Context, req *UpdateTicketRequest, opts ...http.CallOption) (rsp *Ticket, err error)
 }
 
 type TicketServiceHTTPClientImpl struct {
@@ -203,32 +105,6 @@ type TicketServiceHTTPClientImpl struct {
 
 func NewTicketServiceHTTPClient(client *http.Client) TicketServiceHTTPClient {
 	return &TicketServiceHTTPClientImpl{client}
-}
-
-func (c *TicketServiceHTTPClientImpl) CreateTicket(ctx context.Context, in *CreateTicketRequest, opts ...http.CallOption) (*Ticket, error) {
-	var out Ticket
-	pattern := "/v1/ticketing/ticket"
-	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationTicketServiceCreateTicket))
-	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &out, err
-}
-
-func (c *TicketServiceHTTPClientImpl) DeleteTicket(ctx context.Context, in *DeleteTicketRequest, opts ...http.CallOption) (*DeleteTicketReply, error) {
-	var out DeleteTicketReply
-	pattern := "/v1/ticketing/ticket/{id}"
-	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationTicketServiceDeleteTicket))
-	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &out, err
 }
 
 func (c *TicketServiceHTTPClientImpl) GetTicket(ctx context.Context, in *GetTicketRequest, opts ...http.CallOption) (*Ticket, error) {
@@ -251,19 +127,6 @@ func (c *TicketServiceHTTPClientImpl) ListTicket(ctx context.Context, in *ListTi
 	opts = append(opts, http.Operation(OperationTicketServiceListTicket))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &out, err
-}
-
-func (c *TicketServiceHTTPClientImpl) UpdateTicket(ctx context.Context, in *UpdateTicketRequest, opts ...http.CallOption) (*Ticket, error) {
-	var out Ticket
-	pattern := "/v1/ticketing/ticket/{ticket.id}"
-	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationTicketServiceUpdateTicket))
-	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

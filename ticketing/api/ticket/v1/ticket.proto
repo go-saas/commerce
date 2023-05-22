@@ -9,6 +9,9 @@ import "google/api/field_behavior.proto";
 import "validate/validate.proto";
 import "query/operation.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
+import "ticketing/api/location/v1/location.proto";
+import "ticketing/api/activity/v1/activity.proto";
+import "ticketing/api/show/v1/show.proto";
 option go_package = "github.com/go-saas/commerce/ticketing/api/ticket/v1;v1";
 
 
@@ -17,7 +20,7 @@ service TicketService {
     option (google.api.http) = {
       get: "/v1/ticketing/ticket",
       additional_bindings:{
-        post:"/v1/ticket/ticket/list",
+        post:"/v1/ticketing/ticket/list",
         body:"*"
       }
     };
@@ -27,52 +30,53 @@ service TicketService {
       get: "/v1/ticketing/ticket/{id}"
     };
   }
-  rpc CreateTicket (CreateTicketRequest) returns (Ticket){
-    option (google.api.http) = {
-      post: "/v1/ticketing/ticket",
-      body: "*"
-    };
-  }
-  rpc UpdateTicket (UpdateTicketRequest) returns (Ticket){
-    option (google.api.http) = {
-      put: "/v1/ticketing/ticket/{ticket.id}",
-      body: "*"
-      additional_bindings{
-        patch: "/v1/ticketing/ticket/{ticket.id}",
-        body: "*"
-      }
-    };
-  }
-  rpc DeleteTicket (DeleteTicketRequest) returns (DeleteTicketReply){
-    option (google.api.http) = {
-      delete: "/v1/ticketing/ticket/{id}"
-    };
-  }
+//  rpc CreateTicket (CreateTicketRequest) returns (Ticket){
+//    option (google.api.http) = {
+//      post: "/v1/ticketing/ticket",
+//      body: "*"
+//    };
+//  }
+//  rpc UpdateTicket (UpdateTicketRequest) returns (Ticket){
+//    option (google.api.http) = {
+//      put: "/v1/ticketing/ticket/{ticket.id}",
+//      body: "*"
+//      additional_bindings{
+//        patch: "/v1/ticketing/ticket/{ticket.id}",
+//        body: "*"
+//      }
+//    };
+//  }
+//  rpc DeleteTicket (DeleteTicketRequest) returns (DeleteTicketReply){
+//    option (google.api.http) = {
+//      delete: "/v1/ticketing/ticket/{id}"
+//    };
+//  }
 
 }
 
-message CreateTicketRequest {
-  string name =1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
-}
+//message CreateTicketRequest {
+//  string name =1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+//}
 
-message UpdateTicketRequest {
-  UpdateTicket ticket=1 [(validate.rules).message.required=true,(google.api.field_behavior) = REQUIRED];
-  google.protobuf.FieldMask update_mask = 2;
-}
+//message UpdateTicketRequest {
+//  UpdateTicket ticket=1 [(validate.rules).message.required=true,(google.api.field_behavior) = REQUIRED];
+//  google.protobuf.FieldMask update_mask = 2;
+//}
+//
+//message UpdateTicket{
+//  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+//  string name=2;
+//}
 
-message UpdateTicket{
-  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
-  string name=2;
-}
 
+//message DeleteTicketRequest {
+//  string id=1;
+//}
+//message DeleteTicketReply {
+//  string id=1;
+//  string name=2;
+//}
 
-message DeleteTicketRequest {
-  string id=1;
-}
-message DeleteTicketReply {
-  string id=1;
-  string name=2;
-}
 
 message GetTicketRequest {
   string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior)=REQUIRED];
@@ -80,8 +84,10 @@ message GetTicketRequest {
 
 message TicketFilter{
   query.operation.StringFilterOperation id=1;
-  query.operation.StringFilterOperation name =2;
-
+  query.operation.StringFilterOperation location_id =2;
+  query.operation.StringFilterOperation hall_id =3;
+  query.operation.StringFilterOperation activity_id =4;
+  query.operation.StringFilterOperation user_id =5;
 }
 
 message ListTicketRequest {
@@ -108,6 +114,22 @@ message ListTicketReply {
 
 message Ticket{
   string id=1;
-  string name=2;
-  google.protobuf.Timestamp created_at =4;
+
+  .ticketing.api.location.v1.Location location=2;
+  .ticketing.api.location.v1.LocationHall hall=3;
+  .ticketing.api.activity.v1.Activity activity=4;
+
+  .ticketing.api.show.v1.Show show=5;
+
+  .ticketing.api.show.v1.ShowSalesType show_sales_type=6;
+
+  google.protobuf.Timestamp created_at =10;
+
+  string status=11;
+
+  string order_id=12;
+
+  string user_id=30;
+
+  string notice=40;
 }

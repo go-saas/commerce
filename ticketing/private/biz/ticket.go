@@ -3,11 +3,13 @@ package biz
 import (
 	v1 "github.com/go-saas/commerce/ticketing/api/ticket/v1"
 	"github.com/go-saas/kit/pkg/data"
+	"github.com/go-saas/kit/pkg/gorm"
 	"github.com/lithammer/shortuuid/v3"
 	"time"
 )
 
 type Ticket struct {
+	gorm.AuditedModel
 	ID     string `gorm:"type:char(36);primaryKey;" json:"id"`
 	UserID string `gorm:"type:char(36);index:;"`
 

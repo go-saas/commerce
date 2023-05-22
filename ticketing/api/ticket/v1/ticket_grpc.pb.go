@@ -19,11 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	TicketService_ListTicket_FullMethodName   = "/ticketing.api.ticket.v1.TicketService/ListTicket"
-	TicketService_GetTicket_FullMethodName    = "/ticketing.api.ticket.v1.TicketService/GetTicket"
-	TicketService_CreateTicket_FullMethodName = "/ticketing.api.ticket.v1.TicketService/CreateTicket"
-	TicketService_UpdateTicket_FullMethodName = "/ticketing.api.ticket.v1.TicketService/UpdateTicket"
-	TicketService_DeleteTicket_FullMethodName = "/ticketing.api.ticket.v1.TicketService/DeleteTicket"
+	TicketService_ListTicket_FullMethodName = "/ticketing.api.ticket.v1.TicketService/ListTicket"
+	TicketService_GetTicket_FullMethodName  = "/ticketing.api.ticket.v1.TicketService/GetTicket"
 )
 
 // TicketServiceClient is the client API for TicketService service.
@@ -32,9 +29,6 @@ const (
 type TicketServiceClient interface {
 	ListTicket(ctx context.Context, in *ListTicketRequest, opts ...grpc.CallOption) (*ListTicketReply, error)
 	GetTicket(ctx context.Context, in *GetTicketRequest, opts ...grpc.CallOption) (*Ticket, error)
-	CreateTicket(ctx context.Context, in *CreateTicketRequest, opts ...grpc.CallOption) (*Ticket, error)
-	UpdateTicket(ctx context.Context, in *UpdateTicketRequest, opts ...grpc.CallOption) (*Ticket, error)
-	DeleteTicket(ctx context.Context, in *DeleteTicketRequest, opts ...grpc.CallOption) (*DeleteTicketReply, error)
 }
 
 type ticketServiceClient struct {
@@ -63,42 +57,12 @@ func (c *ticketServiceClient) GetTicket(ctx context.Context, in *GetTicketReques
 	return out, nil
 }
 
-func (c *ticketServiceClient) CreateTicket(ctx context.Context, in *CreateTicketRequest, opts ...grpc.CallOption) (*Ticket, error) {
-	out := new(Ticket)
-	err := c.cc.Invoke(ctx, TicketService_CreateTicket_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *ticketServiceClient) UpdateTicket(ctx context.Context, in *UpdateTicketRequest, opts ...grpc.CallOption) (*Ticket, error) {
-	out := new(Ticket)
-	err := c.cc.Invoke(ctx, TicketService_UpdateTicket_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *ticketServiceClient) DeleteTicket(ctx context.Context, in *DeleteTicketRequest, opts ...grpc.CallOption) (*DeleteTicketReply, error) {
-	out := new(DeleteTicketReply)
-	err := c.cc.Invoke(ctx, TicketService_DeleteTicket_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // TicketServiceServer is the server API for TicketService service.
 // All implementations should embed UnimplementedTicketServiceServer
 // for forward compatibility
 type TicketServiceServer interface {
 	ListTicket(context.Context, *ListTicketRequest) (*ListTicketReply, error)
 	GetTicket(context.Context, *GetTicketRequest) (*Ticket, error)
-	CreateTicket(context.Context, *CreateTicketRequest) (*Ticket, error)
-	UpdateTicket(context.Context, *UpdateTicketRequest) (*Ticket, error)
-	DeleteTicket(context.Context, *DeleteTicketRequest) (*DeleteTicketReply, error)
 }
 
 // UnimplementedTicketServiceServer should be embedded to have forward compatible implementations.
@@ -110,15 +74,6 @@ func (UnimplementedTicketServiceServer) ListTicket(context.Context, *ListTicketR
 }
 func (UnimplementedTicketServiceServer) GetTicket(context.Context, *GetTicketRequest) (*Ticket, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTicket not implemented")
-}
-func (UnimplementedTicketServiceServer) CreateTicket(context.Context, *CreateTicketRequest) (*Ticket, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateTicket not implemented")
-}
-func (UnimplementedTicketServiceServer) UpdateTicket(context.Context, *UpdateTicketRequest) (*Ticket, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateTicket not implemented")
-}
-func (UnimplementedTicketServiceServer) DeleteTicket(context.Context, *DeleteTicketRequest) (*DeleteTicketReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteTicket not implemented")
 }
 
 // UnsafeTicketServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -168,60 +123,6 @@ func _TicketService_GetTicket_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TicketService_CreateTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateTicketRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TicketServiceServer).CreateTicket(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: TicketService_CreateTicket_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TicketServiceServer).CreateTicket(ctx, req.(*CreateTicketRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _TicketService_UpdateTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateTicketRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TicketServiceServer).UpdateTicket(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: TicketService_UpdateTicket_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TicketServiceServer).UpdateTicket(ctx, req.(*UpdateTicketRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _TicketService_DeleteTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteTicketRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TicketServiceServer).DeleteTicket(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: TicketService_DeleteTicket_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TicketServiceServer).DeleteTicket(ctx, req.(*DeleteTicketRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // TicketService_ServiceDesc is the grpc.ServiceDesc for TicketService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -236,18 +137,6 @@ var TicketService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTicket",
 			Handler:    _TicketService_GetTicket_Handler,
-		},
-		{
-			MethodName: "CreateTicket",
-			Handler:    _TicketService_CreateTicket_Handler,
-		},
-		{
-			MethodName: "UpdateTicket",
-			Handler:    _TicketService_UpdateTicket_Handler,
-		},
-		{
-			MethodName: "DeleteTicket",
-			Handler:    _TicketService_DeleteTicket_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -33,12 +33,3 @@ func (c *ticketServiceClientProxy) ListTicket(ctx context.Context, in *ListTicke
 func (c *ticketServiceClientProxy) GetTicket(ctx context.Context, in *GetTicketRequest) (*Ticket, error) {
 	return c.cc.GetTicket(ctx, in)
 }
-func (c *ticketServiceClientProxy) CreateTicket(ctx context.Context, in *CreateTicketRequest) (*Ticket, error) {
-	return c.cc.CreateTicket(ctx, in)
-}
-func (c *ticketServiceClientProxy) UpdateTicket(ctx context.Context, in *UpdateTicketRequest) (*Ticket, error) {
-	return c.cc.UpdateTicket(ctx, in)
-}
-func (c *ticketServiceClientProxy) DeleteTicket(ctx context.Context, in *DeleteTicketRequest) (*DeleteTicketReply, error) {
-	return c.cc.DeleteTicket(ctx, in)
-}
