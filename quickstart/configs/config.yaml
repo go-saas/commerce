@@ -30,6 +30,12 @@ data:
         group: sys-golang
       realtime:
         group: realtime-golang
+      order:
+        group: order-golang
+      ticketing:
+        group: ticketing-golang
+      payment:
+        group: payment-golang
   vfs:
     -
       public_url: http://saas.nihaosaoya.com:8080/assets

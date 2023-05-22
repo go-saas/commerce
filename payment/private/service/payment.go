@@ -20,6 +20,7 @@ import (
 	"github.com/stripe/stripe-go/v74/webhook"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"io"
+	"strings"
 	"time"
 )
 
@@ -111,12 +112,12 @@ func (s *PaymentService) StripeWebhook(ctx context.Context, req *emptypb.Empty) 
 		}
 		data := event.Data
 		eventType := event.Type
-		log.Infof("receive event type %s with data %v", eventType, data)
+		log.Infof("receive event type %s with data %v", eventType, data.Raw)
 		switch eventType {
 		case "payment_intent.succeeded":
 			intent := stripe.PaymentIntent{}
 			json.Unmarshal(data.Raw, &intent)
-			totalPrice, err := price.NewPriceFromInt64(intent.Amount, string(intent.Currency))
+			totalPrice, err := price.NewPriceFromInt64(intent.Amount, strings.ToUpper(string(intent.Currency)))
 			if err != nil {
 				return nil, err
 			}

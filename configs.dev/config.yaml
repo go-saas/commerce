@@ -73,12 +73,6 @@ data:
       default:
         addr: localhost:9094
         type: kafka
-      order:
-        group: order-golang
-      ticketing:
-        group: ticketing-golang
-      payment:
-        group: payment-golang
     databases:
       default:
         debug: true
