@@ -106,7 +106,7 @@ func (c *CategoryRepo) Update(ctx context.Context, id string, entity *biz.Ticket
 
 func (c *CategoryRepo) FindAllChildren(ctx context.Context, entity *biz.TicketingCategory) ([]*biz.TicketingCategory, error) {
 	var children []*biz.TicketingCategory
-	err := c.GetDb(ctx).Model(&biz.TicketingCategory{}).Where("path LIKE ?%", entity.Path+"/").Find(&children).Error
+	err := c.GetDb(ctx).Model(&biz.TicketingCategory{}).Where("path LIKE ?", entity.Path+"/%").Find(&children).Error
 	if err != nil {
 		return nil, err
 	}

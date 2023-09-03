@@ -272,10 +272,12 @@ func (c *OrderServiceHTTPClientImpl) UpdateOrder(ctx context.Context, in *Update
 
 const OperationOrderAppServiceGetAppOrder = "/order.api.order.v1.OrderAppService/GetAppOrder"
 const OperationOrderAppServiceListAppOrder = "/order.api.order.v1.OrderAppService/ListAppOrder"
+const OperationOrderAppServiceRefundAppOrder = "/order.api.order.v1.OrderAppService/RefundAppOrder"
 
 type OrderAppServiceHTTPServer interface {
 	GetAppOrder(context.Context, *GetOrderRequest) (*Order, error)
 	ListAppOrder(context.Context, *ListOrderRequest) (*ListOrderReply, error)
+	RefundAppOrder(context.Context, *RefundAppOrderRequest) (*Order, error)
 }
 
 func RegisterOrderAppServiceHTTPServer(s *http.Server, srv OrderAppServiceHTTPServer) {
@@ -283,6 +285,7 @@ func RegisterOrderAppServiceHTTPServer(s *http.Server, srv OrderAppServiceHTTPSe
 	r.POST("/v1/order/app/order/list", _OrderAppService_ListAppOrder0_HTTP_Handler(srv))
 	r.GET("/v1/order/app/order", _OrderAppService_ListAppOrder1_HTTP_Handler(srv))
 	r.GET("/v1/order/app/order/{id}", _OrderAppService_GetAppOrder0_HTTP_Handler(srv))
+	r.POST("/v1/order/app/refund/{order_id}", _OrderAppService_RefundAppOrder0_HTTP_Handler(srv))
 }
 
 func _OrderAppService_ListAppOrder0_HTTP_Handler(srv OrderAppServiceHTTPServer) func(ctx http.Context) error {
@@ -345,9 +348,32 @@ func _OrderAppService_GetAppOrder0_HTTP_Handler(srv OrderAppServiceHTTPServer) f
 	}
 }
 
+func _OrderAppService_RefundAppOrder0_HTTP_Handler(srv OrderAppServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in RefundAppOrderRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationOrderAppServiceRefundAppOrder)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.RefundAppOrder(ctx, req.(*RefundAppOrderRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*Order)
+		return ctx.Result(200, reply)
+	}
+}
+
 type OrderAppServiceHTTPClient interface {
 	GetAppOrder(ctx context.Context, req *GetOrderRequest, opts ...http.CallOption) (rsp *Order, err error)
 	ListAppOrder(ctx context.Context, req *ListOrderRequest, opts ...http.CallOption) (rsp *ListOrderReply, err error)
+	RefundAppOrder(ctx context.Context, req *RefundAppOrderRequest, opts ...http.CallOption) (rsp *Order, err error)
 }
 
 type OrderAppServiceHTTPClientImpl struct {
@@ -378,6 +404,19 @@ func (c *OrderAppServiceHTTPClientImpl) ListAppOrder(ctx context.Context, in *Li
 	opts = append(opts, http.Operation(OperationOrderAppServiceListAppOrder))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *OrderAppServiceHTTPClientImpl) RefundAppOrder(ctx context.Context, in *RefundAppOrderRequest, opts ...http.CallOption) (*Order, error) {
+	var out Order
+	pattern := "/v1/order/app/refund/{order_id}"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationOrderAppServiceRefundAppOrder))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

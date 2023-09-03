@@ -734,6 +734,8 @@ func (m *InternalOrderPaySuccessRequest) validate(all bool) error {
 
 	// no validation rules for PayWay
 
+	// no validation rules for PayMethod
+
 	if len(errors) > 0 {
 		return InternalOrderPaySuccessRequestMultiError(errors)
 	}
@@ -917,3 +919,310 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = InternalOrderPaySuccessReplyValidationError{}
+
+// Validate checks the field values on InternalOrderRefundedRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *InternalOrderRefundedRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on InternalOrderRefundedRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// InternalOrderRefundedRequestMultiError, or nil if none found.
+func (m *InternalOrderRefundedRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *InternalOrderRefundedRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetId()) < 1 {
+		err := InternalOrderRefundedRequestValidationError{
+			field:  "Id",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetPayExtra()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, InternalOrderRefundedRequestValidationError{
+					field:  "PayExtra",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, InternalOrderRefundedRequestValidationError{
+					field:  "PayExtra",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPayExtra()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InternalOrderRefundedRequestValidationError{
+				field:  "PayExtra",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetRefundTime()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, InternalOrderRefundedRequestValidationError{
+					field:  "RefundTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, InternalOrderRefundedRequestValidationError{
+					field:  "RefundTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRefundTime()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InternalOrderRefundedRequestValidationError{
+				field:  "RefundTime",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetRefundPrice()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, InternalOrderRefundedRequestValidationError{
+					field:  "RefundPrice",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, InternalOrderRefundedRequestValidationError{
+					field:  "RefundPrice",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRefundPrice()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InternalOrderRefundedRequestValidationError{
+				field:  "RefundPrice",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for PayWay
+
+	// no validation rules for PayMethod
+
+	if len(errors) > 0 {
+		return InternalOrderRefundedRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// InternalOrderRefundedRequestMultiError is an error wrapping multiple
+// validation errors returned by InternalOrderRefundedRequest.ValidateAll() if
+// the designated constraints aren't met.
+type InternalOrderRefundedRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m InternalOrderRefundedRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m InternalOrderRefundedRequestMultiError) AllErrors() []error { return m }
+
+// InternalOrderRefundedRequestValidationError is the validation error returned
+// by InternalOrderRefundedRequest.Validate if the designated constraints
+// aren't met.
+type InternalOrderRefundedRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e InternalOrderRefundedRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e InternalOrderRefundedRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e InternalOrderRefundedRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e InternalOrderRefundedRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e InternalOrderRefundedRequestValidationError) ErrorName() string {
+	return "InternalOrderRefundedRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e InternalOrderRefundedRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sInternalOrderRefundedRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = InternalOrderRefundedRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = InternalOrderRefundedRequestValidationError{}
+
+// Validate checks the field values on InternalOrderRefundedReply with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *InternalOrderRefundedReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on InternalOrderRefundedReply with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// InternalOrderRefundedReplyMultiError, or nil if none found.
+func (m *InternalOrderRefundedReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *InternalOrderRefundedReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return InternalOrderRefundedReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// InternalOrderRefundedReplyMultiError is an error wrapping multiple
+// validation errors returned by InternalOrderRefundedReply.ValidateAll() if
+// the designated constraints aren't met.
+type InternalOrderRefundedReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m InternalOrderRefundedReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m InternalOrderRefundedReplyMultiError) AllErrors() []error { return m }
+
+// InternalOrderRefundedReplyValidationError is the validation error returned
+// by InternalOrderRefundedReply.Validate if the designated constraints aren't met.
+type InternalOrderRefundedReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e InternalOrderRefundedReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e InternalOrderRefundedReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e InternalOrderRefundedReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e InternalOrderRefundedReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e InternalOrderRefundedReplyValidationError) ErrorName() string {
+	return "InternalOrderRefundedReplyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e InternalOrderRefundedReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sInternalOrderRefundedReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = InternalOrderRefundedReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = InternalOrderRefundedReplyValidationError{}

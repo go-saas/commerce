@@ -85,6 +85,22 @@ func (s *OrderService) GetAppOrder(ctx context.Context, req *pb.GetOrderRequest)
 	return res, nil
 }
 
+func (s *OrderService) RefundAppOrder(ctx context.Context, req *pb.RefundAppOrderRequest) (*pb.Order, error) {
+	userInfo, err := authn.ErrIfUnauthenticated(ctx)
+	if err != nil {
+		return nil, err
+	}
+	g, err := s.repo.Get(ctx, req.GetOrderId())
+	if err != nil {
+		return nil, err
+	}
+	if g == nil || g.CustomerID != userInfo.GetId() {
+		return nil, errors.NotFound("", "")
+	}
+	//call payment to refund
+	g.RequestFund(g.PayWay, g.TotalPriceInclTax)
+}
+
 func (s *OrderService) ListOrder(ctx context.Context, req *pb.ListOrderRequest) (*pb.ListOrderReply, error) {
 	if _, err := s.auth.Check(ctx, authz.NewEntityResource(api.ResourceOrder, "*"), authz.ReadAction); err != nil {
 		return nil, err
@@ -270,7 +286,7 @@ func (s *OrderService) InternalOrderPaySuccess(ctx context.Context, req *pb.Inte
 	if err != nil {
 		return nil, err
 	}
-	g.ChangeToPaid(req.PayWay, p, utils.Structpb2Map(req.PayExtra), utils.Timepb2Time(req.PaidTime))
+	g.ChangeToPaid(req.PayWay, req.PayMethod, p, utils.Structpb2Map(req.PayExtra), utils.Timepb2Time(req.PaidTime))
 	if err := s.repo.Update(ctx, g.ID, g, nil); err != nil {
 		return nil, err
 	}
@@ -283,6 +299,36 @@ func (s *OrderService) InternalOrderPaySuccess(ctx context.Context, req *pb.Inte
 		return nil, err
 	}
 	return &pb.InternalOrderPaySuccessReply{}, err
+}
+
+func (s *OrderService) InternalOrderRefunded(ctx context.Context, req *pb.InternalOrderRefundedRequest) (*pb.InternalOrderRefundedReply, error) {
+	if ok, _ := s.trust.Trusted(ctx); !ok {
+		return nil, errors.Forbidden("", "")
+	}
+	g, err := s.repo.Get(ctx, req.GetId())
+	if err != nil {
+		return nil, err
+	}
+	if g == nil {
+		return nil, errors.NotFound("", "")
+	}
+	p, err := price.NewPriceFromPb(req.RefundPrice)
+	if err != nil {
+		return nil, err
+	}
+	g.ChangeToRefunded(req.PayWay, p, utils.Structpb2Map(req.PayExtra))
+	if err := s.repo.Update(ctx, g.ID, g, nil); err != nil {
+		return nil, err
+	}
+	//publish event
+	orderPb := &pb.Order{}
+	MapBizOrder2Pb(ctx, g, orderPb)
+	msg, _ := event.NewMessageFromProto(&v1.OrderRefundSuccessEvent{Order: orderPb})
+	err = s.producer.Send(ctx, msg)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.InternalOrderRefundedReply{}, err
 }
 
 func MapBizOrder2Pb(ctx context.Context, a *biz.Order, b *pb.Order) {

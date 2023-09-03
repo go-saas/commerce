@@ -36,3 +36,6 @@ func (c *orderInternalServiceClientProxy) GetInternalOrder(ctx context.Context, 
 func (c *orderInternalServiceClientProxy) InternalOrderPaySuccess(ctx context.Context, in *InternalOrderPaySuccessRequest) (*InternalOrderPaySuccessReply, error) {
 	return c.cc.InternalOrderPaySuccess(ctx, in)
 }
+func (c *orderInternalServiceClientProxy) InternalOrderRefunded(ctx context.Context, in *InternalOrderRefundedRequest) (*InternalOrderRefundedReply, error) {
+	return c.cc.InternalOrderRefunded(ctx, in)
+}

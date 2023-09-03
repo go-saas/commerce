@@ -133,6 +133,28 @@ func (s *PaymentService) StripeWebhook(ctx context.Context, req *emptypb.Empty) 
 			if err != nil {
 				return nil, err
 			}
+		case "charge.refunded":
+			refund := stripe.Refund{}
+			json.Unmarshal(data.Raw, &refund)
+			refundPrice, err := price.NewPriceFromInt64(refund.Amount, strings.ToUpper(string(refund.Currency)))
+			if err != nil {
+				return nil, err
+			}
+			intent, err := s.stripeClient.PaymentIntents.Get(refund.PaymentIntent.ID, nil)
+			if err != nil {
+				return nil, handleStripeError(err)
+			}
+			t := time.Now()
+			_, err = s.orderInternalSrv.InternalOrderRefunded(ctx, &v1.InternalOrderRefundedRequest{
+				Id:          intent.Metadata["order_id"],
+				PayExtra:    utils.Map2Structpb(data.Object),
+				RefundTime:  utils.Time2Timepb(&t),
+				RefundPrice: refundPrice.ToPricePb(ctx),
+				PayWay:      "stripe",
+			})
+			if err != nil {
+				return nil, err
+			}
 		case "payment_intent.payment_failed":
 		case "setup_intent.setup_failed":
 		case "setup_intent.succeeded":

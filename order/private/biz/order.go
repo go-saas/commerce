@@ -9,6 +9,7 @@ import (
 	kitgorm "github.com/go-saas/kit/pkg/gorm"
 	"github.com/go-saas/kit/pkg/price"
 	"github.com/go-saas/lbs"
+	concurrency "github.com/goxiaoy/gorm-concurrency"
 	"github.com/lithammer/shortuuid/v3"
 	"github.com/samber/lo"
 	"github.com/segmentio/ksuid"
@@ -20,6 +21,7 @@ import (
 type Order struct {
 	ID string `gorm:"type:char(36)" json:"id"`
 	kitgorm.AuditedModel
+	concurrency.Version
 
 	Status string
 
@@ -36,9 +38,10 @@ type Order struct {
 
 	PayBefore *time.Time
 
-	PayWay string
+	PayWay    string
+	PayMethod string
 
-	PayExtra []OrderPayExtra `gorm:"foreignKey:OrderID;references:ID"`
+	FlowData []OrderFlowData `gorm:"foreignKey:OrderID;references:ID"`
 
 	ShippingAddr lbs.AddressEntity `gorm:"embedded;embeddedPrefix:shipping_addr_"`
 	BillingAddr  lbs.AddressEntity `gorm:"embedded;embeddedPrefix:billing_addr_"`
@@ -50,11 +53,29 @@ type Order struct {
 	Items []OrderItem `gorm:"foreignKey:OrderID;references:ID"`
 }
 
+type OrderFlowData struct {
+	kitgorm.UIDBase
+	OrderID     string
+	PayWay      string
+	FlowType    string
+	Price       price.Price `gorm:"embedded"`
+	InitialTime time.Time
+	Data        data.JSONMap
+}
+
 const (
-	OrderStatusUnpaid   string = "UNPAID"
-	OrderStatusPaid     string = "PAID"
-	OrderStatusRefunded string = "REFUNDED"
-	OrderStatusExpired  string = "EXPIRED"
+	OrderStatusUnpaid    string = "UNPAID"
+	OrderStatusPaid      string = "PAID"
+	OrderStatusRefunding string = "REFUNDING"
+	OrderStatusRefunded  string = "REFUNDED"
+	OrderStatusExpired   string = "EXPIRED"
+)
+
+const (
+	OrderFlowTypePay           string = "PAID"
+	OrderFlowTypeRequestPay    string = "REQUEST_PAY"
+	OrderFlowTypeRequestRefund string = "REQUEST_REFUND"
+	OrderFlowTypeRefund        string = "REFUND"
 )
 
 var (
@@ -146,13 +167,6 @@ type OrderItem struct {
 	IsGiveaway bool `gorm:"comment:是否赠品"`
 
 	BizPayload data.JSONMap
-}
-
-type OrderPayExtra struct {
-	kitgorm.UIDBase
-	OrderID     string
-	PayWay      string
-	PayWayExtra data.JSONMap
 }
 
 func NewOrderItemFromRowDiscount(
@@ -301,17 +315,56 @@ func (u *Order) BeforeCreate(tx *gorm.DB) error {
 	return nil
 }
 
-func (u *Order) ChangeToPaid(payway string, paidPrice price.Price, extra map[string]interface{}, paidTime *time.Time) {
+func (u *Order) FindFlowData(payway string, flowType string) []OrderFlowData {
+	return lo.Filter(u.FlowData, func(item OrderFlowData, _ int) bool {
+		return item.PayWay == payway && item.FlowType == flowType
+	})
+}
+
+func (u *Order) RequestPay(payway string, data map[string]interface{}) {
+	u.FlowData = append(u.FlowData, OrderFlowData{
+		PayWay:      payway,
+		FlowType:    OrderFlowTypeRequestPay,
+		InitialTime: time.Now(),
+		Data:        data,
+		Price:       u.TotalPriceInclTax,
+	})
+}
+
+func (u *Order) ChangeToPaid(payway string, paymethod string, paidPrice price.Price, data map[string]interface{}, paidTime *time.Time) {
 	u.PayWay = payway
+	u.PayMethod = paymethod
 	u.PaidPrice = paidPrice
 	u.PaidTime = paidTime
 	u.Status = OrderStatusPaid
-	existing, ok := lo.Find(u.PayExtra, func(item OrderPayExtra) bool {
-		return item.PayWay == payway
+	u.FlowData = append(u.FlowData, OrderFlowData{
+		PayWay:      payway,
+		FlowType:    OrderFlowTypePay,
+		InitialTime: time.Now(),
+		Data:        data,
+		Price:       paidPrice,
 	})
-	if ok {
-		existing.PayWayExtra = extra
-	} else {
-		u.PayExtra = append(u.PayExtra, OrderPayExtra{PayWay: payway, PayWayExtra: extra})
-	}
+}
+
+func (u *Order) RequestFund(payway string, refundPrice price.Price, data map[string]interface{}) {
+	u.Status = OrderStatusRefunding
+	u.FlowData = append(u.FlowData, OrderFlowData{
+		PayWay:      payway,
+		FlowType:    OrderFlowTypeRequestRefund,
+		InitialTime: time.Now(),
+		Price:       refundPrice,
+		Data:        data,
+	})
+}
+
+func (u *Order) ChangeToRefunded(payway string, refundedPrice price.Price, data map[string]interface{}) {
+	u.Status = OrderStatusRefunded
+	u.FlowData = append(u.FlowData, OrderFlowData{
+		PayWay:      payway,
+		FlowType:    OrderFlowTypeRefund,
+		InitialTime: time.Now(),
+		Price:       refundedPrice,
+		Data:        data,
+	})
+
 }

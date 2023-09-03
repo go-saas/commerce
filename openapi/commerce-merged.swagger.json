@@ -483,6 +483,45 @@
         ]
       }
     },
+    "/v1/order/app/refund/{orderId}": {
+      "post": {
+        "operationId": "OrderAppService_RefundAppOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1Order"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "tags": [
+          "OrderAppService",
+          "UsageApp"
+        ]
+      }
+    },
     "/v1/order/order": {
       "get": {
         "operationId": "OrderService_ListOrder",
@@ -8738,6 +8777,9 @@
       }
     },
     "v1InternalOrderPaySuccessReply": {
+      "type": "object"
+    },
+    "v1InternalOrderRefundedReply": {
       "type": "object"
     },
     "v1Keyword": {

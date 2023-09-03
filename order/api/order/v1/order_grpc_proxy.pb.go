@@ -60,3 +60,6 @@ func (c *orderAppServiceClientProxy) ListAppOrder(ctx context.Context, in *ListO
 func (c *orderAppServiceClientProxy) GetAppOrder(ctx context.Context, in *GetOrderRequest) (*Order, error) {
 	return c.cc.GetAppOrder(ctx, in)
 }
+func (c *orderAppServiceClientProxy) RefundAppOrder(ctx context.Context, in *RefundAppOrderRequest) (*Order, error) {
+	return c.cc.RefundAppOrder(ctx, in)
+}

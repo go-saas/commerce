@@ -27,6 +27,11 @@ service OrderInternalService {
   rpc InternalOrderPaySuccess(InternalOrderPaySuccessRequest)returns(InternalOrderPaySuccessReply){
 
   }
+
+  rpc InternalOrderRefunded(InternalOrderRefundedRequest)returns(InternalOrderRefundedReply){
+
+  }
+
 }
 
 message CreateInternalOrderRequest{
@@ -59,7 +64,6 @@ message CreateInternalOrderItem{
 
 message GetInternalOrderRequest{
   string id=1;
-
 }
 
 message InternalOrderPaySuccessRequest{
@@ -70,9 +74,24 @@ message InternalOrderPaySuccessRequest{
 
   price.PricePb paid_price=30;
   string pay_way = 31;
+  string pay_method = 32;
 }
 
 message InternalOrderPaySuccessReply{
 
 }
 
+message InternalOrderRefundedRequest{
+  string id=1 [(validate.rules).string.min_len=1,(google.api.field_behavior) = REQUIRED];
+
+  google.protobuf.Struct pay_extra = 21;
+  google.protobuf.Timestamp refund_time=22;
+
+  price.PricePb refund_price=30;
+  string pay_way = 31;
+  string pay_method = 32;
+}
+
+message InternalOrderRefundedReply{
+
+}

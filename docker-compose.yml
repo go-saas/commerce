@@ -9,6 +9,12 @@ services:
     image: ${DOCKER_REGISTRY}go-saas-commerce-web:${DOCKER_TAG:-latest}
     restart: unless-stopped
 
+  commerce_app:
+    image: ${DOCKER_REGISTRY}commerce_app
+    restart: unless-stopped
+    ports:
+      - "8710:80"
+
   api_docs:
     image: ${DOCKER_REGISTRY}go-saas-commerce-swagger:${DOCKER_TAG:-latest}
     environment:

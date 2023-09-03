@@ -93,6 +93,17 @@ service OrderAppService{
       tags: ["OrderAppService","UsageApp"];
     };
   }
+
+  rpc RefundAppOrder (RefundAppOrderRequest) returns (Order){
+    option (google.api.http) = {
+      post: "/v1/order/app/refund/{order_id}"
+      body:"*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: ["OrderAppService","UsageApp"];
+    };
+  }
+
 }
 
 
@@ -175,6 +186,7 @@ message Order{
   string customer_id=60;
 
   repeated OrderItem items=100;
+
 }
 
 message OrderItem{
@@ -197,6 +209,7 @@ message OrderItem{
 
 }
 
+
 message OrderProduct{
   string name=1;
   string main_pic=2;
@@ -205,4 +218,9 @@ message OrderProduct{
   string type=5;
   string sku_id=6;
   string sku_title=7;
+}
+
+
+message RefundAppOrderRequest{
+  string order_id=1;
 }

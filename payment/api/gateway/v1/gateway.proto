@@ -46,6 +46,7 @@ message GetPaymentMethodRequest{
   bool is_test=2;
 }
 
+
 message GetPaymentMethodReply{
   repeated PaymentMethod methods=1;
 }

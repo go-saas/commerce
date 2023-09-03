@@ -255,8 +255,9 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	OrderAppService_ListAppOrder_FullMethodName = "/order.api.order.v1.OrderAppService/ListAppOrder"
-	OrderAppService_GetAppOrder_FullMethodName  = "/order.api.order.v1.OrderAppService/GetAppOrder"
+	OrderAppService_ListAppOrder_FullMethodName   = "/order.api.order.v1.OrderAppService/ListAppOrder"
+	OrderAppService_GetAppOrder_FullMethodName    = "/order.api.order.v1.OrderAppService/GetAppOrder"
+	OrderAppService_RefundAppOrder_FullMethodName = "/order.api.order.v1.OrderAppService/RefundAppOrder"
 )
 
 // OrderAppServiceClient is the client API for OrderAppService service.
@@ -265,6 +266,7 @@ const (
 type OrderAppServiceClient interface {
 	ListAppOrder(ctx context.Context, in *ListOrderRequest, opts ...grpc.CallOption) (*ListOrderReply, error)
 	GetAppOrder(ctx context.Context, in *GetOrderRequest, opts ...grpc.CallOption) (*Order, error)
+	RefundAppOrder(ctx context.Context, in *RefundAppOrderRequest, opts ...grpc.CallOption) (*Order, error)
 }
 
 type orderAppServiceClient struct {
@@ -293,12 +295,22 @@ func (c *orderAppServiceClient) GetAppOrder(ctx context.Context, in *GetOrderReq
 	return out, nil
 }
 
+func (c *orderAppServiceClient) RefundAppOrder(ctx context.Context, in *RefundAppOrderRequest, opts ...grpc.CallOption) (*Order, error) {
+	out := new(Order)
+	err := c.cc.Invoke(ctx, OrderAppService_RefundAppOrder_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderAppServiceServer is the server API for OrderAppService service.
 // All implementations should embed UnimplementedOrderAppServiceServer
 // for forward compatibility
 type OrderAppServiceServer interface {
 	ListAppOrder(context.Context, *ListOrderRequest) (*ListOrderReply, error)
 	GetAppOrder(context.Context, *GetOrderRequest) (*Order, error)
+	RefundAppOrder(context.Context, *RefundAppOrderRequest) (*Order, error)
 }
 
 // UnimplementedOrderAppServiceServer should be embedded to have forward compatible implementations.
@@ -310,6 +322,9 @@ func (UnimplementedOrderAppServiceServer) ListAppOrder(context.Context, *ListOrd
 }
 func (UnimplementedOrderAppServiceServer) GetAppOrder(context.Context, *GetOrderRequest) (*Order, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAppOrder not implemented")
+}
+func (UnimplementedOrderAppServiceServer) RefundAppOrder(context.Context, *RefundAppOrderRequest) (*Order, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefundAppOrder not implemented")
 }
 
 // UnsafeOrderAppServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -359,6 +374,24 @@ func _OrderAppService_GetAppOrder_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrderAppService_RefundAppOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefundAppOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderAppServiceServer).RefundAppOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrderAppService_RefundAppOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderAppServiceServer).RefundAppOrder(ctx, req.(*RefundAppOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrderAppService_ServiceDesc is the grpc.ServiceDesc for OrderAppService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -373,6 +406,10 @@ var OrderAppService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAppOrder",
 			Handler:    _OrderAppService_GetAppOrder_Handler,
+		},
+		{
+			MethodName: "RefundAppOrder",
+			Handler:    _OrderAppService_RefundAppOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
